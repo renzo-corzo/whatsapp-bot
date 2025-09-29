@@ -10,6 +10,15 @@ const PORT = process.env.PORT || 3000;
 app.use(morgan('combined')); // Logger
 app.use(express.json()); // Para parsear JSON
 
+// Función para convertir número argentino al formato correcto
+function formatArgentineNumber(phoneNumber) {
+  // Si el número empieza con 549 (Argentina con 9), remover el 9
+  if (phoneNumber.startsWith('549')) {
+    return phoneNumber.replace('549', '54');
+  }
+  return phoneNumber;
+}
+
 // Inicializar cliente de WhatsApp
 let whatsappClient;
 try {
@@ -150,30 +159,34 @@ async function handleTextMessage(message, from) {
   
   console.log(`💬 Mensaje de texto: "${textBody}"`);
   
+  // Convertir número al formato correcto
+  const formattedNumber = formatArgentineNumber(from);
+  console.log(`📱 Número original: ${from}, formato correcto: ${formattedNumber}`);
+  
   // Respuestas especiales para ciertos comandos
   if (textBody === 'hola' || textBody === 'hello' || textBody === 'hi') {
     await whatsappClient.sendText(
-      from,
+      formattedNumber,
       '¡Hola! 👋 Bienvenido al bot de WhatsApp. Te voy a enviar un menú de opciones para que puedas explorar.'
     );
     
     // Enviar lista después del saludo
     setTimeout(async () => {
-      await whatsappClient.sendDemoList(from);
+      await whatsappClient.sendDemoList(formattedNumber);
     }, 1000);
     
   } else if (textBody === 'menu' || textBody === 'opciones') {
-    await whatsappClient.sendDemoList(from);
+    await whatsappClient.sendDemoList(formattedNumber);
     
   } else {
     // Para cualquier otro mensaje, enviar la lista de opciones
     await whatsappClient.sendText(
-      from,
+      formattedNumber,
       'Te entiendo. Aquí tienes algunas opciones que puedo ofrecerte:'
     );
     
     setTimeout(async () => {
-      await whatsappClient.sendDemoList(from);
+      await whatsappClient.sendDemoList(formattedNumber);
     }, 500);
   }
 }
@@ -190,6 +203,10 @@ async function handleInteractiveMessage(message, from) {
     const selectedTitle = listReply.title;
     
     console.log(`📋 Opción seleccionada: ${selectedId} - ${selectedTitle}`);
+    
+    // Convertir número al formato correcto
+    const formattedNumber = formatArgentineNumber(from);
+    console.log(`📱 Respuesta a número: ${from} → ${formattedNumber}`);
     
     // Responder según la opción seleccionada
     let response = '';
@@ -218,20 +235,21 @@ async function handleInteractiveMessage(message, from) {
         response = `✅ Has seleccionado: "${selectedTitle}"\n\nGracias por tu selección. ¿En qué más puedo ayudarte?`;
     }
     
-    await whatsappClient.sendText(from, response);
+    await whatsappClient.sendText(formattedNumber, response);
     
     // Después de 3 segundos, ofrecer el menú nuevamente
     setTimeout(async () => {
       await whatsappClient.sendText(
-        from,
+        formattedNumber,
         '¿Te gustaría ver otras opciones? Escribe "menu" para ver el menú completo.'
       );
     }, 3000);
     
   } else {
     console.log(`ℹ️ Tipo de interacción no manejada: ${message.interactive.type}`);
+    const formattedNumber = formatArgentineNumber(from);
     await whatsappClient.sendText(
-      from,
+      formattedNumber,
       'Interacción recibida, pero no pude procesarla correctamente.'
     );
   }
@@ -246,8 +264,9 @@ async function handleButtonMessage(message, from) {
   const buttonReply = message.button;
   console.log(`🔘 Botón presionado: ${buttonReply.payload} - ${buttonReply.text}`);
   
+  const formattedNumber = formatArgentineNumber(from);
   await whatsappClient.sendText(
-    from,
+    formattedNumber,
     `Has presionado el botón: "${buttonReply.text}"`
   );
 }
