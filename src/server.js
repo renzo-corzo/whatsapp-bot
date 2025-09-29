@@ -32,13 +32,21 @@ function formatArgentineNumber(phoneNumber) {
 
 // Inicializar cliente de WhatsApp
 let whatsappClient;
-try {
-  whatsappClient = new WhatsAppClient();
-  console.log('✅ Cliente de WhatsApp inicializado correctamente');
-} catch (error) {
-  console.error('❌ Error inicializando cliente de WhatsApp:', error.message);
-  console.error('🔧 Asegúrate de configurar las variables de entorno en el archivo .env');
+function initializeWhatsAppClient() {
+  try {
+    whatsappClient = new WhatsAppClient();
+    global.whatsappClient = whatsappClient; // Hacer cliente accesible globalmente
+    console.log('✅ Cliente de WhatsApp inicializado correctamente');
+    return true;
+  } catch (error) {
+    console.error('❌ Error inicializando cliente de WhatsApp:', error.message);
+    console.error('🔧 Asegúrate de configurar las variables de entorno en el archivo .env');
+    return false;
+  }
 }
+
+// Inicializar cliente por primera vez
+initializeWhatsAppClient();
 
 /**
  * GET /webhook - Verificación del webhook de WhatsApp
@@ -178,6 +186,9 @@ async function handleTextMessage(message, from) {
   const formattedNumber = formatArgentineNumber(from);
   console.log(`📱 Número original: ${from}, formato correcto: ${formattedNumber}`);
   
+  // Usar cliente global actualizado
+  const currentClient = global.whatsappClient || whatsappClient;
+  
   // Buscar respuesta configurada
   const botResponse = await getBotResponse(textBody);
   
@@ -185,7 +196,7 @@ async function handleTextMessage(message, from) {
     console.log(`✅ Respuesta encontrada para "${textBody}":`, botResponse);
     
     // Enviar mensaje principal
-    await whatsappClient.sendText(formattedNumber, botResponse.message);
+    await currentClient.sendText(formattedNumber, botResponse.message);
     
     // Si tiene follow-up, enviarlo después de un delay
     if (botResponse.followUp) {
@@ -193,7 +204,7 @@ async function handleTextMessage(message, from) {
         if (botResponse.type === 'list' || botResponse.followUp.includes('list')) {
           const listData = await getBotList(botResponse.followUp);
           if (listData) {
-            await whatsappClient.sendListFromConfig(formattedNumber, listData);
+            await currentClient.sendListFromConfig(formattedNumber, listData);
           }
         }
       }, 1000);
@@ -201,7 +212,7 @@ async function handleTextMessage(message, from) {
     
   } else {
     // Respuesta por defecto: ofrecer menú
-    await whatsappClient.sendText(
+    await currentClient.sendText(
       formattedNumber,
       '🤔 No entiendo ese comando. Te muestro las opciones disponibles:'
     );
@@ -209,7 +220,7 @@ async function handleTextMessage(message, from) {
     setTimeout(async () => {
       const demoList = await getBotList('demo_list');
       if (demoList) {
-        await whatsappClient.sendListFromConfig(formattedNumber, demoList);
+        await currentClient.sendListFromConfig(formattedNumber, demoList);
       }
     }, 500);
   }
@@ -235,21 +246,24 @@ async function handleInteractiveMessage(message, from) {
     const formattedNumber = formatArgentineNumber(from);
     console.log(`📱 Respuesta a número: ${from} → ${formattedNumber}`);
     
+    // Usar cliente global actualizado
+    const currentClient = global.whatsappClient || whatsappClient;
+    
     // Buscar respuesta configurada para la opción seleccionada
     const response = await getListResponse(selectedId);
     
     if (response) {
       console.log(`✅ Respuesta configurada encontrada para: ${selectedId}`);
-      await whatsappClient.sendText(formattedNumber, response);
+      await currentClient.sendText(formattedNumber, response);
     } else {
       // Respuesta por defecto si no se encuentra configuración
       const defaultResponse = `✅ Has seleccionado: "${selectedTitle}"\n\nGracias por tu selección. ¿En qué más puedo ayudarte?`;
-      await whatsappClient.sendText(formattedNumber, defaultResponse);
+      await currentClient.sendText(formattedNumber, defaultResponse);
     }
     
     // Después de 3 segundos, ofrecer el menú nuevamente
     setTimeout(async () => {
-      await whatsappClient.sendText(
+      await currentClient.sendText(
         formattedNumber,
         '¿Te gustaría ver otras opciones? Escribe "menu" para ver el menú completo.'
       );
@@ -258,7 +272,8 @@ async function handleInteractiveMessage(message, from) {
   } else {
     console.log(`ℹ️ Tipo de interacción no manejada: ${message.interactive.type}`);
     const formattedNumber = formatArgentineNumber(from);
-    await whatsappClient.sendText(
+    const currentClient = global.whatsappClient || whatsappClient;
+    await currentClient.sendText(
       formattedNumber,
       'Interacción recibida, pero no pude procesarla correctamente.'
     );
@@ -296,7 +311,10 @@ app.get('/send-demo', async (req, res) => {
       });
     }
     
-    if (!whatsappClient) {
+    // Usar cliente global si está disponible (actualizado dinámicamente)
+    const currentClient = global.whatsappClient || whatsappClient;
+    
+    if (!currentClient) {
       return res.status(500).json({
         error: 'Cliente de WhatsApp no inicializado. Revisa las variables de entorno.'
       });
@@ -304,7 +322,7 @@ app.get('/send-demo', async (req, res) => {
     
     console.log(`🚀 Enviando demo a: ${to}`);
     
-    const result = await whatsappClient.sendDemoList(to);
+    const result = await currentClient.sendDemoList(to);
     
     res.json({
       success: true,

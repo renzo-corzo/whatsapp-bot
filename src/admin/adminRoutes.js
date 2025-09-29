@@ -177,8 +177,41 @@ function createAdminRoutes() {
   router.post('/api/config', async (req, res) => {
     try {
       const config = req.body;
-      await saveConfig(config);
-      res.json({ success: true, message: 'Configuración guardada correctamente' });
+      
+      // Si viene configuración de API (token, phoneNumberId), actualizar variables de entorno
+      if (config.metaToken || config.phoneNumberId) {
+        console.log('🔄 Actualizando configuración de API...');
+        
+        // Actualizar variables de entorno en tiempo real
+        if (config.metaToken) {
+          process.env.META_WABA_TOKEN = config.metaToken;
+          console.log('✅ META_WABA_TOKEN actualizada');
+        }
+        
+        if (config.phoneNumberId) {
+          process.env.PHONE_NUMBER_ID = config.phoneNumberId;
+          console.log('✅ PHONE_NUMBER_ID actualizada');
+        }
+        
+        // Reinicializar cliente de WhatsApp con nuevas credenciales
+        try {
+          const WhatsAppClient = require('../whatsappClient');
+          global.whatsappClient = new WhatsAppClient();
+          console.log('✅ Cliente de WhatsApp reinicializado con nuevas credenciales');
+        } catch (clientError) {
+          console.error('⚠️ Error reinicializando cliente:', clientError.message);
+        }
+        
+        res.json({ 
+          success: true, 
+          message: 'Configuración API actualizada en tiempo real',
+          reloaded: true
+        });
+      } else {
+        // Configuración normal (respuestas, listas, etc.)
+        await saveConfig(config);
+        res.json({ success: true, message: 'Configuración guardada correctamente' });
+      }
     } catch (error) {
       console.error('Error guardando configuración:', error);
       res.status(500).json({ error: 'Error guardando configuración' });

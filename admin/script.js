@@ -36,6 +36,7 @@ function setupEventListeners() {
     document.getElementById('addResponseBtn')?.addEventListener('click', openResponseModal);
     document.getElementById('addListBtn')?.addEventListener('click', openListModal);
     document.getElementById('saveConfigBtn')?.addEventListener('click', saveConfiguration);
+    document.getElementById('testConfigBtn')?.addEventListener('click', testConfiguration);
     document.getElementById('exportConfigBtn')?.addEventListener('click', exportConfiguration);
     document.getElementById('importConfigBtn')?.addEventListener('click', () => {
         document.getElementById('configFileInput').click();
@@ -376,8 +377,13 @@ async function deleteResponse(command) {
 
 // Guardar configuración general
 async function saveConfiguration() {
-    const metaToken = document.getElementById('metaToken').value;
-    const phoneNumberId = document.getElementById('phoneNumberId').value;
+    const metaToken = document.getElementById('metaToken').value.trim();
+    const phoneNumberId = document.getElementById('phoneNumberId').value.trim();
+
+    if (!metaToken || !phoneNumberId) {
+        showToast('Por favor completa el Token y Phone Number ID', 'warning');
+        return;
+    }
 
     const config = {
         metaToken,
@@ -385,6 +391,8 @@ async function saveConfiguration() {
     };
 
     try {
+        showToast('Actualizando configuración en tiempo real...', 'info');
+        
         const response = await fetch('/api/config', {
             method: 'POST',
             headers: {
@@ -393,14 +401,44 @@ async function saveConfiguration() {
             body: JSON.stringify(config)
         });
 
+        const result = await response.json();
+
         if (response.ok) {
-            showToast('Configuración guardada correctamente', 'success');
+            if (result.reloaded) {
+                showToast('🎉 Configuración actualizada en tiempo real! El bot ya usa las nuevas credenciales.', 'success');
+                
+                // Actualizar el estado del bot
+                setTimeout(() => {
+                    loadBotStatus();
+                }, 2000);
+            } else {
+                showToast('Configuración guardada correctamente', 'success');
+            }
         } else {
-            throw new Error('Error guardando configuración');
+            throw new Error(result.error || 'Error guardando configuración');
         }
     } catch (error) {
         console.error('Error:', error);
-        showToast('Error guardando configuración', 'error');
+        showToast('Error guardando configuración: ' + error.message, 'error');
+    }
+}
+
+// Probar configuración actual
+async function testConfiguration() {
+    try {
+        showToast('Probando token actual...', 'info');
+        
+        const response = await fetch('/send-demo?to=543515747073');
+        const result = await response.json();
+
+        if (response.ok && result.success) {
+            showToast('✅ ¡Token funciona perfectamente! Mensaje enviado.', 'success');
+        } else {
+            throw new Error(result.error || result.details || 'Error en la prueba');
+        }
+    } catch (error) {
+        console.error('Error en prueba:', error);
+        showToast('❌ Token no funciona: ' + error.message, 'error');
     }
 }
 
