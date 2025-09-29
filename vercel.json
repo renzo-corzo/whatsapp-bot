@@ -1,0 +1,21 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "src/server.js",
+      "use": "@vercel/node"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "/src/server.js"
+    }
+  ],
+  "env": {
+    "META_WABA_TOKEN": "@meta_waba_token",
+    "VERIFY_TOKEN": "@verify_token",
+    "PHONE_NUMBER_ID": "@phone_number_id",
+    "PORT": "3000"
+  }
+}
