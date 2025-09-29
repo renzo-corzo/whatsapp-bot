@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🤖 Portal de Administración - WhatsApp Bot</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <h1><i class="fab fa-whatsapp"></i> Portal de Administración</h1>
+                <p>Gestiona las respuestas de tu bot de WhatsApp</p>
+                <div class="status-indicator">
+                    <span class="status-dot" id="botStatus"></span>
+                    <span id="statusText">Verificando conexión...</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Navigation -->
+        <nav class="nav-tabs">
+            <button class="tab-btn active" data-tab="responses">
+                <i class="fas fa-comments"></i> Respuestas
+            </button>
+            <button class="tab-btn" data-tab="lists">
+                <i class="fas fa-list"></i> Listas Interactivas
+            </button>
+            <button class="tab-btn" data-tab="analytics">
+                <i class="fas fa-chart-bar"></i> Estadísticas
+            </button>
+            <button class="tab-btn" data-tab="settings">
+                <i class="fas fa-cog"></i> Configuración
+            </button>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            
+            <!-- Tab: Respuestas -->
+            <div class="tab-content active" id="tab-responses">
+                <div class="content-header">
+                    <h2><i class="fas fa-comments"></i> Gestión de Respuestas</h2>
+                    <button class="btn btn-primary" id="addResponseBtn">
+                        <i class="fas fa-plus"></i> Agregar Respuesta
+                    </button>
+                </div>
+
+                <div class="response-tree" id="responseTree">
+                    <!-- Árbol de respuestas se carga aquí -->
+                </div>
+            </div>
+
+            <!-- Tab: Listas Interactivas -->
+            <div class="tab-content" id="tab-lists">
+                <div class="content-header">
+                    <h2><i class="fas fa-list"></i> Listas Interactivas</h2>
+                    <button class="btn btn-primary" id="addListBtn">
+                        <i class="fas fa-plus"></i> Nueva Lista
+                    </button>
+                </div>
+
+                <div class="lists-container" id="listsContainer">
+                    <!-- Listas se cargan aquí -->
+                </div>
+            </div>
+
+            <!-- Tab: Estadísticas -->
+            <div class="tab-content" id="tab-analytics">
+                <div class="content-header">
+                    <h2><i class="fas fa-chart-bar"></i> Estadísticas del Bot</h2>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3 id="totalMessages">--</h3>
+                            <p>Mensajes Totales</p>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3 id="uniqueUsers">--</h3>
+                            <p>Usuarios Únicos</p>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3 id="responseTime">--</h3>
+                            <p>Tiempo Respuesta</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab: Configuración -->
+            <div class="tab-content" id="tab-settings">
+                <div class="content-header">
+                    <h2><i class="fas fa-cog"></i> Configuración del Bot</h2>
+                </div>
+
+                <div class="settings-grid">
+                    <div class="setting-card">
+                        <h3><i class="fas fa-key"></i> Configuración API</h3>
+                        <div class="form-group">
+                            <label>Token de Meta:</label>
+                            <input type="password" id="metaToken" placeholder="Tu token de Meta">
+                        </div>
+                        <div class="form-group">
+                            <label>Phone Number ID:</label>
+                            <input type="text" id="phoneNumberId" placeholder="ID del número de teléfono">
+                        </div>
+                        <button class="btn btn-success" id="saveConfigBtn">
+                            <i class="fas fa-save"></i> Guardar Configuración
+                        </button>
+                    </div>
+
+                    <div class="setting-card">
+                        <h3><i class="fas fa-download"></i> Respaldo y Restauración</h3>
+                        <div class="backup-actions">
+                            <button class="btn btn-info" id="exportConfigBtn">
+                                <i class="fas fa-download"></i> Exportar Configuración
+                            </button>
+                            <button class="btn btn-warning" id="importConfigBtn">
+                                <i class="fas fa-upload"></i> Importar Configuración
+                            </button>
+                            <input type="file" id="configFileInput" accept=".json" style="display: none;">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Toast Notifications -->
+        <div class="toast-container" id="toastContainer"></div>
+
+        <!-- Modal para editar respuestas -->
+        <div class="modal" id="responseModal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 id="modalTitle">Editar Respuesta</h3>
+                    <button class="modal-close" id="closeModal">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>Comando/Trigger:</label>
+                        <input type="text" id="responseCommand" placeholder="ej: hola, menu, soporte">
+                    </div>
+                    <div class="form-group">
+                        <label>Respuesta:</label>
+                        <textarea id="responseText" placeholder="Texto de respuesta del bot"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Tipo de respuesta:</label>
+                        <select id="responseType">
+                            <option value="text">Texto Simple</option>
+                            <option value="list">Lista Interactiva</option>
+                            <option value="button">Botones</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" id="cancelModal">Cancelar</button>
+                    <button class="btn btn-primary" id="saveResponse">Guardar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -173,6 +173,25 @@ class WhatsAppClient {
 
     return await this.sendListMessage(demoOptions);
   }
+
+  /**
+   * Envía un mensaje de lista desde configuración simplificada
+   * @param {string} to - Número de teléfono del destinatario
+   * @param {Object} listConfig - Configuración de la lista
+   * @returns {Promise<Object>} Respuesta de la API
+   */
+  async sendListFromConfig(to, listConfig) {
+    const options = {
+      to: to,
+      header: listConfig.header || undefined,
+      body: listConfig.description || listConfig.body || "Selecciona una opción:",
+      footer: listConfig.footer || undefined,
+      buttonText: listConfig.buttonText || "Ver opciones",
+      sections: listConfig.sections
+    };
+
+    return await this.sendListMessage(options);
+  }
 }
 
 module.exports = WhatsAppClient;

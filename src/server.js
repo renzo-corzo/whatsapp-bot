@@ -2,6 +2,14 @@ require('dotenv').config();
 const express = require('express');
 const morgan = require('morgan');
 const WhatsAppClient = require('./whatsappClient');
+const { 
+  createAdminRoutes, 
+  getBotResponse, 
+  getBotList, 
+  getListResponse, 
+  incrementMessageCount, 
+  updateUniqueUsers 
+} = require('./admin/adminRoutes');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -9,6 +17,9 @@ const PORT = process.env.PORT || 3000;
 // Middleware
 app.use(morgan('combined')); // Logger
 app.use(express.json()); // Para parsear JSON
+
+// Rutas de administración
+app.use('/', createAdminRoutes());
 
 // Función para convertir número argentino al formato correcto
 function formatArgentineNumber(phoneNumber) {
@@ -159,34 +170,47 @@ async function handleTextMessage(message, from) {
   
   console.log(`💬 Mensaje de texto: "${textBody}"`);
   
+  // Incrementar contador de mensajes
+  await incrementMessageCount();
+  await updateUniqueUsers(from);
+  
   // Convertir número al formato correcto
   const formattedNumber = formatArgentineNumber(from);
   console.log(`📱 Número original: ${from}, formato correcto: ${formattedNumber}`);
   
-  // Respuestas especiales para ciertos comandos
-  if (textBody === 'hola' || textBody === 'hello' || textBody === 'hi') {
-    await whatsappClient.sendText(
-      formattedNumber,
-      '¡Hola! 👋 Bienvenido al bot de WhatsApp. Te voy a enviar un menú de opciones para que puedas explorar.'
-    );
+  // Buscar respuesta configurada
+  const botResponse = await getBotResponse(textBody);
+  
+  if (botResponse) {
+    console.log(`✅ Respuesta encontrada para "${textBody}":`, botResponse);
     
-    // Enviar lista después del saludo
-    setTimeout(async () => {
-      await whatsappClient.sendDemoList(formattedNumber);
-    }, 1000);
+    // Enviar mensaje principal
+    await whatsappClient.sendText(formattedNumber, botResponse.message);
     
-  } else if (textBody === 'menu' || textBody === 'opciones') {
-    await whatsappClient.sendDemoList(formattedNumber);
+    // Si tiene follow-up, enviarlo después de un delay
+    if (botResponse.followUp) {
+      setTimeout(async () => {
+        if (botResponse.type === 'list' || botResponse.followUp.includes('list')) {
+          const listData = await getBotList(botResponse.followUp);
+          if (listData) {
+            await whatsappClient.sendListFromConfig(formattedNumber, listData);
+          }
+        }
+      }, 1000);
+    }
     
   } else {
-    // Para cualquier otro mensaje, enviar la lista de opciones
+    // Respuesta por defecto: ofrecer menú
     await whatsappClient.sendText(
       formattedNumber,
-      'Te entiendo. Aquí tienes algunas opciones que puedo ofrecerte:'
+      '🤔 No entiendo ese comando. Te muestro las opciones disponibles:'
     );
     
     setTimeout(async () => {
-      await whatsappClient.sendDemoList(formattedNumber);
+      const demoList = await getBotList('demo_list');
+      if (demoList) {
+        await whatsappClient.sendListFromConfig(formattedNumber, demoList);
+      }
     }, 500);
   }
 }
@@ -204,38 +228,24 @@ async function handleInteractiveMessage(message, from) {
     
     console.log(`📋 Opción seleccionada: ${selectedId} - ${selectedTitle}`);
     
+    // Incrementar contador de mensajes
+    await incrementMessageCount();
+    
     // Convertir número al formato correcto
     const formattedNumber = formatArgentineNumber(from);
     console.log(`📱 Respuesta a número: ${from} → ${formattedNumber}`);
     
-    // Responder según la opción seleccionada
-    let response = '';
-    switch (selectedId) {
-      case 'info_general':
-        response = `✅ Has seleccionado: "${selectedTitle}"\n\n🏢 Somos una empresa dedicada a brindar los mejores servicios digitales. Estamos aquí para ayudarte con todas tus consultas y necesidades.\n\n¿Te gustaría conocer algo específico?`;
-        break;
-        
-      case 'soporte_tecnico':
-        response = `✅ Has seleccionado: "${selectedTitle}"\n\n🔧 Nuestro equipo de soporte técnico está disponible para ayudarte.\n\nPor favor, describe tu problema y te asistiremos lo antes posible.`;
-        break;
-        
-      case 'consulta_cuenta':
-        response = `✅ Has seleccionado: "${selectedTitle}"\n\n👤 Para consultas de cuenta, necesitaríamos verificar tu identidad.\n\nPor favor, proporciona tu número de cuenta o identificación.`;
-        break;
-        
-      case 'horarios_atencion':
-        response = `✅ Has seleccionado: "${selectedTitle}"\n\n🕐 Nuestros horarios de atención son:\n• Lunes a Viernes: 8:00 AM - 6:00 PM\n• Sábados: 9:00 AM - 2:00 PM\n• Domingos: Cerrado\n\n⏰ Zona horaria: UTC-5`;
-        break;
-        
-      case 'contactar_humano':
-        response = `✅ Has seleccionado: "${selectedTitle}"\n\n👨‍💼 Te conectaremos con uno de nuestros agentes humanos.\n\nPor favor, espera un momento mientras transferimos tu consulta...`;
-        break;
-        
-      default:
-        response = `✅ Has seleccionado: "${selectedTitle}"\n\nGracias por tu selección. ¿En qué más puedo ayudarte?`;
-    }
+    // Buscar respuesta configurada para la opción seleccionada
+    const response = await getListResponse(selectedId);
     
-    await whatsappClient.sendText(formattedNumber, response);
+    if (response) {
+      console.log(`✅ Respuesta configurada encontrada para: ${selectedId}`);
+      await whatsappClient.sendText(formattedNumber, response);
+    } else {
+      // Respuesta por defecto si no se encuentra configuración
+      const defaultResponse = `✅ Has seleccionado: "${selectedTitle}"\n\nGracias por tu selección. ¿En qué más puedo ayudarte?`;
+      await whatsappClient.sendText(formattedNumber, defaultResponse);
+    }
     
     // Después de 3 segundos, ofrecer el menú nuevamente
     setTimeout(async () => {
@@ -312,19 +322,99 @@ app.get('/send-demo', async (req, res) => {
 });
 
 /**
- * GET / - Endpoint raíz con información del bot
+ * GET / - Página de inicio con información del bot
  */
 app.get('/', (req, res) => {
-  res.json({
-    message: '🤖 Bot de WhatsApp funcionando correctamente',
-    version: '1.0.0',
-    endpoints: {
-      webhook_verification: 'GET /webhook',
-      webhook_messages: 'POST /webhook',
-      demo: 'GET /send-demo?to=NUMERO'
-    },
-    status: whatsappClient ? 'Cliente WhatsApp: ✅ Conectado' : 'Cliente WhatsApp: ❌ Error de configuración'
-  });
+  res.send(`
+    <!DOCTYPE html>
+    <html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>🤖 WhatsApp Bot - Panel de Control</title>
+        <style>
+            body { 
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
+                color: white; 
+                margin: 0; 
+                padding: 40px 20px; 
+                min-height: 100vh; 
+                display: flex; 
+                align-items: center; 
+                justify-content: center; 
+            }
+            .container { 
+                text-align: center; 
+                background: rgba(255,255,255,0.1); 
+                backdrop-filter: blur(10px); 
+                padding: 40px; 
+                border-radius: 20px; 
+                box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+                max-width: 600px;
+            }
+            h1 { font-size: 3rem; margin-bottom: 20px; }
+            .status { 
+                padding: 15px; 
+                margin: 20px 0; 
+                border-radius: 10px; 
+                background: rgba(37, 211, 102, 0.2); 
+                border: 1px solid rgba(37, 211, 102, 0.3); 
+            }
+            .btn { 
+                display: inline-block; 
+                padding: 15px 30px; 
+                margin: 10px; 
+                background: rgba(37, 211, 102, 0.9); 
+                color: white; 
+                text-decoration: none; 
+                border-radius: 10px; 
+                font-weight: bold; 
+                transition: all 0.3s ease;
+            }
+            .btn:hover { 
+                background: rgba(37, 211, 102, 1); 
+                transform: translateY(-2px); 
+                box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            }
+            .endpoint {
+                background: rgba(255,255,255,0.1);
+                padding: 10px;
+                margin: 5px 0;
+                border-radius: 5px;
+                font-family: monospace;
+                font-size: 0.9rem;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <h1>🤖 WhatsApp Bot</h1>
+            <div class="status">
+                <strong>Estado:</strong> ${whatsappClient ? '✅ Bot Online y Funcionando' : '❌ Error de Configuración'}
+            </div>
+            
+            <p><strong>Versión:</strong> 1.0.0</p>
+            
+            <h3>🛠️ Panel de Administración</h3>
+            <a href="/admin" class="btn">🎛️ Abrir Portal de Administración</a>
+            
+            <h3>📡 Endpoints Disponibles</h3>
+            <div class="endpoint">GET /webhook - Verificación de webhook</div>
+            <div class="endpoint">POST /webhook - Recibir mensajes</div>
+            <div class="endpoint">GET /send-demo?to=NUMERO - Enviar demo</div>
+            <div class="endpoint">GET /admin - Portal de administración</div>
+            
+            <h3>🧪 Probar Bot</h3>
+            <a href="/send-demo?to=543515747073" class="btn">📱 Enviar Mensaje de Prueba</a>
+            
+            <p style="margin-top: 30px; opacity: 0.8;">
+                <small>💡 Usa el portal de administración para crear y editar respuestas del bot</small>
+            </p>
+        </div>
+    </body>
+    </html>
+  `);
 });
 
 // Iniciar servidor
