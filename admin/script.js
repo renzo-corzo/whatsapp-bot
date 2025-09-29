@@ -225,7 +225,14 @@ function createListCard(listId, listConfig) {
     div.className = 'list-card';
     
     const itemsHtml = listConfig.sections.map(section => 
-        section.rows.map(row => `<div class="list-item">${row.title}</div>`).join('')
+        section.rows.map(row => `
+            <div class="list-item" style="display: flex; justify-content: space-between; align-items: center; padding: 8px; border-bottom: 1px solid #eee;">
+                <span>${row.title}</span>
+                <button class="btn btn-sm btn-info" onclick="editListResponse('${row.id}')" style="padding: 4px 8px; font-size: 0.8rem;">
+                    <i class="fas fa-comment"></i> Respuesta
+                </button>
+            </div>
+        `).join('')
     ).join('');
 
     div.innerHTML = `
@@ -233,7 +240,7 @@ function createListCard(listId, listConfig) {
             <div class="list-title">${listConfig.title}</div>
             <div class="response-actions">
                 <button class="btn btn-sm btn-info" onclick="editList('${listId}')">
-                    <i class="fas fa-edit"></i>
+                    <i class="fas fa-edit"></i> Lista
                 </button>
                 <button class="btn btn-sm btn-warning" onclick="deleteList('${listId}')">
                     <i class="fas fa-trash"></i>
@@ -471,17 +478,348 @@ function getToastIcon(type) {
     return icons[type] || 'info-circle';
 }
 
-// Funciones para listas (implementar según necesidades)
-function openListModal() {
-    showToast('Función en desarrollo', 'info');
+// Funciones para listas
+function openListModal(listId = null) {
+    const modal = document.getElementById('listModal') || createListModal();
+    const title = modal.querySelector('#listModalTitle');
+    
+    if (listId) {
+        title.textContent = 'Editar Lista Interactiva';
+        const listConfig = botConfig.lists[listId];
+        document.getElementById('listId').value = listId;
+        document.getElementById('listTitle').value = listConfig.title;
+        document.getElementById('listDescription').value = listConfig.description;
+        document.getElementById('listButtonText').value = listConfig.buttonText || 'Ver opciones';
+        
+        // Cargar secciones
+        loadSectionsInModal(listConfig.sections);
+    } else {
+        title.textContent = 'Nueva Lista Interactiva';
+        document.getElementById('listId').value = '';
+        document.getElementById('listTitle').value = '';
+        document.getElementById('listDescription').value = '';
+        document.getElementById('listButtonText').value = 'Ver opciones';
+        
+        // Crear una sección por defecto
+        loadSectionsInModal([{ title: 'Sección 1', rows: [{ id: '', title: '', description: '' }] }]);
+    }
+    
+    modal.classList.add('show');
 }
 
 function editList(listId) {
-    showToast('Función en desarrollo', 'info');
+    openListModal(listId);
 }
 
-function deleteList(listId) {
-    showToast('Función en desarrollo', 'info');
+async function deleteList(listId) {
+    if (!confirm(`¿Estás seguro de eliminar la lista "${listId}"?`)) return;
+
+    delete botConfig.lists[listId];
+
+    try {
+        const response = await fetch('/api/lists', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(botConfig.lists)
+        });
+
+        if (response.ok) {
+            showToast('Lista eliminada correctamente', 'success');
+            loadLists();
+        } else {
+            throw new Error('Error eliminando lista');
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        showToast('Error eliminando lista', 'error');
+    }
+}
+
+// Crear modal para listas interactivas
+function createListModal() {
+    const modal = document.createElement('div');
+    modal.className = 'modal';
+    modal.id = 'listModal';
+    modal.innerHTML = `
+        <div class="modal-content" style="max-width: 800px;">
+            <div class="modal-header">
+                <h3 id="listModalTitle">Editar Lista Interactiva</h3>
+                <button class="modal-close" onclick="closeListModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>ID de la Lista:</label>
+                    <input type="text" id="listId" placeholder="ej: menu_principal, soporte_opciones">
+                </div>
+                <div class="form-group">
+                    <label>Título:</label>
+                    <input type="text" id="listTitle" placeholder="ej: 📋 Menú Principal">
+                </div>
+                <div class="form-group">
+                    <label>Descripción:</label>
+                    <textarea id="listDescription" placeholder="Descripción que aparece en el mensaje"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Texto del Botón:</label>
+                    <input type="text" id="listButtonText" placeholder="Ver opciones">
+                </div>
+                
+                <h4>📋 Secciones de la Lista</h4>
+                <div id="sectionsContainer"></div>
+                <button type="button" class="btn btn-info" onclick="addSection()">
+                    <i class="fas fa-plus"></i> Agregar Sección
+                </button>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeListModal()">Cancelar</button>
+                <button class="btn btn-primary" onclick="saveList()">Guardar Lista</button>
+            </div>
+        </div>
+    `;
+    document.body.appendChild(modal);
+    return modal;
+}
+
+function closeListModal() {
+    const modal = document.getElementById('listModal');
+    if (modal) {
+        modal.classList.remove('show');
+    }
+}
+
+// Cargar secciones en el modal
+function loadSectionsInModal(sections) {
+    const container = document.getElementById('sectionsContainer');
+    container.innerHTML = '';
+    
+    sections.forEach((section, sectionIndex) => {
+        addSectionToModal(section, sectionIndex);
+    });
+}
+
+// Agregar nueva sección
+function addSection() {
+    const container = document.getElementById('sectionsContainer');
+    const sectionIndex = container.children.length;
+    const newSection = { title: `Sección ${sectionIndex + 1}`, rows: [{ id: '', title: '', description: '' }] };
+    addSectionToModal(newSection, sectionIndex);
+}
+
+// Agregar sección al modal
+function addSectionToModal(section, sectionIndex) {
+    const container = document.getElementById('sectionsContainer');
+    
+    const sectionDiv = document.createElement('div');
+    sectionDiv.className = 'section-editor';
+    sectionDiv.style.cssText = `
+        border: 2px solid #e9ecef;
+        border-radius: 10px;
+        padding: 20px;
+        margin: 15px 0;
+        background: #f8f9fa;
+    `;
+    
+    sectionDiv.innerHTML = `
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+            <h5>📁 Sección ${sectionIndex + 1}</h5>
+            <button type="button" class="btn btn-sm btn-warning" onclick="removeSection(this)">
+                <i class="fas fa-trash"></i> Eliminar Sección
+            </button>
+        </div>
+        <div class="form-group">
+            <label>Título de la Sección:</label>
+            <input type="text" class="section-title" value="${section.title}" placeholder="ej: Servicios, Contacto">
+        </div>
+        <div class="rows-container">
+            ${section.rows.map((row, rowIndex) => createRowHTML(row, rowIndex)).join('')}
+        </div>
+        <button type="button" class="btn btn-sm btn-info" onclick="addRow(this)">
+            <i class="fas fa-plus"></i> Agregar Opción
+        </button>
+    `;
+    
+    container.appendChild(sectionDiv);
+}
+
+// Crear HTML para una fila/opción
+function createRowHTML(row, rowIndex) {
+    return `
+        <div class="row-editor" style="border: 1px solid #dee2e6; border-radius: 8px; padding: 15px; margin: 10px 0; background: white;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                <strong>Opción ${rowIndex + 1}</strong>
+                <button type="button" class="btn btn-sm btn-warning" onclick="removeRow(this)">
+                    <i class="fas fa-trash"></i>
+                </button>
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                <div>
+                    <label>ID:</label>
+                    <input type="text" class="row-id" value="${row.id}" placeholder="ej: info_general">
+                </div>
+                <div>
+                    <label>Título:</label>
+                    <input type="text" class="row-title" value="${row.title}" placeholder="ej: 📍 Información General">
+                </div>
+            </div>
+            <div style="margin-top: 10px;">
+                <label>Descripción:</label>
+                <input type="text" class="row-description" value="${row.description}" placeholder="Descripción opcional">
+            </div>
+        </div>
+    `;
+}
+
+// Agregar nueva fila/opción
+function addRow(button) {
+    const rowsContainer = button.previousElementSibling;
+    const rowIndex = rowsContainer.children.length;
+    const newRowHTML = createRowHTML({ id: '', title: '', description: '' }, rowIndex);
+    
+    const div = document.createElement('div');
+    div.innerHTML = newRowHTML;
+    rowsContainer.appendChild(div.firstElementChild);
+}
+
+// Remover sección
+function removeSection(button) {
+    const sectionDiv = button.closest('.section-editor');
+    sectionDiv.remove();
+}
+
+// Remover fila
+function removeRow(button) {
+    const rowDiv = button.closest('.row-editor');
+    rowDiv.remove();
+}
+
+// Guardar lista
+async function saveList() {
+    const listId = document.getElementById('listId').value.trim();
+    const title = document.getElementById('listTitle').value.trim();
+    const description = document.getElementById('listDescription').value.trim();
+    const buttonText = document.getElementById('listButtonText').value.trim();
+
+    if (!listId || !title || !description) {
+        showToast('Por favor completa todos los campos obligatorios', 'error');
+        return;
+    }
+
+    // Recopilar secciones
+    const sections = [];
+    const sectionElements = document.querySelectorAll('.section-editor');
+    
+    sectionElements.forEach(sectionEl => {
+        const sectionTitle = sectionEl.querySelector('.section-title').value.trim();
+        if (!sectionTitle) return;
+
+        const rows = [];
+        const rowElements = sectionEl.querySelectorAll('.row-editor');
+        
+        rowElements.forEach(rowEl => {
+            const id = rowEl.querySelector('.row-id').value.trim();
+            const rowTitle = rowEl.querySelector('.row-title').value.trim();
+            const rowDescription = rowEl.querySelector('.row-description').value.trim();
+            
+            if (id && rowTitle) {
+                rows.push({ id, title: rowTitle, description: rowDescription });
+            }
+        });
+
+        if (rows.length > 0) {
+            sections.push({ title: sectionTitle, rows });
+        }
+    });
+
+    if (sections.length === 0) {
+        showToast('Debes agregar al menos una sección con opciones', 'error');
+        return;
+    }
+
+    // Crear configuración de lista
+    const listConfig = {
+        title,
+        description,
+        buttonText,
+        sections
+    };
+
+    botConfig.lists[listId] = listConfig;
+
+    try {
+        const response = await fetch('/api/lists', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(botConfig.lists)
+        });
+
+        if (response.ok) {
+            showToast('Lista guardada correctamente', 'success');
+            closeListModal();
+            loadLists();
+        } else {
+            throw new Error('Error guardando lista');
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        showToast('Error guardando lista', 'error');
+    }
+}
+
+// Editar respuesta de opción de lista
+async function editListResponse(optionId) {
+    // Cargar configuración actual
+    try {
+        const response = await fetch('/api/config');
+        if (response.ok) {
+            botConfig = await response.json();
+        }
+    } catch (error) {
+        console.error('Error cargando configuración:', error);
+    }
+
+    const currentResponse = botConfig.listResponses?.[optionId] || '';
+    
+    const newResponse = prompt(
+        `Editar respuesta para la opción "${optionId}"\n\n` +
+        `Cuando un usuario seleccione esta opción, el bot responderá:\n\n` +
+        `Respuesta actual:\n${currentResponse}\n\n` +
+        `Nueva respuesta:`,
+        currentResponse
+    );
+
+    if (newResponse !== null && newResponse.trim() !== '') {
+        // Asegurar que existe el objeto listResponses
+        if (!botConfig.listResponses) {
+            botConfig.listResponses = {};
+        }
+        
+        botConfig.listResponses[optionId] = newResponse.trim();
+
+        try {
+            const saveResponse = await fetch('/api/config', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(botConfig)
+            });
+
+            if (saveResponse.ok) {
+                showToast(`Respuesta para "${optionId}" guardada correctamente`, 'success');
+            } else {
+                throw new Error('Error guardando respuesta');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            showToast('Error guardando respuesta', 'error');
+        }
+    }
 }
 
 // Actualización automática del estado cada 30 segundos
