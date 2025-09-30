@@ -192,6 +192,12 @@ async function loadConfig() {
                 { id: 'lista_servicios', title: '📋 Lista de Servicios', description: 'Todos nuestros servicios' },
                 { id: 'precios_tarifas', title: '💰 Precios y Tarifas', description: 'Información de costos' }
               ]
+            },
+            {
+              title: 'Navegación',
+              rows: [
+                { id: 'volver_menu_principal', title: '🔙 Volver al Menú Principal', description: 'Regresar al inicio' }
+              ]
             }
           ]
         },
@@ -213,6 +219,12 @@ async function loadConfig() {
               rows: [
                 { id: 'cambio_plan', title: '📈 Cambiar Plan', description: 'Upgrade o downgrade' },
                 { id: 'facturacion', title: '🧾 Consultas de Facturación', description: 'Facturas, pagos' }
+              ]
+            },
+            {
+              title: 'Navegación',
+              rows: [
+                { id: 'volver_menu_principal', title: '🔙 Volver al Menú Principal', description: 'Regresar al inicio' }
               ]
             }
           ]
@@ -273,6 +285,59 @@ async function loadConfig() {
           message: '📧 Email Soporte\n\n✉️ Para consultas detalladas:\n\n📮 soporte@mi-empresa.com\n⏱️ Respuesta en 2-4 horas\n📎 Puedes adjuntar archivos\n\n¡Escríbenos!',
           url: 'mailto:soporte@mi-empresa.com?subject=Consulta%20desde%20WhatsApp',
           url_text: '📧 Enviar Email'
+        },
+        
+        // Respuestas para problemas de soporte técnico
+        'problema_conexion': {
+          type: 'text_with_buttons',
+          message: '🌐 Problemas de Conexión\n\nVamos a ayudarte paso a paso. ¿Cuál es tu situación específica?',
+          buttons: [
+            { id: 'sin_internet', title: '❌ Sin Internet' },
+            { id: 'internet_lento', title: '🐌 Internet Lento' },
+            { id: 'wifi_problemas', title: '📶 Problemas WiFi' }
+          ]
+        },
+        
+        'problema_software': {
+          type: 'text_with_buttons',
+          message: '💻 Problemas de Software\n\n¿Qué tipo de problema tienes con el software?',
+          buttons: [
+            { id: 'app_no_abre', title: '🚫 App no Abre' },
+            { id: 'app_lenta', title: '🐌 App Lenta' },
+            { id: 'error_mensaje', title: '⚠️ Mensaje Error' }
+          ]
+        },
+        
+        'problema_hardware': {
+          type: 'text_with_buttons',
+          message: '🔧 Problemas de Hardware\n\n¿Qué dispositivo tiene problemas?',
+          buttons: [
+            { id: 'computadora', title: '💻 Computadora' },
+            { id: 'telefono', title: '📱 Teléfono' },
+            { id: 'tablet', title: '📱 Tablet' }
+          ]
+        },
+        
+        // Respuestas específicas para problemas de conexión
+        'sin_internet': {
+          type: 'text',
+          message: '❌ Sin Internet - Solución\n\n🔧 Pasos a seguir:\n\n1️⃣ Verifica que el cable esté conectado\n2️⃣ Reinicia el módem (desconecta 30 seg)\n3️⃣ Reinicia tu dispositivo\n4️⃣ Verifica luces del módem:\n   • Verde = OK\n   • Roja = Problema\n\n📞 Si persiste: +54 351 123-4567'
+        },
+        
+        'internet_lento': {
+          type: 'text',
+          message: '🐌 Internet Lento - Solución\n\n🔧 Pasos a seguir:\n\n1️⃣ Cierra aplicaciones innecesarias\n2️⃣ Acércate al router WiFi\n3️⃣ Reinicia el módem\n4️⃣ Verifica si otros dispositivos van lentos\n5️⃣ Prueba velocidad: speedtest.net\n\n📊 Velocidad contratada vs real'
+        },
+        
+        'wifi_problemas': {
+          type: 'text',
+          message: '📶 Problemas WiFi - Solución\n\n🔧 Pasos a seguir:\n\n1️⃣ Olvida y reconecta la red WiFi\n2️⃣ Verifica la contraseña\n3️⃣ Acércate al router\n4️⃣ Reinicia WiFi del dispositivo\n5️⃣ Reinicia el router\n\n🔑 ¿Olvidaste la contraseña? Está en el router'
+        },
+        
+        // Botón para volver al menú principal
+        'volver_menu_principal': {
+          type: 'list',
+          message: 'demo_list'
         }
       }
     };
