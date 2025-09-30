@@ -574,3 +574,42 @@ body {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
 }
+
+/* Estilos para editor de submenús */
+.submenu-section-editor {
+    animation: fadeIn 0.3s ease-out;
+}
+
+.submenu-row-editor {
+    animation: fadeIn 0.3s ease-out;
+}
+
+.button-config {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 10px;
+    padding: 10px;
+    background: #f8f9fa;
+    border-radius: 5px;
+}
+
+.button-config input {
+    flex: 1;
+}
+
+.response-type-fields {
+    margin-top: 15px;
+    padding: 15px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    border-left: 4px solid #17a2b8;
+}
+
+/* Mejorar el header de contenido */
+.content-header > div {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    flex-wrap: wrap;
+}

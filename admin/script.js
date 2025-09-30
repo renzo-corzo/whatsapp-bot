@@ -35,6 +35,7 @@ function setupEventListeners() {
     // Botones principales
     document.getElementById('addResponseBtn')?.addEventListener('click', openResponseModal);
     document.getElementById('addListBtn')?.addEventListener('click', openListModal);
+    document.getElementById('addSubmenuBtn')?.addEventListener('click', () => openSubmenuModal());
     document.getElementById('saveConfigBtn')?.addEventListener('click', saveConfiguration);
     document.getElementById('testConfigBtn')?.addEventListener('click', testConfiguration);
     document.getElementById('exportConfigBtn')?.addEventListener('click', exportConfiguration);
@@ -927,7 +928,7 @@ async function editResponseForOption(optionId, responseType) {
 
 // Funciones para manejar submenús
 function editSubmenu(submenuId) {
-    showToast('Editor de submenús en desarrollo. Por ahora puedes editar las respuestas individuales.', 'info');
+    openSubmenuModal(submenuId);
 }
 
 function deleteSubmenu(submenuId) {
@@ -963,6 +964,492 @@ function deleteSubmenu(submenuId) {
                 showToast('Error eliminando submenú', 'error');
             }
         });
+    }
+}
+
+// Modal para editar submenús
+function openSubmenuModal(submenuId = null) {
+    const modal = document.getElementById('submenuModal') || createSubmenuModal();
+    const title = modal.querySelector('#submenuModalTitle');
+    
+    if (submenuId) {
+        title.textContent = 'Editar Submenú';
+        const submenuConfig = botConfig.submenus[submenuId];
+        document.getElementById('submenuId').value = submenuId;
+        document.getElementById('submenuTitle').value = submenuConfig.title;
+        document.getElementById('submenuDescription').value = submenuConfig.description;
+        
+        // Cargar secciones del submenú
+        loadSubmenuSectionsInModal(submenuConfig.sections);
+    } else {
+        title.textContent = 'Nuevo Submenú';
+        document.getElementById('submenuId').value = '';
+        document.getElementById('submenuTitle').value = '';
+        document.getElementById('submenuDescription').value = '';
+        
+        // Crear una sección por defecto
+        loadSubmenuSectionsInModal([{ title: 'Sección 1', rows: [{ id: '', title: '', description: '' }] }]);
+    }
+    
+    modal.classList.add('show');
+}
+
+function closeSubmenuModal() {
+    const modal = document.getElementById('submenuModal');
+    if (modal) {
+        modal.classList.remove('show');
+    }
+}
+
+// Crear modal para submenús
+function createSubmenuModal() {
+    const modal = document.createElement('div');
+    modal.className = 'modal';
+    modal.id = 'submenuModal';
+    modal.innerHTML = `
+        <div class="modal-content" style="max-width: 900px;">
+            <div class="modal-header">
+                <h3 id="submenuModalTitle">Editar Submenú</h3>
+                <button class="modal-close" onclick="closeSubmenuModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>ID del Submenú:</label>
+                    <input type="text" id="submenuId" placeholder="ej: info_submenu, soporte_submenu">
+                </div>
+                <div class="form-group">
+                    <label>Título:</label>
+                    <input type="text" id="submenuTitle" placeholder="ej: 📍 Información Detallada">
+                </div>
+                <div class="form-group">
+                    <label>Descripción:</label>
+                    <textarea id="submenuDescription" placeholder="Descripción que aparece en el submenú"></textarea>
+                </div>
+                
+                <h4>📋 Secciones del Submenú</h4>
+                <div id="submenuSectionsContainer"></div>
+                <button type="button" class="btn btn-info" onclick="addSubmenuSection()">
+                    <i class="fas fa-plus"></i> Agregar Sección
+                </button>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeSubmenuModal()">Cancelar</button>
+                <button class="btn btn-primary" onclick="saveSubmenu()">Guardar Submenú</button>
+            </div>
+        </div>
+    `;
+    document.body.appendChild(modal);
+    return modal;
+}
+
+// Cargar secciones del submenú en el modal
+function loadSubmenuSectionsInModal(sections) {
+    const container = document.getElementById('submenuSectionsContainer');
+    container.innerHTML = '';
+    
+    sections.forEach((section, sectionIndex) => {
+        addSubmenuSectionToModal(section, sectionIndex);
+    });
+}
+
+// Agregar nueva sección al submenú
+function addSubmenuSection() {
+    const container = document.getElementById('submenuSectionsContainer');
+    const sectionIndex = container.children.length;
+    const newSection = { title: `Sección ${sectionIndex + 1}`, rows: [{ id: '', title: '', description: '' }] };
+    addSubmenuSectionToModal(newSection, sectionIndex);
+}
+
+// Agregar sección al modal del submenú
+function addSubmenuSectionToModal(section, sectionIndex) {
+    const container = document.getElementById('submenuSectionsContainer');
+    
+    const sectionDiv = document.createElement('div');
+    sectionDiv.className = 'submenu-section-editor';
+    sectionDiv.style.cssText = `
+        border: 2px solid #17a2b8;
+        border-radius: 10px;
+        padding: 20px;
+        margin: 15px 0;
+        background: #f0f8ff;
+    `;
+    
+    sectionDiv.innerHTML = `
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+            <h5>🔗 Sección ${sectionIndex + 1}</h5>
+            <button type="button" class="btn btn-sm btn-warning" onclick="removeSubmenuSection(this)">
+                <i class="fas fa-trash"></i> Eliminar Sección
+            </button>
+        </div>
+        <div class="form-group">
+            <label>Título de la Sección:</label>
+            <input type="text" class="submenu-section-title" value="${section.title}" placeholder="ej: Sobre Nosotros, Servicios">
+        </div>
+        <div class="submenu-rows-container">
+            ${section.rows.map((row, rowIndex) => createSubmenuRowHTML(row, rowIndex)).join('')}
+        </div>
+        <button type="button" class="btn btn-sm btn-info" onclick="addSubmenuRow(this)">
+            <i class="fas fa-plus"></i> Agregar Opción
+        </button>
+    `;
+    
+    container.appendChild(sectionDiv);
+}
+
+// Crear HTML para una opción del submenú
+function createSubmenuRowHTML(row, rowIndex) {
+    return `
+        <div class="submenu-row-editor" style="border: 1px solid #17a2b8; border-radius: 8px; padding: 15px; margin: 10px 0; background: white;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                <strong>Opción ${rowIndex + 1}</strong>
+                <button type="button" class="btn btn-sm btn-warning" onclick="removeSubmenuRow(this)">
+                    <i class="fas fa-trash"></i>
+                </button>
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                <div>
+                    <label>ID:</label>
+                    <input type="text" class="submenu-row-id" value="${row.id}" placeholder="ej: historia_empresa">
+                </div>
+                <div>
+                    <label>Título:</label>
+                    <input type="text" class="submenu-row-title" value="${row.title}" placeholder="ej: 📜 Historia de la Empresa">
+                </div>
+            </div>
+            <div style="margin-top: 10px;">
+                <label>Descripción:</label>
+                <input type="text" class="submenu-row-description" value="${row.description}" placeholder="Descripción opcional">
+            </div>
+            <div style="margin-top: 15px; padding: 10px; background: #f8f9fa; border-radius: 5px;">
+                <label><strong>Configurar Respuesta:</strong></label>
+                <button type="button" class="btn btn-sm btn-success" onclick="configureSubmenuResponse('${row.id}', this)" style="margin-left: 10px;">
+                    <i class="fas fa-cog"></i> Configurar Respuesta
+                </button>
+            </div>
+        </div>
+    `;
+}
+
+// Agregar nueva opción al submenú
+function addSubmenuRow(button) {
+    const rowsContainer = button.previousElementSibling;
+    const rowIndex = rowsContainer.children.length;
+    const newRowHTML = createSubmenuRowHTML({ id: '', title: '', description: '' }, rowIndex);
+    
+    const div = document.createElement('div');
+    div.innerHTML = newRowHTML;
+    rowsContainer.appendChild(div.firstElementChild);
+}
+
+// Remover sección del submenú
+function removeSubmenuSection(button) {
+    const sectionDiv = button.closest('.submenu-section-editor');
+    sectionDiv.remove();
+}
+
+// Remover opción del submenú
+function removeSubmenuRow(button) {
+    const rowDiv = button.closest('.submenu-row-editor');
+    rowDiv.remove();
+}
+
+// Guardar submenú
+async function saveSubmenu() {
+    const submenuId = document.getElementById('submenuId').value.trim();
+    const title = document.getElementById('submenuTitle').value.trim();
+    const description = document.getElementById('submenuDescription').value.trim();
+
+    if (!submenuId || !title || !description) {
+        showToast('Por favor completa todos los campos obligatorios', 'error');
+        return;
+    }
+
+    // Recopilar secciones
+    const sections = [];
+    const sectionElements = document.querySelectorAll('.submenu-section-editor');
+    
+    sectionElements.forEach(sectionEl => {
+        const sectionTitle = sectionEl.querySelector('.submenu-section-title').value.trim();
+        if (!sectionTitle) return;
+
+        const rows = [];
+        const rowElements = sectionEl.querySelectorAll('.submenu-row-editor');
+        
+        rowElements.forEach(rowEl => {
+            const id = rowEl.querySelector('.submenu-row-id').value.trim();
+            const rowTitle = rowEl.querySelector('.submenu-row-title').value.trim();
+            const rowDescription = rowEl.querySelector('.submenu-row-description').value.trim();
+            
+            if (id && rowTitle) {
+                rows.push({ id, title: rowTitle, description: rowDescription });
+            }
+        });
+
+        if (rows.length > 0) {
+            sections.push({ title: sectionTitle, rows });
+        }
+    });
+
+    if (sections.length === 0) {
+        showToast('Debes agregar al menos una sección con opciones', 'error');
+        return;
+    }
+
+    // Crear configuración del submenú
+    const submenuConfig = {
+        title,
+        description,
+        sections
+    };
+
+    // Asegurar que existe el objeto submenus
+    if (!botConfig.submenus) {
+        botConfig.submenus = {};
+    }
+
+    botConfig.submenus[submenuId] = submenuConfig;
+
+    try {
+        const response = await fetch('/api/config', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(botConfig)
+        });
+
+        if (response.ok) {
+            showToast('Submenú guardado correctamente', 'success');
+            closeSubmenuModal();
+            loadLists();
+        } else {
+            throw new Error('Error guardando submenú');
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        showToast('Error guardando submenú', 'error');
+    }
+}
+
+// Configurar respuesta compleja para opción de submenú
+function configureSubmenuResponse(optionId, button) {
+    // Obtener el ID actual del input (puede haber cambiado)
+    const rowDiv = button.closest('.submenu-row-editor');
+    const actualId = rowDiv.querySelector('.submenu-row-id').value.trim();
+    
+    if (!actualId) {
+        showToast('Primero debes asignar un ID a esta opción', 'warning');
+        return;
+    }
+    
+    openResponseConfigModal(actualId);
+}
+
+// Modal para configurar respuestas complejas
+function openResponseConfigModal(optionId) {
+    const modal = document.getElementById('responseConfigModal') || createResponseConfigModal();
+    
+    // Cargar respuesta actual si existe
+    const currentResponse = botConfig.submenuResponses?.[optionId] || { type: 'text', message: '' };
+    
+    document.getElementById('responseOptionId').value = optionId;
+    document.getElementById('responseTypeSelect').value = currentResponse.type || 'text';
+    document.getElementById('responseMessage').value = currentResponse.message || '';
+    document.getElementById('responseUrl').value = currentResponse.url || '';
+    document.getElementById('responseUrlText').value = currentResponse.url_text || '';
+    
+    // Mostrar/ocultar campos según el tipo
+    updateResponseFields();
+    
+    modal.classList.add('show');
+}
+
+function closeResponseConfigModal() {
+    const modal = document.getElementById('responseConfigModal');
+    if (modal) {
+        modal.classList.remove('show');
+    }
+}
+
+// Crear modal para configurar respuestas
+function createResponseConfigModal() {
+    const modal = document.createElement('div');
+    modal.className = 'modal';
+    modal.id = 'responseConfigModal';
+    modal.innerHTML = `
+        <div class="modal-content" style="max-width: 600px;">
+            <div class="modal-header">
+                <h3>🎯 Configurar Respuesta</h3>
+                <button class="modal-close" onclick="closeResponseConfigModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="responseOptionId">
+                
+                <div class="form-group">
+                    <label>Tipo de Respuesta:</label>
+                    <select id="responseTypeSelect" onchange="updateResponseFields()">
+                        <option value="text">📝 Texto Simple</option>
+                        <option value="text_with_url">🔗 Texto con URL</option>
+                        <option value="text_with_buttons">🔘 Texto con Botones</option>
+                        <option value="text_with_submenu">📋 Texto con Submenú</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label>Mensaje:</label>
+                    <textarea id="responseMessage" placeholder="Mensaje que enviará el bot" rows="4"></textarea>
+                </div>
+                
+                <div class="form-group" id="urlFields" style="display: none;">
+                    <label>URL:</label>
+                    <input type="url" id="responseUrl" placeholder="https://ejemplo.com">
+                    <label style="margin-top: 10px;">Texto del enlace:</label>
+                    <input type="text" id="responseUrlText" placeholder="🌐 Ver más información">
+                </div>
+                
+                <div class="form-group" id="buttonsFields" style="display: none;">
+                    <label>Botones (máximo 3):</label>
+                    <div id="buttonsContainer">
+                        <div class="button-config">
+                            <input type="text" placeholder="ID del botón" class="button-id">
+                            <input type="text" placeholder="Texto del botón (máx 20 chars)" class="button-title">
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-sm btn-info" onclick="addButtonConfig()">
+                        <i class="fas fa-plus"></i> Agregar Botón
+                    </button>
+                </div>
+                
+                <div class="form-group" id="submenuFields" style="display: none;">
+                    <label>Submenú a mostrar:</label>
+                    <select id="responseSubmenu">
+                        <option value="">Seleccionar submenú...</option>
+                    </select>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeResponseConfigModal()">Cancelar</button>
+                <button class="btn btn-primary" onclick="saveResponseConfig()">Guardar Respuesta</button>
+            </div>
+        </div>
+    `;
+    document.body.appendChild(modal);
+    return modal;
+}
+
+// Actualizar campos según el tipo de respuesta
+function updateResponseFields() {
+    const type = document.getElementById('responseTypeSelect').value;
+    
+    document.getElementById('urlFields').style.display = type === 'text_with_url' ? 'block' : 'none';
+    document.getElementById('buttonsFields').style.display = type === 'text_with_buttons' ? 'block' : 'none';
+    document.getElementById('submenuFields').style.display = type === 'text_with_submenu' ? 'block' : 'none';
+    
+    // Cargar submenús disponibles
+    if (type === 'text_with_submenu') {
+        const select = document.getElementById('responseSubmenu');
+        select.innerHTML = '<option value="">Seleccionar submenú...</option>';
+        
+        if (botConfig.submenus) {
+            Object.keys(botConfig.submenus).forEach(submenuId => {
+                const option = document.createElement('option');
+                option.value = submenuId;
+                option.textContent = botConfig.submenus[submenuId].title;
+                select.appendChild(option);
+            });
+        }
+    }
+}
+
+// Agregar configuración de botón
+function addButtonConfig() {
+    const container = document.getElementById('buttonsContainer');
+    if (container.children.length >= 3) {
+        showToast('WhatsApp permite máximo 3 botones', 'warning');
+        return;
+    }
+    
+    const buttonDiv = document.createElement('div');
+    buttonDiv.className = 'button-config';
+    buttonDiv.innerHTML = `
+        <input type="text" placeholder="ID del botón" class="button-id">
+        <input type="text" placeholder="Texto del botón (máx 20 chars)" class="button-title">
+        <button type="button" class="btn btn-sm btn-warning" onclick="this.parentElement.remove()">
+            <i class="fas fa-trash"></i>
+        </button>
+    `;
+    container.appendChild(buttonDiv);
+}
+
+// Guardar configuración de respuesta
+async function saveResponseConfig() {
+    const optionId = document.getElementById('responseOptionId').value;
+    const type = document.getElementById('responseTypeSelect').value;
+    const message = document.getElementById('responseMessage').value.trim();
+    
+    if (!message) {
+        showToast('El mensaje es obligatorio', 'error');
+        return;
+    }
+    
+    const responseConfig = {
+        type: type,
+        message: message
+    };
+    
+    // Agregar campos específicos según el tipo
+    switch (type) {
+        case 'text_with_url':
+            responseConfig.url = document.getElementById('responseUrl').value.trim();
+            responseConfig.url_text = document.getElementById('responseUrlText').value.trim();
+            break;
+            
+        case 'text_with_buttons':
+            const buttons = [];
+            document.querySelectorAll('.button-config').forEach(buttonDiv => {
+                const id = buttonDiv.querySelector('.button-id').value.trim();
+                const title = buttonDiv.querySelector('.button-title').value.trim();
+                if (id && title) {
+                    buttons.push({ id, title });
+                }
+            });
+            responseConfig.buttons = buttons;
+            break;
+            
+        case 'text_with_submenu':
+            responseConfig.submenu = document.getElementById('responseSubmenu').value;
+            break;
+    }
+    
+    // Asegurar que existe el objeto submenuResponses
+    if (!botConfig.submenuResponses) {
+        botConfig.submenuResponses = {};
+    }
+    
+    botConfig.submenuResponses[optionId] = responseConfig;
+    
+    try {
+        const response = await fetch('/api/config', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(botConfig)
+        });
+
+        if (response.ok) {
+            showToast(`Respuesta configurada para "${optionId}"`, 'success');
+            closeResponseConfigModal();
+        } else {
+            throw new Error('Error guardando respuesta');
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        showToast('Error guardando respuesta', 'error');
     }
 }
 
