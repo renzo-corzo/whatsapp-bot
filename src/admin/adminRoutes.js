@@ -78,6 +78,26 @@ async function loadConfig() {
               ]
             },
             {
+              title: 'Productos y Servicios',
+              rows: [
+                { 
+                  id: 'ver_catalogo', 
+                  title: '🛒 Ver Catálogo', 
+                  description: 'Productos disponibles' 
+                },
+                { 
+                  id: 'precios_planes', 
+                  title: '💰 Precios y Planes', 
+                  description: 'Tarifas actualizadas' 
+                },
+                { 
+                  id: 'hacer_pedido', 
+                  title: '📱 Hacer Pedido', 
+                  description: 'Contacto directo' 
+                }
+              ]
+            },
+            {
               title: 'Contacto',
               rows: [
                 { 
@@ -124,6 +144,31 @@ async function loadConfig() {
             { id: 'chat_whatsapp', title: '💬 Chat WhatsApp' },
             { id: 'email_soporte', title: '📧 Email Soporte' }
           ]
+        },
+        
+        // NUEVOS EJEMPLOS PRÁCTICOS
+        'ver_catalogo': {
+          type: 'text_with_url',
+          message: '🛒 Catálogo de Productos\n\n📋 Tenemos una amplia variedad de productos:\n\n• 📱 Smartphones última generación\n• 💻 Laptops y computadoras\n• 🎧 Accesorios tecnológicos\n• 📺 Smart TVs y entretenimiento\n\n💡 Ofertas especiales disponibles',
+          url: 'https://mi-tienda.com/catalogo',
+          url_text: '🛒 Ver Catálogo Completo'
+        },
+        
+        'precios_planes': {
+          type: 'text_with_buttons',
+          message: '💰 Precios y Planes 2024\n\n📊 Selecciona qué información necesitas:',
+          buttons: [
+            { id: 'planes_basicos', title: '🥉 Planes Básicos' },
+            { id: 'planes_premium', title: '🥇 Planes Premium' },
+            { id: 'ofertas_especiales', title: '🎁 Ofertas' }
+          ]
+        },
+        
+        'hacer_pedido': {
+          type: 'text_with_url',
+          message: '📱 Hacer tu Pedido\n\n🚀 ¡Es muy fácil!\n\n1️⃣ Elige tus productos\n2️⃣ Envíanos tu lista\n3️⃣ Confirmamos disponibilidad\n4️⃣ Coordinamos entrega\n\n💬 Contáctanos directamente:',
+          url: 'https://wa.me/543515747073?text=Hola,%20quiero%20hacer%20un%20pedido',
+          url_text: '💬 WhatsApp Directo'
         }
       },
       
@@ -171,6 +216,63 @@ async function loadConfig() {
               ]
             }
           ]
+        }
+      },
+      
+      // Respuestas para botones y opciones de submenús
+      submenuResponses: {
+        // Respuestas para botones de precios
+        'planes_basicos': {
+          type: 'text_with_url',
+          message: '🥉 Planes Básicos\n\n💰 Opciones económicas:\n\n📦 STARTER: $1,500/mes\n• 10GB almacenamiento\n• Soporte por email\n• 1 usuario\n\n📦 BÁSICO: $2,500/mes\n• 50GB almacenamiento\n• Soporte telefónico\n• 3 usuarios\n\n📋 Ver detalles completos:',
+          url: 'https://mi-empresa.com/planes-basicos',
+          url_text: '📋 Ver Planes Básicos'
+        },
+        
+        'planes_premium': {
+          type: 'text_with_url',
+          message: '🥇 Planes Premium\n\n⭐ Lo mejor para tu negocio:\n\n🚀 PROFESIONAL: $5,500/mes\n• 200GB almacenamiento\n• Soporte 24/7\n• 10 usuarios\n• Backup automático\n\n🏆 EMPRESARIAL: $9,500/mes\n• Almacenamiento ilimitado\n• Soporte dedicado\n• Usuarios ilimitados\n• Funciones avanzadas\n\n💎 Ver todos los beneficios:',
+          url: 'https://mi-empresa.com/planes-premium',
+          url_text: '💎 Ver Planes Premium'
+        },
+        
+        'ofertas_especiales': {
+          type: 'text_with_buttons',
+          message: '🎁 Ofertas Especiales\n\n🔥 ¡Aprovecha estas promociones limitadas!\n\n🎯 ¿Qué tipo de oferta te interesa?',
+          buttons: [
+            { id: 'descuento_nuevos', title: '🆕 Nuevos Clientes' },
+            { id: 'upgrade_gratis', title: '⬆️ Upgrade Gratis' },
+            { id: 'paquetes_combo', title: '📦 Paquetes Combo' }
+          ]
+        },
+        
+        // Respuestas para ofertas específicas
+        'descuento_nuevos': {
+          type: 'text_with_url',
+          message: '🆕 Oferta Nuevos Clientes\n\n🎉 ¡Bienvenido!\n\n💥 50% OFF primer mes\n💥 Setup gratuito (valor $500)\n💥 Soporte premium incluido\n\n⏰ Oferta válida hasta fin de mes\n\n🚀 ¡Aprovecha ahora!',
+          url: 'https://wa.me/543515747073?text=Quiero%20la%20oferta%20nuevos%20clientes',
+          url_text: '🚀 Quiero esta Oferta'
+        },
+        
+        'llamada_urgente': {
+          type: 'text_with_url',
+          message: '📞 Llamada Urgente\n\n🚨 Para emergencias y consultas urgentes:\n\n📱 Línea directa: +54 351 123-4567\n⏰ Disponible 24/7\n🔧 Soporte técnico inmediato\n\n¡Llamanos ahora!',
+          url: 'tel:+543511234567',
+          url_text: '📞 Llamar Ahora'
+        },
+        
+        'chat_whatsapp': {
+          type: 'text_with_url',
+          message: '💬 Chat WhatsApp\n\n📱 Habla directamente con nuestro equipo:\n\n✅ Respuesta inmediata\n✅ Envío de archivos\n✅ Seguimiento personalizado\n\n¡Escríbenos!',
+          url: 'https://wa.me/543515747073?text=Hola,%20necesito%20ayuda',
+          url_text: '💬 Abrir Chat'
+        },
+        
+        'email_soporte': {
+          type: 'text_with_url',
+          message: '📧 Email Soporte\n\n✉️ Para consultas detalladas:\n\n📮 soporte@mi-empresa.com\n⏱️ Respuesta en 2-4 horas\n📎 Puedes adjuntar archivos\n\n¡Escríbenos!',
+          url: 'mailto:soporte@mi-empresa.com?subject=Consulta%20desde%20WhatsApp',
+          url_text: '📧 Enviar Email'
         }
       }
     };
