@@ -285,13 +285,7 @@ async function handleInteractiveMessage(message, from) {
       await currentClient.sendText(formattedNumber, defaultResponse);
     }
     
-    // Después de 3 segundos, ofrecer el menú nuevamente
-    setTimeout(async () => {
-      await currentClient.sendText(
-        formattedNumber,
-        '¿Te gustaría ver otras opciones? Escribe "menu" para ver el menú completo.'
-      );
-    }, 3000);
+    // Mensaje automático eliminado - navegación mejorada
     
   } else {
     console.log(`ℹ️ Tipo de interacción no manejada: ${message.interactive.type}`);
