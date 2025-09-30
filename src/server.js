@@ -207,9 +207,18 @@ async function handleTextMessage(message, from) {
     if (botResponse.followUp) {
       setTimeout(async () => {
         if (botResponse.type === 'list' || botResponse.followUp.includes('list')) {
+          console.log(`🔍 Buscando lista: ${botResponse.followUp}`);
           const listData = await getBotList(botResponse.followUp);
+          console.log(`📋 Lista encontrada:`, listData ? 'SÍ' : 'NO');
           if (listData) {
+            console.log(`📋 Lista título: ${listData.title}`);
+            console.log(`📋 Lista secciones: ${listData.sections?.length || 0}`);
+            if (listData.sections && listData.sections.length > 0) {
+              console.log(`📋 Primera sección: ${JSON.stringify(listData.sections[0])}`);
+            }
             await currentClient.sendListFromConfig(formattedNumber, listData);
+          } else {
+            console.log(`❌ Lista no encontrada: ${botResponse.followUp}`);
           }
         }
       }, 1000);
