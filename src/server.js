@@ -48,7 +48,10 @@ function initializeWhatsAppClient() {
 }
 
 // Inicializar cliente por primera vez
-initializeWhatsAppClient();
+const clientInitialized = initializeWhatsAppClient();
+if (!clientInitialized) {
+  console.log('⚠️ Cliente de WhatsApp no inicializado - continuando sin él');
+}
 
 /**
  * GET /webhook - Verificación del webhook de WhatsApp
@@ -294,42 +297,58 @@ async function handleInteractiveMessage(message, from) {
  * @param {Object} response - Configuración de respuesta
  */
 async function handleComplexResponse(client, to, response) {
-  // Si es string simple (compatibilidad hacia atrás)
-  if (typeof response === 'string') {
-    await client.sendText(to, response);
-    return;
-  }
+  try {
+    // Si es string simple (compatibilidad hacia atrás)
+    if (typeof response === 'string') {
+      await client.sendText(to, response);
+      return;
+    }
 
-  // Si es objeto con tipo específico
-  switch (response.type) {
-    case 'text':
-      await client.sendText(to, response.message);
-      break;
+    // Si es objeto con tipo específico
+    switch (response.type) {
+      case 'text':
+        await client.sendText(to, response.message);
+        break;
 
-    case 'text_with_url':
-      await client.sendTextWithUrl(to, response.message, response.url, response.url_text);
-      break;
+      case 'text_with_url':
+        await client.sendTextWithUrl(to, response.message, response.url, response.url_text);
+        break;
 
-    case 'text_with_buttons':
-      await client.sendText(to, response.message);
-      setTimeout(async () => {
-        await client.sendButtonMessage(to, "Selecciona una opción:", response.buttons);
-      }, 1000);
-      break;
+      case 'text_with_buttons':
+        await client.sendText(to, response.message);
+        setTimeout(async () => {
+          try {
+            await client.sendButtonMessage(to, "Selecciona una opción:", response.buttons);
+          } catch (error) {
+            console.error('Error enviando botones:', error);
+            // Fallback a texto simple
+            await client.sendText(to, "Opciones disponibles: " + response.buttons.map(b => b.title).join(', '));
+          }
+        }, 1000);
+        break;
 
-    case 'text_with_submenu':
-      await client.sendText(to, response.message);
-      setTimeout(async () => {
-        const submenu = await getSubmenu(response.submenu);
-        if (submenu) {
-          await client.sendListFromConfig(to, submenu);
-        }
-      }, 1500);
-      break;
+      case 'text_with_submenu':
+        await client.sendText(to, response.message);
+        setTimeout(async () => {
+          try {
+            const submenu = await getSubmenu(response.submenu);
+            if (submenu) {
+              await client.sendListFromConfig(to, submenu);
+            }
+          } catch (error) {
+            console.error('Error enviando submenú:', error);
+            await client.sendText(to, 'Escribe "menu" para ver las opciones disponibles.');
+          }
+        }, 1500);
+        break;
 
-    default:
-      // Fallback para tipos no reconocidos
-      await client.sendText(to, response.message || 'Respuesta no disponible');
+      default:
+        // Fallback para tipos no reconocidos
+        await client.sendText(to, response.message || 'Respuesta no disponible');
+    }
+  } catch (error) {
+    console.error('Error en handleComplexResponse:', error);
+    await client.sendText(to, 'Disculpa, hubo un error procesando tu solicitud.');
   }
 }
 

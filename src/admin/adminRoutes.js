@@ -12,6 +12,7 @@ async function ensureConfigDir() {
   try {
     await fs.access(configDir);
   } catch {
+    console.log('📁 Creando directorio de configuración:', configDir);
     await fs.mkdir(configDir, { recursive: true });
   }
 }
