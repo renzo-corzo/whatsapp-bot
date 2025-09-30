@@ -172,30 +172,8 @@ async function loadConfig() {
             }
           ]
         }
-      },
-      
-      // Respuestas para elementos de submenús
-      submenuResponses: {
-        'historia_empresa': {
-          type: 'text_with_url',
-          message: '📜 Historia de Nuestra Empresa\n\n🏢 Fundada en 2020, somos una empresa innovadora dedicada a brindar soluciones tecnológicas de vanguardia.\n\n✨ Hemos crecido de 2 a 50+ empleados\n🌍 Servimos a más de 1000 clientes\n🏆 Reconocidos por nuestra excelencia\n\n👆 Conoce más en nuestro sitio web:',
-          url: 'https://mi-empresa.com/historia',
-          url_text: '🌐 Ver Historia Completa'
-        },
-        'mision_vision': {
-          type: 'text',
-          message: '🎯 Misión y Visión\n\n🚀 MISIÓN:\nTransformar la vida de nuestros clientes a través de tecnología innovadora y un servicio excepcional.\n\n🌟 VISIÓN:\nSer la empresa líder en soluciones digitales, reconocida por nuestra calidad e innovación.\n\n💎 VALORES:\n• Excelencia\n• Innovación\n• Integridad\n• Compromiso con el cliente'
-        },
-        'problema_conexion': {
-          type: 'text_with_buttons',
-          message: '🌐 Problemas de Conexión\n\nVamos a ayudarte paso a paso. ¿Cuál es tu situación?',
-          buttons: [
-            { id: 'sin_internet', title: '❌ Sin Internet' },
-            { id: 'internet_lento', title: '🐌 Internet Lento' },
-            { id: 'wifi_problemas', title: '📶 Problemas WiFi' }
-          ]
-        }
-      }
+      };
+
     };
 
     await saveConfig(defaultConfig);
