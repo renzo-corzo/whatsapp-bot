@@ -338,8 +338,9 @@ async function loadConfig() {
         
         // Botón para volver al menú principal
         'volver_menu_principal': {
-          type: 'list',
-          message: 'demo_list'
+          type: 'text',
+          message: '🔙 Regresando al menú principal...',
+          followUp: 'demo_list'
         }
       }
     };
