@@ -1386,7 +1386,7 @@ function addButtonConfig() {
 }
 
 // Guardar configuración de respuesta
-async function updateResponseFields() {
+function updateResponseFields() {
     const responseType = document.getElementById('responseTypeSelect').value;
     
     // Ocultar todos los campos específicos
@@ -1431,7 +1431,7 @@ function loadSubmenuOptions() {
         });
 }
 
-function saveResponseConfig() {
+async function saveResponseConfig() {
     const optionId = document.getElementById('responseOptionId').value;
     const type = document.getElementById('responseTypeSelect').value;
     const message = document.getElementById('responseMessage').value.trim();
