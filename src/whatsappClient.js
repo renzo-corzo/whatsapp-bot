@@ -290,6 +290,29 @@ class WhatsAppClient {
 
     return await this.sendText(to, fullMessage);
   }
+
+  /**
+   * Envía una lista interactiva desde configuración de submenú
+   * @param {string} to - Número de teléfono del destinatario
+   * @param {Object} submenuConfig - Configuración del submenú
+   * @returns {Promise<Object>} Respuesta de la API
+   */
+  async sendListFromConfig(to, submenuConfig) {
+    if (!submenuConfig || !submenuConfig.sections) {
+      throw new Error('Configuración de submenú inválida');
+    }
+
+    const { title, description, sections } = submenuConfig;
+    
+    return await this.sendListMessage(
+      to,
+      description || title || "Selecciona una opción:",
+      sections,
+      title || null,
+      null,
+      "Ver opciones"
+    );
+  }
 }
 
 module.exports = WhatsAppClient;
