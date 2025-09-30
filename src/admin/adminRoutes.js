@@ -172,8 +172,7 @@ async function loadConfig() {
             }
           ]
         }
-      };
-
+      }
     };
 
     await saveConfig(defaultConfig);
