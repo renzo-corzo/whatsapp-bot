@@ -7,6 +7,8 @@ const {
   getBotResponse, 
   getBotList, 
   getListResponse, 
+  getSubmenu,
+  getSubmenuResponse,
   incrementMessageCount, 
   updateUniqueUsers 
 } = require('./admin/adminRoutes');
@@ -250,11 +252,16 @@ async function handleInteractiveMessage(message, from) {
     const currentClient = global.whatsappClient || whatsappClient;
     
     // Buscar respuesta configurada para la opción seleccionada
-    const response = await getListResponse(selectedId);
+    let response = await getListResponse(selectedId);
+    
+    // Si no se encuentra en listResponses, buscar en submenuResponses
+    if (!response) {
+      response = await getSubmenuResponse(selectedId);
+    }
     
     if (response) {
-      console.log(`✅ Respuesta configurada encontrada para: ${selectedId}`);
-      await currentClient.sendText(formattedNumber, response);
+      console.log(`✅ Respuesta configurada encontrada para: ${selectedId}`, response);
+      await handleComplexResponse(currentClient, formattedNumber, response);
     } else {
       // Respuesta por defecto si no se encuentra configuración
       const defaultResponse = `✅ Has seleccionado: "${selectedTitle}"\n\nGracias por tu selección. ¿En qué más puedo ayudarte?`;
@@ -281,7 +288,53 @@ async function handleInteractiveMessage(message, from) {
 }
 
 /**
- * Maneja respuestas de botones (si los implementas en el futuro)
+ * Maneja respuestas complejas (con URLs, botones, submenús)
+ * @param {Object} client - Cliente de WhatsApp
+ * @param {string} to - Número del destinatario
+ * @param {Object} response - Configuración de respuesta
+ */
+async function handleComplexResponse(client, to, response) {
+  // Si es string simple (compatibilidad hacia atrás)
+  if (typeof response === 'string') {
+    await client.sendText(to, response);
+    return;
+  }
+
+  // Si es objeto con tipo específico
+  switch (response.type) {
+    case 'text':
+      await client.sendText(to, response.message);
+      break;
+
+    case 'text_with_url':
+      await client.sendTextWithUrl(to, response.message, response.url, response.url_text);
+      break;
+
+    case 'text_with_buttons':
+      await client.sendText(to, response.message);
+      setTimeout(async () => {
+        await client.sendButtonMessage(to, "Selecciona una opción:", response.buttons);
+      }, 1000);
+      break;
+
+    case 'text_with_submenu':
+      await client.sendText(to, response.message);
+      setTimeout(async () => {
+        const submenu = await getSubmenu(response.submenu);
+        if (submenu) {
+          await client.sendListFromConfig(to, submenu);
+        }
+      }, 1500);
+      break;
+
+    default:
+      // Fallback para tipos no reconocidos
+      await client.sendText(to, response.message || 'Respuesta no disponible');
+  }
+}
+
+/**
+ * Maneja respuestas de botones
  * @param {Object} message - Mensaje de botón
  * @param {string} from - Número del remitente
  */
@@ -289,11 +342,23 @@ async function handleButtonMessage(message, from) {
   const buttonReply = message.button;
   console.log(`🔘 Botón presionado: ${buttonReply.payload} - ${buttonReply.text}`);
   
+  // Incrementar contador de mensajes
+  await incrementMessageCount();
+  
   const formattedNumber = formatArgentineNumber(from);
-  await whatsappClient.sendText(
-    formattedNumber,
-    `Has presionado el botón: "${buttonReply.text}"`
-  );
+  const currentClient = global.whatsappClient || whatsappClient;
+  
+  // Buscar respuesta para el botón presionado
+  const response = await getSubmenuResponse(buttonReply.payload);
+  
+  if (response) {
+    await handleComplexResponse(currentClient, formattedNumber, response);
+  } else {
+    await currentClient.sendText(
+      formattedNumber,
+      `Has presionado el botón: "${buttonReply.text}"`
+    );
+  }
 }
 
 /**

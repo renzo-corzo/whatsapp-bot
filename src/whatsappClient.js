@@ -192,6 +192,104 @@ class WhatsAppClient {
 
     return await this.sendListMessage(options);
   }
+
+  /**
+   * Envía un mensaje con botones interactivos
+   * @param {string} to - Número de teléfono del destinatario
+   * @param {string} body - Texto principal del mensaje
+   * @param {Array} buttons - Array de botones [{id, title}]
+   * @param {string} header - Texto del encabezado (opcional)
+   * @param {string} footer - Texto del pie de página (opcional)
+   * @returns {Promise<Object>} Respuesta de la API
+   */
+  async sendButtonMessage(to, body, buttons, header = null, footer = null) {
+    // Validar botones
+    if (!buttons || !Array.isArray(buttons) || buttons.length === 0) {
+      throw new Error('Se requiere al menos un botón');
+    }
+
+    if (buttons.length > 3) {
+      throw new Error('WhatsApp permite máximo 3 botones');
+    }
+
+    // Validar estructura de botones
+    buttons.forEach((button, index) => {
+      if (!button.id || !button.title) {
+        throw new Error(`El botón ${index} debe tener id y title`);
+      }
+      if (button.title.length > 20) {
+        throw new Error(`El título del botón ${index} debe tener máximo 20 caracteres`);
+      }
+    });
+
+    const payload = {
+      messaging_product: "whatsapp",
+      to: to,
+      type: "interactive",
+      interactive: {
+        type: "button",
+        header: header ? {
+          type: "text",
+          text: header
+        } : undefined,
+        body: {
+          text: body
+        },
+        footer: footer ? {
+          text: footer
+        } : undefined,
+        action: {
+          buttons: buttons.map((button, index) => ({
+            type: "reply",
+            reply: {
+              id: button.id,
+              title: button.title
+            }
+          }))
+        }
+      }
+    };
+
+    // Limpiar campos undefined
+    if (!payload.interactive.header) {
+      delete payload.interactive.header;
+    }
+    if (!payload.interactive.footer) {
+      delete payload.interactive.footer;
+    }
+
+    try {
+      const response = await axios.post(this.baseURL, payload, {
+        headers: {
+          'Authorization': `Bearer ${this.accessToken}`,
+          'Content-Type': 'application/json'
+        }
+      });
+      
+      console.log(`✅ Mensaje con botones enviado a ${to}:`, body);
+      return response.data;
+    } catch (error) {
+      console.error('❌ Error enviando mensaje con botones:', error.response?.data || error.message);
+      throw error;
+    }
+  }
+
+  /**
+   * Envía un mensaje con URL (texto + link)
+   * @param {string} to - Número de teléfono del destinatario
+   * @param {string} message - Mensaje de texto
+   * @param {string} url - URL a incluir
+   * @param {string} urlText - Texto descriptivo del link (opcional)
+   * @returns {Promise<Object>} Respuesta de la API
+   */
+  async sendTextWithUrl(to, message, url, urlText = null) {
+    // WhatsApp no tiene un tipo específico para URLs, pero podemos incluirlas en el texto
+    const fullMessage = urlText 
+      ? `${message}\n\n${urlText}\n${url}`
+      : `${message}\n\n${url}`;
+
+    return await this.sendText(to, fullMessage);
+  }
 }
 
 module.exports = WhatsAppClient;

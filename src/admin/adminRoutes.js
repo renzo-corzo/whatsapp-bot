@@ -95,11 +95,105 @@ async function loadConfig() {
         }
       },
       listResponses: {
-        'info_general': '✅ Información General seleccionada.\n\n🏢 Somos una empresa dedicada a brindar los mejores servicios digitales. Estamos aquí para ayudarte con todas tus consultas y necesidades.\n\n¿Te gustaría conocer algo específico?',
-        'soporte_tecnico': '✅ Soporte Técnico seleccionado.\n\n🔧 Nuestro equipo de soporte técnico está disponible para ayudarte.\n\nPor favor, describe tu problema y te asistiremos lo antes posible.',
-        'consulta_cuenta': '✅ Consulta de Cuenta seleccionada.\n\n👤 Para consultas de cuenta, necesitaríamos verificar tu identidad.\n\nPor favor, proporciona tu número de cuenta o identificación.',
-        'horarios_atencion': '✅ Horarios de Atención.\n\n🕐 Nuestros horarios de atención son:\n• Lunes a Viernes: 8:00 AM - 6:00 PM\n• Sábados: 9:00 AM - 2:00 PM\n• Domingos: Cerrado\n\n⏰ Zona horaria: UTC-5',
-        'contactar_humano': '✅ Contacto con Agente Humano.\n\n👨‍💼 Te conectaremos con uno de nuestros agentes humanos.\n\nPor favor, espera un momento mientras transferimos tu consulta...'
+        'info_general': {
+          type: 'text_with_submenu',
+          message: '✅ Información General seleccionada.\n\n🏢 Somos una empresa dedicada a brindar los mejores servicios digitales. Estamos aquí para ayudarte con todas tus consultas y necesidades.',
+          submenu: 'info_submenu'
+        },
+        'soporte_tecnico': {
+          type: 'text_with_submenu',
+          message: '✅ Soporte Técnico seleccionado.\n\n🔧 Nuestro equipo de soporte técnico está disponible para ayudarte.',
+          submenu: 'soporte_submenu'
+        },
+        'consulta_cuenta': {
+          type: 'text_with_url',
+          message: '✅ Consulta de Cuenta seleccionada.\n\n👤 Para consultas de cuenta, puedes:\n\n1️⃣ Acceder a tu portal: https://mi-empresa.com/portal\n2️⃣ Llamar al: +54 351 123-4567\n3️⃣ Escribir tu consulta aquí',
+          url: 'https://mi-empresa.com/portal',
+          url_text: '🌐 Acceder al Portal de Cliente'
+        },
+        'horarios_atencion': {
+          type: 'text',
+          message: '✅ Horarios de Atención.\n\n🕐 Nuestros horarios de atención son:\n• Lunes a Viernes: 8:00 AM - 6:00 PM\n• Sábados: 9:00 AM - 2:00 PM\n• Domingos: Cerrado\n\n⏰ Zona horaria: UTC-5'
+        },
+        'contactar_humano': {
+          type: 'text_with_buttons',
+          message: '✅ Contacto con Agente Humano.\n\n👨‍💼 ¿Cómo prefieres contactarnos?',
+          buttons: [
+            { id: 'llamada_urgente', title: '📞 Llamada Urgente' },
+            { id: 'chat_whatsapp', title: '💬 Chat WhatsApp' },
+            { id: 'email_soporte', title: '📧 Email Soporte' }
+          ]
+        }
+      },
+      
+      // Submenús para navegación por niveles
+      submenus: {
+        'info_submenu': {
+          title: '📍 Información Detallada',
+          description: '¿Qué información específica necesitas?',
+          sections: [
+            {
+              title: 'Sobre Nosotros',
+              rows: [
+                { id: 'historia_empresa', title: '📜 Historia de la Empresa', description: 'Conoce nuestros orígenes' },
+                { id: 'mision_vision', title: '🎯 Misión y Visión', description: 'Nuestros valores y objetivos' },
+                { id: 'equipo_trabajo', title: '👥 Nuestro Equipo', description: 'Conoce a nuestro equipo' }
+              ]
+            },
+            {
+              title: 'Servicios',
+              rows: [
+                { id: 'lista_servicios', title: '📋 Lista de Servicios', description: 'Todos nuestros servicios' },
+                { id: 'precios_tarifas', title: '💰 Precios y Tarifas', description: 'Información de costos' }
+              ]
+            }
+          ]
+        },
+        
+        'soporte_submenu': {
+          title: '🔧 Tipos de Soporte',
+          description: '¿Qué tipo de ayuda necesitas?',
+          sections: [
+            {
+              title: 'Soporte Técnico',
+              rows: [
+                { id: 'problema_conexion', title: '🌐 Problemas de Conexión', description: 'Internet, WiFi, red' },
+                { id: 'problema_software', title: '💻 Problemas de Software', description: 'Aplicaciones, programas' },
+                { id: 'problema_hardware', title: '🔧 Problemas de Hardware', description: 'Equipos, dispositivos' }
+              ]
+            },
+            {
+              title: 'Soporte Comercial',
+              rows: [
+                { id: 'cambio_plan', title: '📈 Cambiar Plan', description: 'Upgrade o downgrade' },
+                { id: 'facturacion', title: '🧾 Consultas de Facturación', description: 'Facturas, pagos' }
+              ]
+            }
+          ]
+        }
+      },
+      
+      // Respuestas para elementos de submenús
+      submenuResponses: {
+        'historia_empresa': {
+          type: 'text_with_url',
+          message: '📜 Historia de Nuestra Empresa\n\n🏢 Fundada en 2020, somos una empresa innovadora dedicada a brindar soluciones tecnológicas de vanguardia.\n\n✨ Hemos crecido de 2 a 50+ empleados\n🌍 Servimos a más de 1000 clientes\n🏆 Reconocidos por nuestra excelencia\n\n👆 Conoce más en nuestro sitio web:',
+          url: 'https://mi-empresa.com/historia',
+          url_text: '🌐 Ver Historia Completa'
+        },
+        'mision_vision': {
+          type: 'text',
+          message: '🎯 Misión y Visión\n\n🚀 MISIÓN:\nTransformar la vida de nuestros clientes a través de tecnología innovadora y un servicio excepcional.\n\n🌟 VISIÓN:\nSer la empresa líder en soluciones digitales, reconocida por nuestra calidad e innovación.\n\n💎 VALORES:\n• Excelencia\n• Innovación\n• Integridad\n• Compromiso con el cliente'
+        },
+        'problema_conexion': {
+          type: 'text_with_buttons',
+          message: '🌐 Problemas de Conexión\n\nVamos a ayudarte paso a paso. ¿Cuál es tu situación?',
+          buttons: [
+            { id: 'sin_internet', title: '❌ Sin Internet' },
+            { id: 'internet_lento', title: '🐌 Internet Lento' },
+            { id: 'wifi_problemas', title: '📶 Problemas WiFi' }
+          ]
+        }
       }
     };
 
@@ -346,6 +440,26 @@ async function getListResponse(optionId) {
   }
 }
 
+async function getSubmenu(submenuId) {
+  try {
+    const config = await loadConfig();
+    return config.submenus[submenuId] || null;
+  } catch (error) {
+    console.error('Error obteniendo submenú:', error);
+    return null;
+  }
+}
+
+async function getSubmenuResponse(optionId) {
+  try {
+    const config = await loadConfig();
+    return config.submenuResponses[optionId] || null;
+  } catch (error) {
+    console.error('Error obteniendo respuesta de submenú:', error);
+    return null;
+  }
+}
+
 async function incrementMessageCount() {
   try {
     const stats = await loadStats();
@@ -377,6 +491,8 @@ module.exports = {
   getBotResponse,
   getBotList,
   getListResponse,
+  getSubmenu,
+  getSubmenuResponse,
   incrementMessageCount,
   updateUniqueUsers,
   loadConfig,
