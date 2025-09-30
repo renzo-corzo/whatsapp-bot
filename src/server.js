@@ -263,7 +263,12 @@ async function handleInteractiveMessage(message, from) {
     }
     
     if (response) {
-      console.log(`✅ Respuesta configurada encontrada para: ${selectedId}`, response);
+      console.log(`✅ Respuesta configurada encontrada para: ${selectedId}`);
+      console.log(`📋 Tipo de respuesta: ${response.type}`);
+      console.log(`💬 Mensaje: ${response.message?.substring(0, 50)}...`);
+      if (response.submenu) {
+        console.log(`🔗 Submenú vinculado: ${response.submenu}`);
+      }
       await handleComplexResponse(currentClient, formattedNumber, response);
     } else {
       // Respuesta por defecto si no se encuentra configuración
@@ -328,15 +333,23 @@ async function handleComplexResponse(client, to, response) {
         break;
 
       case 'text_with_submenu':
+        console.log(`🔧 Enviando mensaje de submenú para: ${response.submenu}`);
         await client.sendText(to, response.message);
         setTimeout(async () => {
           try {
+            console.log(`🔍 Buscando submenú: ${response.submenu}`);
             const submenu = await getSubmenu(response.submenu);
+            console.log(`📋 Submenú encontrado:`, submenu ? 'SÍ' : 'NO');
             if (submenu) {
+              console.log(`📤 Enviando submenú con ${submenu.sections?.length || 0} secciones`);
               await client.sendListFromConfig(to, submenu);
+              console.log(`✅ Submenú enviado exitosamente`);
+            } else {
+              console.log(`❌ Submenú no encontrado: ${response.submenu}`);
+              await client.sendText(to, 'Escribe "menu" para ver las opciones disponibles.');
             }
           } catch (error) {
-            console.error('Error enviando submenú:', error);
+            console.error('❌ Error enviando submenú:', error);
             await client.sendText(to, 'Escribe "menu" para ver las opciones disponibles.');
           }
         }, 1500);
