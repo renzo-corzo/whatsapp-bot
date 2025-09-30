@@ -543,6 +543,7 @@ app.listen(PORT, () => {
   console.log('   - VERIFY_TOKEN:', process.env.VERIFY_TOKEN ? '✅ Configurada' : '❌ Faltante');
   console.log('   - PHONE_NUMBER_ID:', process.env.PHONE_NUMBER_ID ? '✅ Configurada' : '❌ Faltante');
   console.log('📖 Usa "npm run dev" para desarrollo con auto-reload');
+  console.log('🔄 Deploy forzado - Debugging submenús automáticos');
 });
 
 // Manejo de errores no capturados
