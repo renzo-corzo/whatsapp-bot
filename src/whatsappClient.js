@@ -55,8 +55,17 @@ class WhatsAppClient {
    * @returns {Promise<Object>} Respuesta de la API
    */
   async sendListMessage({ to, header, body, footer, buttonText, sections }) {
+    console.log(`🔧 sendListMessage recibió:`, {
+      to: to,
+      header: header,
+      body: body?.substring(0, 50) + '...',
+      sectionsCount: sections?.length || 0,
+      sectionsType: Array.isArray(sections) ? 'ARRAY' : typeof sections
+    });
+    
     // Validar que las secciones tengan el formato correcto
     if (!sections || !Array.isArray(sections) || sections.length === 0) {
+      console.log(`❌ Validación falló:`, { sections, isArray: Array.isArray(sections), length: sections?.length });
       throw new Error('Se requiere al menos una sección con opciones');
     }
 
@@ -317,14 +326,14 @@ class WhatsAppClient {
     const { title, description, sections } = submenuConfig;
     console.log(`📤 Enviando lista: ${title} con ${sections.length} secciones`);
     
-    return await this.sendListMessage(
-      to,
-      description || title || "Selecciona una opción:",
-      sections,
-      title || null,
-      null,
-      "Ver opciones"
-    );
+    return await this.sendListMessage({
+      to: to,
+      header: title || null,
+      body: description || title || "Selecciona una opción:",
+      footer: null,
+      buttonText: "Ver opciones",
+      sections: sections
+    });
   }
 }
 
