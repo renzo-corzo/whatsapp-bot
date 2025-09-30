@@ -1386,7 +1386,52 @@ function addButtonConfig() {
 }
 
 // Guardar configuración de respuesta
-async function saveResponseConfig() {
+async function updateResponseFields() {
+    const responseType = document.getElementById('responseTypeSelect').value;
+    
+    // Ocultar todos los campos específicos
+    document.getElementById('urlFields').style.display = 'none';
+    document.getElementById('buttonFields').style.display = 'none';
+    document.getElementById('submenuFields').style.display = 'none';
+    
+    // Mostrar campos según el tipo seleccionado
+    switch(responseType) {
+        case 'text_with_url':
+            document.getElementById('urlFields').style.display = 'block';
+            break;
+        case 'text_with_buttons':
+            document.getElementById('buttonFields').style.display = 'block';
+            break;
+        case 'text_with_submenu':
+            document.getElementById('submenuFields').style.display = 'block';
+            loadSubmenuOptions(); // Cargar lista de submenús disponibles
+            break;
+    }
+}
+
+function loadSubmenuOptions() {
+    const submenuSelect = document.getElementById('responseSubmenu');
+    submenuSelect.innerHTML = '<option value="">Seleccionar submenú...</option>';
+    
+    // Cargar submenús disponibles
+    fetch('/api/config')
+        .then(response => response.json())
+        .then(data => {
+            if (data.submenus) {
+                Object.keys(data.submenus).forEach(submenuId => {
+                    const option = document.createElement('option');
+                    option.value = submenuId;
+                    option.textContent = `${submenuId} - ${data.submenus[submenuId].title}`;
+                    submenuSelect.appendChild(option);
+                });
+            }
+        })
+        .catch(error => {
+            console.error('Error cargando submenús:', error);
+        });
+}
+
+function saveResponseConfig() {
     const optionId = document.getElementById('responseOptionId').value;
     const type = document.getElementById('responseTypeSelect').value;
     const message = document.getElementById('responseMessage').value.trim();
