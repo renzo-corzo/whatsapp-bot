@@ -341,6 +341,11 @@ async function handleComplexResponse(client, to, response) {
             const submenu = await getSubmenu(response.submenu);
             console.log(`📋 Submenú encontrado:`, submenu ? 'SÍ' : 'NO');
             if (submenu) {
+              console.log(`📋 Submenú título: ${submenu.title}`);
+              console.log(`📋 Submenú descripción: ${submenu.description}`);
+              console.log(`📋 Submenú secciones: ${JSON.stringify(submenu.sections?.map(s => s.title))}`);
+            }
+            if (submenu) {
               console.log(`📤 Enviando submenú con ${submenu.sections?.length || 0} secciones`);
               await client.sendListFromConfig(to, submenu);
               console.log(`✅ Submenú enviado exitosamente`);
@@ -543,7 +548,7 @@ app.listen(PORT, () => {
   console.log('   - VERIFY_TOKEN:', process.env.VERIFY_TOKEN ? '✅ Configurada' : '❌ Faltante');
   console.log('   - PHONE_NUMBER_ID:', process.env.PHONE_NUMBER_ID ? '✅ Configurada' : '❌ Faltante');
   console.log('📖 Usa "npm run dev" para desarrollo con auto-reload');
-  console.log('🔄 Deploy forzado - Debugging submenús automáticos');
+  console.log('🔄 Deploy forzado - Debugging submenús automáticos v2');
 });
 
 // Manejo de errores no capturados
