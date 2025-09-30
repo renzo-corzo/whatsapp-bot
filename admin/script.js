@@ -214,10 +214,21 @@ function loadLists() {
     const container = document.getElementById('listsContainer');
     container.innerHTML = '';
 
-    Object.entries(botConfig.lists).forEach(([listId, listConfig]) => {
-        const listCard = createListCard(listId, listConfig);
-        container.appendChild(listCard);
-    });
+    // Cargar listas principales
+    if (botConfig.lists) {
+        Object.entries(botConfig.lists).forEach(([listId, listConfig]) => {
+            const listCard = createListCard(listId, listConfig);
+            container.appendChild(listCard);
+        });
+    }
+
+    // Cargar submenús
+    if (botConfig.submenus) {
+        Object.entries(botConfig.submenus).forEach(([submenuId, submenuConfig]) => {
+            const submenuCard = createSubmenuCard(submenuId, submenuConfig);
+            container.appendChild(submenuCard);
+        });
+    }
 }
 
 // Crear tarjeta de lista
@@ -249,6 +260,43 @@ function createListCard(listId, listConfig) {
             </div>
         </div>
         <p><strong>Descripción:</strong> ${listConfig.description}</p>
+        <div class="list-items">
+            ${itemsHtml}
+        </div>
+    `;
+    return div;
+}
+
+// Crear tarjeta para submenús
+function createSubmenuCard(submenuId, submenuConfig) {
+    const div = document.createElement('div');
+    div.className = 'list-card';
+    div.style.borderLeft = '4px solid #17a2b8';
+    
+    const itemsHtml = submenuConfig.sections.map(section => 
+        section.rows.map(row => `
+            <div class="list-item" style="display: flex; justify-content: space-between; align-items: center; padding: 8px; border-bottom: 1px solid #eee;">
+                <span>${row.title}</span>
+                <button class="btn btn-sm btn-info" onclick="editSubmenuResponse('${row.id}')" style="padding: 4px 8px; font-size: 0.8rem;">
+                    <i class="fas fa-comment"></i> Respuesta
+                </button>
+            </div>
+        `).join('')
+    ).join('');
+
+    div.innerHTML = `
+        <div class="list-header">
+            <div class="list-title">🔗 ${submenuConfig.title} <small>(Submenú)</small></div>
+            <div class="response-actions">
+                <button class="btn btn-sm btn-info" onclick="editSubmenu('${submenuId}')">
+                    <i class="fas fa-edit"></i> Submenú
+                </button>
+                <button class="btn btn-sm btn-warning" onclick="deleteSubmenu('${submenuId}')">
+                    <i class="fas fa-trash"></i>
+                </button>
+            </div>
+        </div>
+        <p><strong>Descripción:</strong> ${submenuConfig.description}</p>
         <div class="list-items">
             ${itemsHtml}
         </div>
@@ -811,6 +859,16 @@ async function saveList() {
 
 // Editar respuesta de opción de lista
 async function editListResponse(optionId) {
+    await editResponseForOption(optionId, 'listResponses');
+}
+
+// Editar respuesta de opción de submenú
+async function editSubmenuResponse(optionId) {
+    await editResponseForOption(optionId, 'submenuResponses');
+}
+
+// Función genérica para editar respuestas
+async function editResponseForOption(optionId, responseType) {
     // Cargar configuración actual
     try {
         const response = await fetch('/api/config');
@@ -821,23 +879,30 @@ async function editListResponse(optionId) {
         console.error('Error cargando configuración:', error);
     }
 
-    const currentResponse = botConfig.listResponses?.[optionId] || '';
+    const currentResponse = botConfig[responseType]?.[optionId] || '';
+    const displayResponse = typeof currentResponse === 'string' 
+        ? currentResponse 
+        : JSON.stringify(currentResponse, null, 2);
     
     const newResponse = prompt(
         `Editar respuesta para la opción "${optionId}"\n\n` +
         `Cuando un usuario seleccione esta opción, el bot responderá:\n\n` +
-        `Respuesta actual:\n${currentResponse}\n\n` +
-        `Nueva respuesta:`,
-        currentResponse
+        `Respuesta actual:\n${displayResponse}\n\n` +
+        `Nueva respuesta (texto simple):`,
+        typeof currentResponse === 'string' ? currentResponse : currentResponse.message || ''
     );
 
     if (newResponse !== null && newResponse.trim() !== '') {
-        // Asegurar que existe el objeto listResponses
-        if (!botConfig.listResponses) {
-            botConfig.listResponses = {};
+        // Asegurar que existe el objeto
+        if (!botConfig[responseType]) {
+            botConfig[responseType] = {};
         }
         
-        botConfig.listResponses[optionId] = newResponse.trim();
+        // Guardar como texto simple por ahora
+        botConfig[responseType][optionId] = {
+            type: 'text',
+            message: newResponse.trim()
+        };
 
         try {
             const saveResponse = await fetch('/api/config', {
@@ -857,6 +922,47 @@ async function editListResponse(optionId) {
             console.error('Error:', error);
             showToast('Error guardando respuesta', 'error');
         }
+    }
+}
+
+// Funciones para manejar submenús
+function editSubmenu(submenuId) {
+    showToast('Editor de submenús en desarrollo. Por ahora puedes editar las respuestas individuales.', 'info');
+}
+
+function deleteSubmenu(submenuId) {
+    if (!confirm(`¿Estás seguro de eliminar el submenú "${submenuId}"?`)) return;
+    
+    if (botConfig.submenus && botConfig.submenus[submenuId]) {
+        delete botConfig.submenus[submenuId];
+        
+        // También eliminar las respuestas asociadas
+        if (botConfig.submenuResponses) {
+            const submenu = botConfig.submenus[submenuId];
+            if (submenu && submenu.sections) {
+                submenu.sections.forEach(section => {
+                    section.rows.forEach(row => {
+                        delete botConfig.submenuResponses[row.id];
+                    });
+                });
+            }
+        }
+        
+        // Guardar cambios
+        fetch('/api/config', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(botConfig)
+        }).then(response => {
+            if (response.ok) {
+                showToast('Submenú eliminado correctamente', 'success');
+                loadLists();
+            } else {
+                showToast('Error eliminando submenú', 'error');
+            }
+        });
     }
 }
 
