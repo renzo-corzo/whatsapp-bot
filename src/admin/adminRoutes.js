@@ -44,12 +44,14 @@ async function loadConfig() {
           followUp: 'demo_list'
         },
         'menu': {
-          type: 'list',
-          message: 'demo_list'
+          type: 'text',
+          message: '📋 Aquí tienes el menú principal:',
+          followUp: 'demo_list'
         },
         'opciones': {
-          type: 'list',
-          message: 'demo_list'
+          type: 'text',
+          message: '📋 Aquí tienes las opciones disponibles:',
+          followUp: 'demo_list'
         }
       },
       lists: {
@@ -203,28 +205,28 @@ async function loadConfig() {
         },
         
         'soporte_submenu': {
-          title: '🔧 Tipos de Soporte',
-          description: '¿Qué tipo de ayuda necesitas?',
+          title: 'Tipos de Soporte',
+          description: 'Que tipo de ayuda necesitas?',
           sections: [
             {
-              title: 'Soporte Técnico',
+              title: 'Soporte Tecnico',
               rows: [
-                { id: 'problema_conexion', title: '🌐 Problemas de Conexión', description: 'Internet, WiFi, red' },
-                { id: 'problema_software', title: '💻 Problemas de Software', description: 'Aplicaciones, programas' },
-                { id: 'problema_hardware', title: '🔧 Problemas de Hardware', description: 'Equipos, dispositivos' }
+                { id: 'problema_conexion', title: 'Problemas de Conexion', description: 'Internet, WiFi, red' },
+                { id: 'problema_software', title: 'Problemas de Software', description: 'Aplicaciones, programas' },
+                { id: 'problema_hardware', title: 'Problemas de Hardware', description: 'Equipos, dispositivos' }
               ]
             },
             {
               title: 'Soporte Comercial',
               rows: [
-                { id: 'cambio_plan', title: '📈 Cambiar Plan', description: 'Upgrade o downgrade' },
-                { id: 'facturacion', title: '🧾 Consultas de Facturación', description: 'Facturas, pagos' }
+                { id: 'cambio_plan', title: 'Cambiar Plan', description: 'Upgrade o downgrade' },
+                { id: 'facturacion', title: 'Consultas de Facturacion', description: 'Facturas, pagos' }
               ]
             },
             {
-              title: 'Navegación',
+              title: 'Navegacion',
               rows: [
-                { id: 'volver_menu_principal', title: '🔙 Volver al Menú Principal', description: 'Regresar al inicio' }
+                { id: 'volver_menu_principal', title: 'Volver al Menu Principal', description: 'Regresar al inicio' }
               ]
             }
           ]
