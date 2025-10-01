@@ -367,6 +367,29 @@ async function handleComplexResponse(client, to, response) {
         // Fallback para tipos no reconocidos
         await client.sendText(to, response.message || 'Respuesta no disponible');
     }
+
+    // Procesar followUp si existe (después de enviar el mensaje principal)
+    if (response.followUp) {
+      console.log(`🔄 Procesando followUp: ${response.followUp}`);
+      setTimeout(async () => {
+        try {
+          console.log(`🔍 Buscando lista para followUp: ${response.followUp}`);
+          const listData = await getBotList(response.followUp);
+          console.log(`📋 Lista encontrada para followUp:`, listData ? 'SÍ' : 'NO');
+          if (listData) {
+            console.log(`📋 Lista título: ${listData.title}`);
+            console.log(`📋 Lista secciones: ${listData.sections?.length || 0}`);
+            await client.sendListFromConfig(to, listData);
+            console.log(`✅ Lista de followUp enviada exitosamente`);
+          } else {
+            console.log(`❌ Lista no encontrada para followUp: ${response.followUp}`);
+          }
+        } catch (error) {
+          console.error('❌ Error procesando followUp:', error);
+        }
+      }, 1500);
+    }
+
   } catch (error) {
     console.error('Error en handleComplexResponse:', error);
     await client.sendText(to, 'Disculpa, hubo un error procesando tu solicitud.');
