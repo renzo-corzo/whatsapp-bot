@@ -1500,3 +1500,87 @@ async function saveResponseConfig() {
 
 // Actualización automática del estado cada 30 segundos
 setInterval(loadBotStatus, 30000);
+
+// Funciones para editar respuestas básicas
+function editBasicResponse(command) {
+    const response = botConfig.responses[command];
+    if (!response) return;
+    
+    document.getElementById('responseCommand').value = command;
+    document.getElementById('responseText').value = response.message || '';
+    document.getElementById('responseType').value = response.type || 'text';
+    document.getElementById('responseFollowUp').value = response.followUp || '';
+    
+    document.getElementById('modalTitle').textContent = 'Editar Respuesta';
+    document.getElementById('responseModal').style.display = 'flex';
+}
+
+async function saveBasicResponse() {
+    const command = document.getElementById('responseCommand').value.trim();
+    const message = document.getElementById('responseText').value.trim();
+    const type = document.getElementById('responseType').value;
+    const followUp = document.getElementById('responseFollowUp').value;
+    
+    if (!command || !message) {
+        showToast('Comando y respuesta son obligatorios', 'error');
+        return;
+    }
+    
+    const responseConfig = {
+        type: type,
+        message: message
+    };
+    
+    if (followUp) {
+        responseConfig.followUp = followUp;
+    }
+    
+    botConfig.responses[command] = responseConfig;
+    
+    try {
+        const response = await fetch('/api/responses', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(botConfig.responses)
+        });
+        
+        if (response.ok) {
+            showToast('Respuesta guardada correctamente', 'success');
+            document.getElementById('responseModal').style.display = 'none';
+            loadResponses();
+        } else {
+            throw new Error('Error guardando respuesta');
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        showToast('Error guardando respuesta', 'error');
+    }
+}
+
+// Función para cargar respuestas (si no existe)
+function loadResponses() {
+    // Esta función puede estar implementada en otro lugar
+    // Si no existe, se puede implementar aquí
+    console.log('Cargando respuestas...');
+}
+
+// Agregar event listeners para respuestas básicas
+document.addEventListener('DOMContentLoaded', function() {
+    // Event listeners para respuestas básicas
+    const saveBtn = document.getElementById('saveResponse');
+    const cancelBtn = document.getElementById('cancelModal');
+    const closeBtn = document.getElementById('closeModal');
+    
+    if (saveBtn) saveBtn.addEventListener('click', saveBasicResponse);
+    if (cancelBtn) cancelBtn.addEventListener('click', function() {
+        document.getElementById('responseModal').style.display = 'none';
+    });
+    if (closeBtn) closeBtn.addEventListener('click', function() {
+        document.getElementById('responseModal').style.display = 'none';
+    });
+    
+    // Hacer la función editBasicResponse global
+    window.editBasicResponse = editBasicResponse;
+});

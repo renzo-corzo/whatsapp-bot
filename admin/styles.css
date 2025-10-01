@@ -594,6 +594,14 @@ body {
     border-radius: 5px;
 }
 
+.form-help {
+    display: block;
+    margin-top: 5px;
+    font-size: 0.85em;
+    color: #6c757d;
+    font-style: italic;
+}
+
 .button-config input {
     flex: 1;
 }
