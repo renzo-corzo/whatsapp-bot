@@ -30,87 +30,92 @@ async function loadConfig() {
       responses: {
         'hola': {
           type: 'text',
-          message: '¡Hola! 👋 Bienvenido al bot de WhatsApp. Te voy a enviar un menú de opciones.',
+          message: '🏛️ ¡Hola! Bienvenido/a a la *Caja de Previsión y Seguridad Social de Abogados y Procuradores de Córdoba*.\n\n👋 Soy tu asistente virtual y estoy aquí para ayudarte con consultas sobre nuestros servicios.',
           followUp: 'demo_list'
         },
         'hello': {
           type: 'text',
-          message: '¡Hola! 👋 Bienvenido al bot de WhatsApp. Te voy a enviar un menú de opciones.',
+          message: '🏛️ ¡Hola! Bienvenido/a a la *Caja de Previsión y Seguridad Social de Abogados y Procuradores de Córdoba*.\n\n👋 Soy tu asistente virtual y estoy aquí para ayudarte con consultas sobre nuestros servicios.',
           followUp: 'demo_list'
         },
         'hi': {
           type: 'text',
-          message: '¡Hola! 👋 Bienvenido al bot de WhatsApp. Te voy a enviar un menú de opciones.',
+          message: '🏛️ ¡Hola! Bienvenido/a a la *Caja de Previsión y Seguridad Social de Abogados y Procuradores de Córdoba*.\n\n👋 Soy tu asistente virtual y estoy aquí para ayudarte con consultas sobre nuestros servicios.',
           followUp: 'demo_list'
         },
         'menu': {
           type: 'text',
-          message: '📋 Aquí tienes el menú principal:',
+          message: '📋 *Caja de Abogados - Córdoba*\n\nAquí tienes nuestro menú de servicios:',
           followUp: 'demo_list'
         },
         'opciones': {
           type: 'text',
-          message: '📋 Aquí tienes las opciones disponibles:',
+          message: '📋 *Caja de Abogados - Córdoba*\n\nAquí tienes las opciones disponibles:',
           followUp: 'demo_list'
         }
       },
       lists: {
         'demo_list': {
-          title: '📋 Menú Principal',
-          description: 'Selecciona una opción para continuar:',
+          title: '🏛️ Caja de Abogados - Córdoba',
+          description: 'Selecciona el servicio que necesitas:',
           sections: [
             {
-              title: 'Servicios',
+              title: '📋 Caja Previsional',
               rows: [
                 { 
-                  id: 'info_general', 
-                  title: '📍 Información General', 
-                  description: 'Conoce más sobre nosotros' 
+                  id: 'afiliacion_caja', 
+                  title: '📝 Afiliación', 
+                  description: 'Instructivo y requisitos de afiliación' 
+                },
+                { 
+                  id: 'calendario_pagos', 
+                  title: '📅 Calendario de Pagos', 
+                  description: 'Fechas de vencimiento y pagos' 
+                },
+                { 
+                  id: 'emision_boletas', 
+                  title: '🧾 Emisión de Boletas', 
+                  description: 'Generar boletas de pago' 
+                }
+              ]
+            },
+            {
+              title: '🏥 Servicio Médico',
+              rows: [
+                { 
+                  id: 'afiliacion_medica', 
+                  title: '🩺 Afiliación Médica', 
+                  description: 'Instructivo de afiliación al servicio médico' 
+                },
+                { 
+                  id: 'ordenes_medicas', 
+                  title: '📋 Órdenes Médicas', 
+                  description: 'Impresión y gestión de órdenes' 
+                },
+                { 
+                  id: 'consulta_prestadores', 
+                  title: '🏥 Prestadores', 
+                  description: 'Consultar médicos y farmacias' 
+                }
+              ]
+            },
+            {
+              title: '📞 Contacto y Soporte',
+              rows: [
+                { 
+                  id: 'info_contacto', 
+                  title: '📍 Información de Contacto', 
+                  description: 'Teléfonos y direcciones' 
+                },
+                { 
+                  id: 'horarios_atencion', 
+                  title: '🕐 Horarios de Atención', 
+                  description: 'Consulta nuestros horarios' 
                 },
                 { 
                   id: 'soporte_tecnico', 
                   title: '🔧 Soporte Técnico', 
-                  description: 'Ayuda técnica especializada' 
-                },
-                { 
-                  id: 'consulta_cuenta', 
-                  title: '👤 Consulta de Cuenta', 
-                  description: 'Información de tu cuenta' 
-                }
-              ]
-            },
-            {
-              title: 'Productos y Servicios',
-              rows: [
-                { 
-                  id: 'ver_catalogo', 
-                  title: '🛒 Ver Catálogo', 
-                  description: 'Productos disponibles' 
-                },
-                { 
-                  id: 'precios_planes', 
-                  title: '💰 Precios y Planes', 
-                  description: 'Tarifas actualizadas' 
-                },
-                { 
-                  id: 'hacer_pedido', 
-                  title: '📱 Hacer Pedido', 
-                  description: 'Contacto directo' 
-                }
-              ]
-            },
-            {
-              title: 'Contacto',
-              rows: [
-                { 
-                  id: 'horarios_atencion', 
-                  title: '🕐 Horarios de Atención', 
-                  description: 'Ver horarios disponibles' 
-                },
-                { 
-                  id: 'contactar_humano', 
-                  title: '👨‍💼 Hablar con Agente', 
-                  description: 'Conectar con persona real' 
+                  description: 'Ayuda con el sistema' 
                 }
               ]
             }
@@ -137,6 +142,38 @@ async function loadConfig() {
         'horarios_atencion': {
           type: 'text',
           message: '✅ Horarios de Atención.\n\n🕐 Nuestros horarios de atención son:\n• Lunes a Viernes: 8:00 AM - 6:00 PM\n• Sábados: 9:00 AM - 2:00 PM\n• Domingos: Cerrado\n\n⏰ Zona horaria: UTC-5'
+        },
+        'info_contacto': {
+          type: 'text',
+          message: '📍 *Caja de Previsión y Seguridad Social de Abogados y Procuradores de Córdoba*\n\n🏢 *Dirección:*\n27 de Abril 842, Córdoba, Argentina\n\n📞 *Teléfonos:*\n• Información General: 351 4235900 - int 185\n• Mesa de entrada: 351 4235900 – int 109\n• Contralor de Aportes: 351 5734543\n• Servicio médico (WhatsApp): 351 5284546\n\n📧 *Email:*\ninformacion@caja-abogados.com.ar\n\n🌐 *Web:*\nwww.caja-abogados.org.ar'
+        },
+        'afiliacion_caja': {
+          type: 'text_with_url',
+          message: '📝 *Afiliación a la Caja Previsional*\n\nPara iniciar el trámite de afiliación necesitas completar la documentación requerida.\n\n📋 *Documentación necesaria:*\n• Formulario de solicitud de Afiliación\n• Declaración jurada del art. 64\n• Documentos personales\n\nEnvía los archivos escaneados en formato PDF a:',
+          url: 'mailto:afiliaciones@caja-abogados.com.ar',
+          url_text: '📧 afiliaciones@caja-abogados.com.ar'
+        },
+        'calendario_pagos': {
+          type: 'text_with_url',
+          message: '📅 *Calendario de Pagos*\n\nConsulta las fechas de vencimiento de tus obligaciones y los calendarios de pago actualizados.\n\n💡 *Recordatorio:* Estar al día otorga numerosos beneficios.',
+          url: 'https://www.caja-abogados.org.ar/',
+          url_text: '🌐 Ver calendario completo'
+        },
+        'emision_boletas': {
+          type: 'text',
+          message: '🧾 *Emisión de Boletas*\n\nPuedes generar tus boletas de pago a través de nuestro sistema de autogestión online.\n\n💳 *Nuevas formas de pago disponibles:*\n• Pago en línea con tarjeta\n• Transferencia bancaria\n• Débito automático\n\n📱 Accede al sistema desde nuestra página web.'
+        },
+        'afiliacion_medica': {
+          type: 'text',
+          message: '🩺 *Afiliación al Servicio Médico*\n\n✅ *Beneficios de nuestro servicio:*\n• Atención personalizada\n• Amplia red de prestadores\n• Descuentos en medicamentos\n• Cobertura en tratamientos de alta complejidad\n\n📋 Para afiliarte, consulta los requisitos y formularios en nuestra web.'
+        },
+        'ordenes_medicas': {
+          type: 'text',
+          message: '📋 *Órdenes Médicas*\n\nPuedes imprimir tus órdenes médicas desde nuestro sistema de autogestión.\n\n📞 *Para autorizaciones médicas (solo WhatsApp):*\n351 5284546\n\n🕐 *Horario de atención:*\nLunes a viernes de 8:00 a 13:30'
+        },
+        'consulta_prestadores': {
+          type: 'text',
+          message: '🏥 *Consulta de Prestadores*\n\n🔍 En nuestro sistema puedes consultar:\n• Médicos por especialidad\n• Farmacias adheridas\n• Centros médicos\n• Laboratorios\n\n💊 *Vademecum disponible* para consulta de medicamentos con cobertura.'
         },
         'contactar_humano': {
           type: 'text_with_buttons',

@@ -602,6 +602,92 @@ body {
     font-style: italic;
 }
 
+/* Estilos profesionales para Caja de Abogados */
+.header {
+    background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 50%, #25D366 100%) !important;
+    color: white !important;
+    text-align: left !important;
+}
+
+.header-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+.header-logo {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.logo-icon {
+    background: rgba(255, 255, 255, 0.2);
+    padding: 1rem;
+    border-radius: 50%;
+    font-size: 2rem;
+    color: white;
+}
+
+.logo-text h1 {
+    margin: 0;
+    font-size: 1.8rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: white !important;
+    background: none !important;
+    -webkit-text-fill-color: white !important;
+}
+
+.logo-subtitle {
+    margin: 0.2rem 0 0 0;
+    font-size: 0.9rem;
+    opacity: 0.9;
+    font-weight: 300;
+    color: white;
+}
+
+.whatsapp-section {
+    text-align: right;
+}
+
+.whatsapp-section h2 {
+    margin: 0 0 0.3rem 0;
+    font-size: 1.5rem;
+    font-weight: 500;
+    color: white;
+}
+
+.whatsapp-section p {
+    margin: 0;
+    font-size: 1rem;
+    opacity: 0.9;
+    color: white;
+}
+
+@media (max-width: 768px) {
+    .header-logo {
+        flex-direction: column;
+        text-align: center;
+        gap: 1.5rem;
+    }
+    
+    .whatsapp-section {
+        text-align: center;
+    }
+    
+    .logo-text h1 {
+        font-size: 1.5rem;
+    }
+}
+
 .button-config input {
     flex: 1;
 }
