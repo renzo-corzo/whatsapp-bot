@@ -1562,16 +1562,29 @@ async function saveBasicResponse() {
 // Función para cargar respuestas
 async function loadResponses() {
     try {
-        const response = await fetch('/api/config');
-        const data = await response.json();
+        // Primero intentar cargar la configuración completa
+        let response = await fetch('/api/config');
+        let data;
         
-        if (data.responses) {
+        if (response.ok) {
+            data = await response.json();
+        } else {
+            // Si no funciona, usar configuración por defecto
+            console.log('No se pudo cargar configuración, usando valores por defecto');
+            data = { responses: {} };
+        }
+        
+        if (data && data.responses) {
             botConfig.responses = data.responses;
             displayResponses(data.responses);
+        } else {
+            // Mostrar mensaje de que no hay respuestas
+            displayResponses({});
         }
     } catch (error) {
         console.error('Error cargando respuestas:', error);
-        showToast('Error cargando respuestas', 'error');
+        // En caso de error, mostrar interfaz vacía
+        displayResponses({});
     }
 }
 
@@ -1590,16 +1603,22 @@ function displayResponses(responses) {
     // Mostrar cada respuesta
     Object.keys(responses).forEach(command => {
         const response = responses[command];
+        if (!response) return; // Saltar si la respuesta es undefined
+        
         const responseDiv = document.createElement('div');
         responseDiv.className = 'response-item';
         responseDiv.style.cssText = 'border: 1px solid #ddd; padding: 15px; margin: 10px 0; border-radius: 8px; background: #f8f9fa;';
         
+        const message = response.message || 'Sin mensaje';
+        const type = response.type || 'text';
+        const messagePreview = message.length > 100 ? message.substring(0, 100) + '...' : message;
+        
         responseDiv.innerHTML = `
-            <div style="display: flex; justify-content: between; align-items: center;">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
                 <div style="flex: 1;">
                     <h5 style="color: #28a745; margin: 0 0 5px 0;">${command}</h5>
-                    <p style="margin: 0 0 5px 0;"><strong>Tipo:</strong> ${response.type}</p>
-                    <p style="margin: 0 0 5px 0;"><strong>Mensaje:</strong> ${response.message?.substring(0, 100)}${response.message?.length > 100 ? '...' : ''}</p>
+                    <p style="margin: 0 0 5px 0;"><strong>Tipo:</strong> ${type}</p>
+                    <p style="margin: 0 0 5px 0;"><strong>Mensaje:</strong> ${messagePreview}</p>
                     ${response.followUp ? `<p style="margin: 0; color: #007bff;"><strong>Menú automático:</strong> ${response.followUp}</p>` : ''}
                 </div>
                 <div style="margin-left: 15px;">
