@@ -56,65 +56,65 @@ async function loadConfig() {
       },
       lists: {
         'demo_list': {
-          title: '🏛️ Caja de Abogados - Córdoba',
+          title: 'Caja de Abogados - Cordoba',
           description: 'Selecciona el servicio que necesitas:',
           sections: [
             {
-              title: '📋 Caja Previsional',
+              title: 'Caja Previsional',
               rows: [
                 { 
                   id: 'afiliacion_caja', 
-                  title: '📝 Afiliación', 
-                  description: 'Instructivo y requisitos de afiliación' 
+                  title: 'Afiliacion', 
+                  description: 'Instructivo y requisitos de afiliacion' 
                 },
                 { 
                   id: 'calendario_pagos', 
-                  title: '📅 Calendario de Pagos', 
+                  title: 'Calendario de Pagos', 
                   description: 'Fechas de vencimiento y pagos' 
                 },
                 { 
                   id: 'emision_boletas', 
-                  title: '🧾 Emisión de Boletas', 
+                  title: 'Emision de Boletas', 
                   description: 'Generar boletas de pago' 
                 }
               ]
             },
             {
-              title: '🏥 Servicio Médico',
+              title: 'Servicio Medico',
               rows: [
                 { 
                   id: 'afiliacion_medica', 
-                  title: '🩺 Afiliación Médica', 
-                  description: 'Instructivo de afiliación al servicio médico' 
+                  title: 'Afiliacion Medica', 
+                  description: 'Instructivo de afiliacion al servicio medico' 
                 },
                 { 
                   id: 'ordenes_medicas', 
-                  title: '📋 Órdenes Médicas', 
-                  description: 'Impresión y gestión de órdenes' 
+                  title: 'Ordenes Medicas', 
+                  description: 'Impresion y gestion de ordenes' 
                 },
                 { 
                   id: 'consulta_prestadores', 
-                  title: '🏥 Prestadores', 
-                  description: 'Consultar médicos y farmacias' 
+                  title: 'Prestadores', 
+                  description: 'Consultar medicos y farmacias' 
                 }
               ]
             },
             {
-              title: '📞 Contacto y Soporte',
+              title: 'Contacto y Soporte',
               rows: [
                 { 
                   id: 'info_contacto', 
-                  title: '📍 Información de Contacto', 
-                  description: 'Teléfonos y direcciones' 
+                  title: 'Informacion de Contacto', 
+                  description: 'Telefonos y direcciones' 
                 },
                 { 
                   id: 'horarios_atencion', 
-                  title: '🕐 Horarios de Atención', 
+                  title: 'Horarios de Atencion', 
                   description: 'Consulta nuestros horarios' 
                 },
                 { 
                   id: 'soporte_tecnico', 
-                  title: '🔧 Soporte Técnico', 
+                  title: 'Soporte Tecnico', 
                   description: 'Ayuda con el sistema' 
                 }
               ]
