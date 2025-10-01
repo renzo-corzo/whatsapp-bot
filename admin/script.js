@@ -1590,15 +1590,14 @@ async function loadResponses() {
 
 // Función para mostrar las respuestas en el portal
 function displayResponses(responses) {
-    const container = document.querySelector('#responses .card-body');
-    if (!container) return;
-    
-    // Limpiar contenido existente excepto el botón "Agregar Respuesta"
-    const addButton = container.querySelector('.btn-success');
-    container.innerHTML = '';
-    if (addButton) {
-        container.appendChild(addButton);
+    const container = document.querySelector('#responseTree');
+    if (!container) {
+        console.error('Contenedor #responseTree no encontrado');
+        return;
     }
+    
+    // Limpiar contenido existente
+    container.innerHTML = '';
     
     // Mostrar cada respuesta
     Object.keys(responses).forEach(command => {
@@ -1606,28 +1605,42 @@ function displayResponses(responses) {
         if (!response) return; // Saltar si la respuesta es undefined
         
         const responseDiv = document.createElement('div');
-        responseDiv.className = 'response-item';
-        responseDiv.style.cssText = 'border: 1px solid #ddd; padding: 15px; margin: 10px 0; border-radius: 8px; background: #f8f9fa;';
+        responseDiv.className = 'response-item card';
+        responseDiv.style.cssText = 'margin: 15px 0; border: 1px solid #e0e0e0; border-radius: 8px; background: #fff; box-shadow: 0 2px 4px rgba(0,0,0,0.1);';
         
         const message = response.message || 'Sin mensaje';
         const type = response.type || 'text';
         const messagePreview = message.length > 100 ? message.substring(0, 100) + '...' : message;
         
         responseDiv.innerHTML = `
-            <div style="display: flex; justify-content: space-between; align-items: center;">
-                <div style="flex: 1;">
-                    <h5 style="color: #28a745; margin: 0 0 5px 0;">${command}</h5>
-                    <p style="margin: 0 0 5px 0;"><strong>Tipo:</strong> ${type}</p>
-                    <p style="margin: 0 0 5px 0;"><strong>Mensaje:</strong> ${messagePreview}</p>
-                    ${response.followUp ? `<p style="margin: 0; color: #007bff;"><strong>Menú automático:</strong> ${response.followUp}</p>` : ''}
-                </div>
-                <div style="margin-left: 15px;">
-                    <button class="btn btn-sm btn-primary" onclick="editBasicResponse('${command}')" style="margin-right: 5px;">
-                        <i class="fas fa-edit"></i> Editar
-                    </button>
-                    <button class="btn btn-sm btn-danger" onclick="deleteResponse('${command}')">
-                        <i class="fas fa-trash"></i> Eliminar
-                    </button>
+            <div class="card-body">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                    <div style="flex: 1;">
+                        <h5 style="color: #28a745; margin: 0 0 10px 0; font-weight: 600;">
+                            <i class="fas fa-comment"></i> ${command}
+                        </h5>
+                        <div style="margin-bottom: 8px;">
+                            <span class="badge badge-info" style="background: #17a2b8; color: white; padding: 4px 8px; border-radius: 4px; font-size: 0.8em;">
+                                ${type}
+                            </span>
+                        </div>
+                        <p style="margin: 0 0 8px 0; color: #666; line-height: 1.4;">
+                            <strong>Mensaje:</strong> ${messagePreview}
+                        </p>
+                        ${response.followUp ? `
+                            <p style="margin: 0; color: #007bff; font-size: 0.9em;">
+                                <i class="fas fa-arrow-right"></i> <strong>Menú automático:</strong> ${response.followUp}
+                            </p>
+                        ` : ''}
+                    </div>
+                    <div style="margin-left: 15px; display: flex; flex-direction: column; gap: 5px;">
+                        <button class="btn btn-sm btn-primary" onclick="editBasicResponse('${command}')" title="Editar respuesta">
+                            <i class="fas fa-edit"></i> Editar
+                        </button>
+                        <button class="btn btn-sm btn-danger" onclick="deleteResponse('${command}')" title="Eliminar respuesta">
+                            <i class="fas fa-trash"></i> Eliminar
+                        </button>
+                    </div>
                 </div>
             </div>
         `;
@@ -1638,8 +1651,15 @@ function displayResponses(responses) {
     // Si no hay respuestas, mostrar mensaje
     if (Object.keys(responses).length === 0) {
         const emptyDiv = document.createElement('div');
-        emptyDiv.style.cssText = 'text-align: center; padding: 40px; color: #6c757d;';
-        emptyDiv.innerHTML = '<p>No hay respuestas configuradas. <br>Haz clic en "Agregar Respuesta" para crear una.</p>';
+        emptyDiv.className = 'card';
+        emptyDiv.style.cssText = 'text-align: center; padding: 40px; margin: 20px 0; background: #f8f9fa; border: 2px dashed #dee2e6;';
+        emptyDiv.innerHTML = `
+            <div style="color: #6c757d;">
+                <i class="fas fa-comments" style="font-size: 3em; margin-bottom: 15px; opacity: 0.5;"></i>
+                <h4 style="margin-bottom: 10px;">No hay respuestas configuradas</h4>
+                <p style="margin: 0;">Haz clic en "Agregar Respuesta" para crear tu primera respuesta automática.</p>
+            </div>
+        `;
         container.appendChild(emptyDiv);
     }
 }
