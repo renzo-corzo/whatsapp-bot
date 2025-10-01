@@ -1559,11 +1559,97 @@ async function saveBasicResponse() {
     }
 }
 
-// Función para cargar respuestas (si no existe)
-function loadResponses() {
-    // Esta función puede estar implementada en otro lugar
-    // Si no existe, se puede implementar aquí
-    console.log('Cargando respuestas...');
+// Función para cargar respuestas
+async function loadResponses() {
+    try {
+        const response = await fetch('/api/config');
+        const data = await response.json();
+        
+        if (data.responses) {
+            botConfig.responses = data.responses;
+            displayResponses(data.responses);
+        }
+    } catch (error) {
+        console.error('Error cargando respuestas:', error);
+        showToast('Error cargando respuestas', 'error');
+    }
+}
+
+// Función para mostrar las respuestas en el portal
+function displayResponses(responses) {
+    const container = document.querySelector('#responses .card-body');
+    if (!container) return;
+    
+    // Limpiar contenido existente excepto el botón "Agregar Respuesta"
+    const addButton = container.querySelector('.btn-success');
+    container.innerHTML = '';
+    if (addButton) {
+        container.appendChild(addButton);
+    }
+    
+    // Mostrar cada respuesta
+    Object.keys(responses).forEach(command => {
+        const response = responses[command];
+        const responseDiv = document.createElement('div');
+        responseDiv.className = 'response-item';
+        responseDiv.style.cssText = 'border: 1px solid #ddd; padding: 15px; margin: 10px 0; border-radius: 8px; background: #f8f9fa;';
+        
+        responseDiv.innerHTML = `
+            <div style="display: flex; justify-content: between; align-items: center;">
+                <div style="flex: 1;">
+                    <h5 style="color: #28a745; margin: 0 0 5px 0;">${command}</h5>
+                    <p style="margin: 0 0 5px 0;"><strong>Tipo:</strong> ${response.type}</p>
+                    <p style="margin: 0 0 5px 0;"><strong>Mensaje:</strong> ${response.message?.substring(0, 100)}${response.message?.length > 100 ? '...' : ''}</p>
+                    ${response.followUp ? `<p style="margin: 0; color: #007bff;"><strong>Menú automático:</strong> ${response.followUp}</p>` : ''}
+                </div>
+                <div style="margin-left: 15px;">
+                    <button class="btn btn-sm btn-primary" onclick="editBasicResponse('${command}')" style="margin-right: 5px;">
+                        <i class="fas fa-edit"></i> Editar
+                    </button>
+                    <button class="btn btn-sm btn-danger" onclick="deleteResponse('${command}')">
+                        <i class="fas fa-trash"></i> Eliminar
+                    </button>
+                </div>
+            </div>
+        `;
+        
+        container.appendChild(responseDiv);
+    });
+    
+    // Si no hay respuestas, mostrar mensaje
+    if (Object.keys(responses).length === 0) {
+        const emptyDiv = document.createElement('div');
+        emptyDiv.style.cssText = 'text-align: center; padding: 40px; color: #6c757d;';
+        emptyDiv.innerHTML = '<p>No hay respuestas configuradas. <br>Haz clic en "Agregar Respuesta" para crear una.</p>';
+        container.appendChild(emptyDiv);
+    }
+}
+
+// Función para eliminar respuesta
+async function deleteResponse(command) {
+    if (!confirm(`¿Estás seguro de eliminar la respuesta "${command}"?`)) return;
+    
+    delete botConfig.responses[command];
+    
+    try {
+        const response = await fetch('/api/responses', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(botConfig.responses)
+        });
+        
+        if (response.ok) {
+            showToast('Respuesta eliminada correctamente', 'success');
+            loadResponses();
+        } else {
+            throw new Error('Error eliminando respuesta');
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        showToast('Error eliminando respuesta', 'error');
+    }
 }
 
 // Agregar event listeners para respuestas básicas
@@ -1581,6 +1667,10 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('responseModal').style.display = 'none';
     });
     
-    // Hacer la función editBasicResponse global
+    // Hacer las funciones globales
     window.editBasicResponse = editBasicResponse;
+    window.deleteResponse = deleteResponse;
+    
+    // Cargar respuestas al iniciar
+    loadResponses();
 });
