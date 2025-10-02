@@ -56,65 +56,65 @@ async function loadConfig() {
       },
       lists: {
         'demo_list': {
-          title: 'Servicio Medico',
+          title: '🏥 Servicio Medico',
           description: 'Selecciona una opcion:',
           sections: [
             {
-              title: 'Servicios Principales',
+              title: '🚨 Servicios Principales',
               rows: [
                 { 
                   id: 'urgencias_emergencias', 
-                  title: 'Urgencias', 
+                  title: '🆘 Urgencias', 
                   description: 'Atencion 24hs' 
                 },
                 { 
                   id: 'autorizaciones', 
-                  title: 'Autorizaciones', 
+                  title: '📋 Autorizaciones', 
                   description: 'Solicitar' 
                 },
                 { 
                   id: 'medicamentos', 
-                  title: 'Medicamentos', 
+                  title: '💊 Medicamentos', 
                   description: 'Cobertura' 
                 },
                 { 
                   id: 'reintegros', 
-                  title: 'Reintegros', 
+                  title: '💰 Reintegros', 
                   description: 'Tramites' 
                 }
               ]
             },
             {
-              title: 'Programas y Convenios',
+              title: '🏥 Programas y Convenios',
               rows: [
                 { 
                   id: 'programas', 
-                  title: 'Programas', 
+                  title: '🩺 Programas', 
                   description: 'Salud' 
                 },
                 { 
                   id: 'convenios_reciprocidad', 
-                  title: 'Convenios', 
+                  title: '🤝 Convenios', 
                   description: 'Reciprocidad' 
                 }
               ]
             },
             {
-              title: 'Informacion',
+              title: 'ℹ️ Informacion y Ayuda',
               rows: [
                 { 
                   id: 'preguntas_frecuentes', 
-                  title: 'Preguntas', 
+                  title: '❓ Preguntas', 
                   description: 'FAQ' 
                 },
                 { 
                   id: 'asistencia_prestadores', 
-                  title: 'Prestadores', 
+                  title: '👨‍⚕️ Prestadores', 
                   description: 'Soporte' 
                 },
                 { 
                   id: 'afiliacion', 
-                  title: 'Afiliacion', 
+                  title: '📝 Afiliacion', 
                   description: 'Info' 
                 }
               ]
