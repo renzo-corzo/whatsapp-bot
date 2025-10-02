@@ -213,22 +213,34 @@ async function handleTextMessage(message, from) {
     
     // Si tiene follow-up, enviarlo después de un delay
     if (botResponse.followUp) {
+      console.log(`🔄 INICIANDO FOLLOWUP PARA: ${botResponse.followUp}`);
       setTimeout(async () => {
-        console.log(`🔍 Procesando followUp: ${botResponse.followUp}`);
-        const listData = await getBotList(botResponse.followUp);
-        console.log(`📋 Lista encontrada:`, listData ? 'SÍ' : 'NO');
-        if (listData) {
-          console.log(`📋 Lista título: ${listData.title}`);
-          console.log(`📋 Lista secciones: ${listData.sections?.length || 0}`);
-          if (listData.sections && listData.sections.length > 0) {
-            console.log(`📋 Primera sección: ${JSON.stringify(listData.sections[0])}`);
+        try {
+          console.log(`🔍 Procesando followUp: ${botResponse.followUp}`);
+          const listData = await getBotList(botResponse.followUp);
+          console.log(`📋 Lista encontrada:`, listData ? 'SÍ' : 'NO');
+          
+          if (listData) {
+            console.log(`📋 Lista completa:`, JSON.stringify(listData, null, 2));
+            console.log(`📋 Lista título: ${listData.title}`);
+            console.log(`📋 Lista secciones: ${listData.sections?.length || 0}`);
+            
+            if (listData.sections && listData.sections.length > 0) {
+              console.log(`📋 Primera sección: ${JSON.stringify(listData.sections[0])}`);
+            }
+            
+            console.log(`📤 Enviando lista a: ${formattedNumber}`);
+            await currentClient.sendListFromConfig(formattedNumber, listData);
+            console.log(`✅ Lista enviada correctamente`);
+          } else {
+            console.log(`❌ Lista no encontrada: ${botResponse.followUp}`);
           }
-          await currentClient.sendListFromConfig(formattedNumber, listData);
-          console.log(`✅ Lista enviada correctamente`);
-        } else {
-          console.log(`❌ Lista no encontrada: ${botResponse.followUp}`);
+        } catch (error) {
+          console.error(`❌ Error en followUp:`, error);
         }
       }, 1500);
+    } else {
+      console.log(`ℹ️ No hay followUp configurado para esta respuesta`);
     }
     
   } else {

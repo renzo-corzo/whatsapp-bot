@@ -300,41 +300,7 @@ class WhatsAppClient {
     return await this.sendText(to, fullMessage);
   }
 
-  /**
-   * Envía una lista interactiva desde configuración de submenú
-   * @param {string} to - Número de teléfono del destinatario
-   * @param {Object} submenuConfig - Configuración del submenú
-   * @returns {Promise<Object>} Respuesta de la API
-   */
-  async sendListFromConfig(to, submenuConfig) {
-    console.log(`🔧 sendListFromConfig llamada con:`, submenuConfig ? 'CONFIG VÁLIDA' : 'CONFIG NULA');
-    
-    if (!submenuConfig) {
-      throw new Error('Configuración de submenú es nula');
-    }
-    
-    if (!submenuConfig.sections) {
-      console.log(`❌ submenuConfig.sections es:`, submenuConfig.sections);
-      throw new Error('Configuración de submenú no tiene secciones');
-    }
-    
-    if (!Array.isArray(submenuConfig.sections) || submenuConfig.sections.length === 0) {
-      console.log(`❌ Secciones inválidas:`, submenuConfig.sections);
-      throw new Error('Las secciones deben ser un array no vacío');
-    }
-
-    const { title, description, sections } = submenuConfig;
-    console.log(`📤 Enviando lista: ${title} con ${sections.length} secciones`);
-    
-    return await this.sendListMessage({
-      to: to,
-      header: title || null,
-      body: description || title || "Selecciona una opción:",
-      footer: null,
-      buttonText: "Ver opciones",
-      sections: sections
-    });
-  }
+  // Función duplicada eliminada - se mantiene la primera versión
 }
 
 module.exports = WhatsAppClient;
