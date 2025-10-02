@@ -1735,8 +1735,24 @@ function openLinkMenuModal(optionId, optionTitle, optionDescription) {
     // Cargar submenús disponibles
     loadAvailableSubmenus();
     
-    // Mostrar modal
-    document.getElementById('linkMenuModal').style.display = 'block';
+    // Cerrar otros modales primero
+    const allModals = document.querySelectorAll('.modal');
+    allModals.forEach(modal => {
+        if (modal.id !== 'linkMenuModal') {
+            modal.style.display = 'none';
+        }
+    });
+    
+    // Mostrar modal con máxima prioridad
+    const modal = document.getElementById('linkMenuModal');
+    modal.style.display = 'flex';
+    modal.style.zIndex = '10000';
+    
+    // Asegurar que esté por encima de todo
+    setTimeout(() => {
+        modal.scrollTop = 0;
+        modal.focus();
+    }, 100);
 }
 
 // Cerrar modal de vinculación

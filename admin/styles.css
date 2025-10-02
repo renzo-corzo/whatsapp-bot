@@ -394,7 +394,7 @@ body {
     height: 100%;
     background: rgba(0, 0, 0, 0.5);
     backdrop-filter: blur(5px);
-    z-index: 1000;
+    z-index: 9999;
     align-items: center;
     justify-content: center;
 }
@@ -692,7 +692,38 @@ body {
     flex: 1;
 }
 
-/* Modal de Vinculación de Menús */
+/* Modal de Vinculación de Menús - Prioridad máxima */
+#linkMenuModal {
+    z-index: 10000 !important;
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6) !important;
+    backdrop-filter: blur(5px);
+    align-items: center;
+    justify-content: center;
+}
+
+#linkMenuModal.show,
+#linkMenuModal[style*="block"] {
+    display: flex !important;
+}
+
+#linkMenuModal .modal-content {
+    z-index: 10001 !important;
+    position: relative;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    max-width: 800px;
+    width: 90%;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
 .link-info {
     display: flex;
     align-items: flex-start;
