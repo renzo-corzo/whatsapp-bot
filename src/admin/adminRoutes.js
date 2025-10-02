@@ -57,65 +57,65 @@ async function loadConfig() {
       lists: {
         'demo_list': {
           title: 'Servicio Medico',
-          description: 'Selecciona el servicio que necesitas:',
+          description: 'Selecciona una opcion:',
           sections: [
             {
-              title: '🚨 Urgencias',
+              title: 'Servicios Principales',
               rows: [
                 { 
                   id: 'urgencias_emergencias', 
-                  title: '🆘 Urgencias', 
-                  description: 'Atencion medica 24hs' 
+                  title: 'Urgencias', 
+                  description: 'Atencion 24hs' 
                 },
                 { 
                   id: 'autorizaciones', 
-                  title: '📋 Autorizaciones', 
-                  description: 'Solicitar autorizaciones' 
+                  title: 'Autorizaciones', 
+                  description: 'Solicitar' 
                 },
                 { 
                   id: 'medicamentos', 
-                  title: '💊 Medicamentos', 
-                  description: 'Cobertura medicamentos' 
-                }
-              ]
-            },
-            {
-              title: '💰 Tramites',
-              rows: [
+                  title: 'Medicamentos', 
+                  description: 'Cobertura' 
+                },
                 { 
                   id: 'reintegros', 
-                  title: '💰 Reintegros', 
-                  description: 'Solicitar reintegros' 
-                },
-                { 
-                  id: 'programas', 
-                  title: '🩺 Programas', 
-                  description: 'Programas de salud' 
-                },
-                { 
-                  id: 'afiliacion', 
-                  title: '📝 Afiliacion', 
-                  description: 'Info afiliacion' 
+                  title: 'Reintegros', 
+                  description: 'Tramites' 
                 }
               ]
             },
             {
-              title: 'ℹ️ Ayuda',
+              title: 'Programas y Convenios',
+              rows: [
+                { 
+                  id: 'programas', 
+                  title: 'Programas', 
+                  description: 'Salud' 
+                },
+                { 
+                  id: 'convenios_reciprocidad', 
+                  title: 'Convenios', 
+                  description: 'Reciprocidad' 
+                }
+              ]
+            },
+            {
+              title: 'Informacion',
               rows: [
                 { 
                   id: 'preguntas_frecuentes', 
-                  title: '❓ Preguntas', 
-                  description: 'Consultas comunes' 
+                  title: 'Preguntas', 
+                  description: 'FAQ' 
                 },
                 { 
                   id: 'asistencia_prestadores', 
-                  title: '👨‍⚕️ Prestadores', 
-                  description: 'Soporte profesionales' 
+                  title: 'Prestadores', 
+                  description: 'Soporte' 
                 },
                 { 
-                  id: 'info_contacto', 
-                  title: '📞 Contacto', 
-                  description: 'Telefonos y direcciones' 
+                  id: 'afiliacion', 
+                  title: 'Afiliacion', 
+                  description: 'Info' 
                 }
               ]
             }

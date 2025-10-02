@@ -237,21 +237,12 @@ async function handleTextMessage(message, from) {
               console.log(`✅ Lista enviada correctamente`);
             } catch (listError) {
               console.error(`❌ Error enviando lista:`, listError);
-              // Fallback: enviar mensaje simple
+              console.error(`❌ Detalles del error:`, JSON.stringify(listError.response?.data || listError.message));
+              // Intentar enviar mensaje simple indicando el problema
               await currentClient.sendText(formattedNumber, 
-                '📋 Menú de servicios:\n\n' +
-                '1️⃣ Urgencias Emergencias\n' +
-                '2️⃣ Autorizaciones\n' +
-                '3️⃣ Medicamentos\n' +
-                '4️⃣ Reintegros\n' +
-                '5️⃣ Programas\n' +
-                '6️⃣ Convenios de Reciprocidad\n' +
-                '7️⃣ Preguntas Frecuentes\n' +
-                '8️⃣ Asistencia a Prestadores\n' +
-                '9️⃣ Afiliación\n\n' +
-                'Escribe el número de la opción que necesitas.'
+                '⚠️ Hay un problema técnico con el menú interactivo.\n\n' +
+                'Por favor escribe "menu" para intentar nuevamente o contacta soporte.'
               );
-              console.log(`✅ Menú de fallback enviado`);
             }
           } else {
             console.log(`❌ Lista no encontrada: ${botResponse.followUp}`);
