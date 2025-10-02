@@ -241,9 +241,14 @@ function createListCard(listId, listConfig) {
         section.rows.map(row => `
             <div class="list-item" style="display: flex; justify-content: space-between; align-items: center; padding: 8px; border-bottom: 1px solid #eee;">
                 <span>${row.title}</span>
-                <button class="btn btn-sm btn-info" onclick="editListResponse('${row.id}')" style="padding: 4px 8px; font-size: 0.8rem;">
-                    <i class="fas fa-comment"></i> Respuesta
-                </button>
+                <div style="display: flex; gap: 5px;">
+                    <button class="btn btn-sm btn-info" onclick="editListResponse('${row.id}')" style="padding: 4px 8px; font-size: 0.8rem;">
+                        <i class="fas fa-comment"></i> Respuesta
+                    </button>
+                    <button class="btn btn-sm btn-primary" onclick="openLinkMenuModal('${row.id}', '${row.title}', '${row.description || ''}')" style="padding: 4px 8px; font-size: 0.8rem;">
+                        <i class="fas fa-link"></i> Vincular
+                    </button>
+                </div>
             </div>
         `).join('')
     ).join('');

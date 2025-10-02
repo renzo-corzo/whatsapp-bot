@@ -130,7 +130,7 @@ async function loadConfig() {
         },
         'soporte_tecnico': {
           type: 'text_with_submenu',
-          message: '✅ Soporte Técnico seleccionado.\n\n🔧 Nuestro equipo de soporte técnico está disponible para ayudarte.',
+          message: '🔧 *Soporte Técnico - Caja de Abogados*\n\n¿Qué tipo de ayuda necesitas? Selecciona una opción:',
           submenu: 'soporte_submenu'
         },
         'consulta_cuenta': {
