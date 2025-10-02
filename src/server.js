@@ -20,6 +20,14 @@ const PORT = process.env.PORT || 3000;
 app.use(morgan('combined')); // Logger
 app.use(express.json()); // Para parsear JSON
 
+// Servir archivos estáticos (incluyendo favicon)
+app.use(express.static('public'));
+
+// Ruta específica para favicon
+app.get('/favicon.ico', (req, res) => {
+  res.status(204).end(); // No Content - evita el error 404
+});
+
 // Rutas de administración
 app.use('/', createAdminRoutes());
 
