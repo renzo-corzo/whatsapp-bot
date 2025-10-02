@@ -1722,6 +1722,28 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Cargar respuestas al iniciar
     loadResponses();
+    
+    // Agregar funcionalidad de cerrar modales con ESC
+    document.addEventListener('keydown', function(event) {
+        if (event.key === 'Escape') {
+            // Cerrar todos los modales visibles
+            const visibleModals = document.querySelectorAll('.modal[style*="block"], .modal[style*="flex"]');
+            visibleModals.forEach(modal => {
+                modal.style.display = 'none';
+            });
+            
+            // Limpiar variables globales
+            if (typeof currentLinkingOption !== 'undefined') {
+                currentLinkingOption = null;
+            }
+            if (typeof currentEditingOption !== 'undefined') {
+                currentEditingOption = null;
+            }
+            if (typeof currentEditingList !== 'undefined') {
+                currentEditingList = null;
+            }
+        }
+    });
 });
 
 // ===== MODAL DE VINCULACIÓN DE MENÚS =====
@@ -1739,6 +1761,9 @@ function openLinkMenuModal(optionId, optionTitle, optionDescription) {
     
     // Cargar submenús disponibles
     loadAvailableSubmenus();
+    
+    // Pre-llenar mensaje por defecto
+    document.getElementById('linkTransitionMessage').value = `🔧 ${optionTitle} disponible.\n\n¿Qué opción necesitas?`;
     
     // Cerrar otros modales primero
     const allModals = document.querySelectorAll('.modal');
@@ -1826,17 +1851,23 @@ function updateSubmenuPreview() {
 // Guardar configuración de vinculación
 async function saveLinkConfiguration() {
     const submenuId = document.getElementById('linkTargetSubmenu').value;
-    const message = document.getElementById('linkTransitionMessage').value.trim();
+    let message = document.getElementById('linkTransitionMessage').value.trim();
     
     if (!submenuId) {
         showToast('Debes seleccionar un submenú', 'error');
         return;
     }
     
+    // Si no hay mensaje, usar uno por defecto
     if (!message) {
-        showToast('Debes escribir un mensaje de transición', 'error');
-        return;
+        message = '¿Qué opción necesitas?';
     }
+    
+    console.log('Guardando vinculación:', {
+        optionId: currentLinkingOption,
+        submenuId: submenuId,
+        message: message
+    });
     
     // Crear la configuración de respuesta
     const responseConfig = {
@@ -1854,6 +1885,8 @@ async function saveLinkConfiguration() {
     
     try {
         // Enviar al servidor
+        console.log('Enviando datos al servidor:', JSON.stringify(botConfig.listResponses, null, 2));
+        
         const response = await fetch('/api/responses', {
             method: 'POST',
             headers: {
@@ -1862,18 +1895,24 @@ async function saveLinkConfiguration() {
             body: JSON.stringify(botConfig.listResponses)
         });
         
+        console.log('Respuesta del servidor:', response.status, response.statusText);
+        
         if (response.ok) {
+            const result = await response.text();
+            console.log('Resultado:', result);
             showToast('Vinculación creada correctamente', 'success');
             closeLinkMenuModal();
             
             // Recargar listas para mostrar la vinculación
             loadLists();
         } else {
-            throw new Error('Error guardando vinculación');
+            const errorText = await response.text();
+            console.error('Error del servidor:', errorText);
+            throw new Error(`Error ${response.status}: ${errorText}`);
         }
     } catch (error) {
-        console.error('Error:', error);
-        showToast('Error creando vinculación', 'error');
+        console.error('Error completo:', error);
+        showToast(`Error creando vinculación: ${error.message}`, 'error');
     }
 }
 
