@@ -493,10 +493,10 @@ function createAdminRoutes() {
   router.get('/api/responses', async (req, res) => {
     try {
       const config = await loadConfig();
-      res.json(config.responses || {});
+      res.json(config.listResponses || {});
     } catch (error) {
-      console.error('Error cargando respuestas:', error);
-      res.status(500).json({ error: 'Error cargando respuestas' });
+      console.error('Error cargando respuestas de lista:', error);
+      res.status(500).json({ error: 'Error cargando respuestas de lista' });
     }
   });
 
@@ -504,12 +504,13 @@ function createAdminRoutes() {
   router.post('/api/responses', async (req, res) => {
     try {
       const config = await loadConfig();
-      config.responses = req.body;
+      config.listResponses = req.body;
       await saveConfig(config);
-      res.json({ success: true, message: 'Respuestas guardadas correctamente' });
+      console.log('✅ ListResponses guardadas:', JSON.stringify(req.body, null, 2));
+      res.json({ success: true, message: 'Respuestas de lista guardadas correctamente' });
     } catch (error) {
-      console.error('Error guardando respuestas:', error);
-      res.status(500).json({ error: 'Error guardando respuestas' });
+      console.error('Error guardando respuestas de lista:', error);
+      res.status(500).json({ error: 'Error guardando respuestas de lista' });
     }
   });
 
