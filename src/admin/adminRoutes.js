@@ -124,20 +124,16 @@ async function loadConfig() {
       },
       listResponses: {
         'info_general': {
-          type: 'text_with_submenu',
-          message: '✅ Información General seleccionada.\n\n🏢 Somos una empresa dedicada a brindar los mejores servicios digitales. Estamos aquí para ayudarte con todas tus consultas y necesidades.',
-          submenu: 'info_submenu'
+          type: 'text',
+          message: '✅ Información General.\n\n🏢 Somos la Caja de Previsión y Seguridad Social de Abogados y Procuradores de Córdoba. Estamos aquí para ayudarte con todas tus consultas.'
         },
         'soporte_tecnico': {
-          type: 'text_with_submenu',
-          message: '🔧 *Soporte Técnico - Caja de Abogados*\n\n¿Qué tipo de ayuda necesitas? Selecciona una opción:',
-          submenu: 'soporte_submenu'
+          type: 'text',
+          message: '🔧 Soporte Técnico.\n\nNuestro equipo está disponible para ayudarte. Puedes contactarnos por los medios habituales.'
         },
         'consulta_cuenta': {
-          type: 'text_with_url',
-          message: '✅ Consulta de Cuenta seleccionada.\n\n👤 Para consultas de cuenta, puedes:\n\n1️⃣ Acceder a tu portal: https://mi-empresa.com/portal\n2️⃣ Llamar al: +54 351 123-4567\n3️⃣ Escribir tu consulta aquí',
-          url: 'https://mi-empresa.com/portal',
-          url_text: '🌐 Acceder al Portal de Cliente'
+          type: 'text',
+          message: '👤 Consulta de Cuenta.\n\nPara consultas sobre tu cuenta, puedes contactarnos por teléfono o email. Nuestro equipo te ayudará con cualquier información que necesites.'
         },
         'horarios_atencion': {
           type: 'text',
@@ -148,32 +144,28 @@ async function loadConfig() {
           message: '📍 *Caja de Previsión y Seguridad Social de Abogados y Procuradores de Córdoba*\n\n🏢 *Dirección:*\n27 de Abril 842, Córdoba, Argentina\n\n📞 *Teléfonos:*\n• Información General: 351 4235900 - int 185\n• Mesa de entrada: 351 4235900 – int 109\n• Contralor de Aportes: 351 5734543\n• Servicio médico (WhatsApp): 351 5284546\n\n📧 *Email:*\ninformacion@caja-abogados.com.ar\n\n🌐 *Web:*\nwww.caja-abogados.org.ar'
         },
         'afiliacion_caja': {
-          type: 'text_with_url',
-          message: '📝 *Afiliación a la Caja Previsional*\n\nPara iniciar el trámite de afiliación necesitas completar la documentación requerida.\n\n📋 *Documentación necesaria:*\n• Formulario de solicitud de Afiliación\n• Declaración jurada del art. 64\n• Documentos personales\n\nEnvía los archivos escaneados en formato PDF a:',
-          url: 'mailto:afiliaciones@caja-abogados.com.ar',
-          url_text: '📧 afiliaciones@caja-abogados.com.ar'
+          type: 'text',
+          message: '📝 Afiliación a la Caja Previsional.\n\nPara más información sobre el proceso de afiliación, contacta con nuestras oficinas.'
         },
         'calendario_pagos': {
-          type: 'text_with_url',
-          message: '📅 *Calendario de Pagos*\n\nConsulta las fechas de vencimiento de tus obligaciones y los calendarios de pago actualizados.\n\n💡 *Recordatorio:* Estar al día otorga numerosos beneficios.',
-          url: 'https://www.caja-abogados.org.ar/',
-          url_text: '🌐 Ver calendario completo'
+          type: 'text',
+          message: '📅 Calendario de Pagos.\n\nConsulta las fechas de vencimiento en nuestra página web o contacta con nosotros.'
         },
         'emision_boletas': {
           type: 'text',
-          message: '🧾 *Emisión de Boletas*\n\nPuedes generar tus boletas de pago a través de nuestro sistema de autogestión online.\n\n💳 *Nuevas formas de pago disponibles:*\n• Pago en línea con tarjeta\n• Transferencia bancaria\n• Débito automático\n\n📱 Accede al sistema desde nuestra página web.'
+          message: '🧾 Emisión de Boletas.\n\nPuedes generar tus boletas a través de nuestro sistema de autogestión online.'
         },
         'afiliacion_medica': {
           type: 'text',
-          message: '🩺 *Afiliación al Servicio Médico*\n\n✅ *Beneficios de nuestro servicio:*\n• Atención personalizada\n• Amplia red de prestadores\n• Descuentos en medicamentos\n• Cobertura en tratamientos de alta complejidad\n\n📋 Para afiliarte, consulta los requisitos y formularios en nuestra web.'
+          message: '🩺 Afiliación al Servicio Médico.\n\nPara información sobre afiliación médica, consulta en nuestras oficinas.'
         },
         'ordenes_medicas': {
           type: 'text',
-          message: '📋 *Órdenes Médicas*\n\nPuedes imprimir tus órdenes médicas desde nuestro sistema de autogestión.\n\n📞 *Para autorizaciones médicas (solo WhatsApp):*\n351 5284546\n\n🕐 *Horario de atención:*\nLunes a viernes de 8:00 a 13:30'
+          message: '📋 Órdenes Médicas.\n\nPuedes gestionar tus órdenes médicas desde nuestro sistema de autogestión.'
         },
         'consulta_prestadores': {
           type: 'text',
-          message: '🏥 *Consulta de Prestadores*\n\n🔍 En nuestro sistema puedes consultar:\n• Médicos por especialidad\n• Farmacias adheridas\n• Centros médicos\n• Laboratorios\n\n💊 *Vademecum disponible* para consulta de medicamentos con cobertura.'
+          message: '🏥 Consulta de Prestadores.\n\nInformación sobre médicos y prestadores disponible en nuestra web.'
         },
         'contactar_humano': {
           type: 'text_with_buttons',
