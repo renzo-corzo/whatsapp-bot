@@ -212,6 +212,76 @@
         </div>
     </div>
 
+    <!-- Modal de Vinculación de Menús -->
+    <div id="linkMenuModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-link"></i> Vincular Menú con Submenú</h3>
+                <span class="close" onclick="closeLinkMenuModal()">&times;</span>
+            </div>
+            
+            <div class="modal-body">
+                <div class="link-info">
+                    <div class="source-info">
+                        <h4><i class="fas fa-list"></i> Opción de Menú:</h4>
+                        <div class="info-card">
+                            <strong id="linkSourceTitle">Soporte Técnico</strong>
+                            <p id="linkSourceDescription">Ayuda con el sistema</p>
+                            <small>ID: <code id="linkSourceId">soporte_tecnico</code></small>
+                        </div>
+                    </div>
+                    
+                    <div class="link-arrow">
+                        <i class="fas fa-arrow-right"></i>
+                    </div>
+                    
+                    <div class="target-info">
+                        <h4><i class="fas fa-sitemap"></i> Submenú Destino:</h4>
+                        <div class="form-group">
+                            <select id="linkTargetSubmenu" onchange="updateSubmenuPreview()">
+                                <option value="">Seleccionar submenú...</option>
+                            </select>
+                        </div>
+                        
+                        <div id="submenuPreview" class="submenu-preview" style="display: none;">
+                            <h5>Vista previa del submenú:</h5>
+                            <div class="preview-card">
+                                <strong id="previewTitle">Título del submenú</strong>
+                                <p id="previewDescription">Descripción del submenú</p>
+                                <div id="previewSections"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label><i class="fas fa-comment"></i> Mensaje de transición:</label>
+                    <textarea id="linkTransitionMessage" rows="3" placeholder="Mensaje que se mostrará antes del submenú...">🔧 Soporte Técnico disponible.
+
+¿Qué tipo de ayuda necesitas?</textarea>
+                </div>
+                
+                <div class="link-options">
+                    <div class="form-group">
+                        <label>
+                            <input type="checkbox" id="linkCreateSubmenu"> 
+                            Crear nuevo submenú si no existe
+                        </label>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeLinkMenuModal()">
+                    <i class="fas fa-times"></i> Cancelar
+                </button>
+                <button class="btn btn-primary" onclick="saveLinkConfiguration()">
+                    <i class="fas fa-link"></i> Crear Vinculación
+                </button>
+            </div>
+        </div>
+    </div>
+
     <script src="script.js"></script>
 </body>
 </html>

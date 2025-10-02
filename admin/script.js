@@ -1124,9 +1124,14 @@ function createSubmenuRowHTML(row, rowIndex) {
             </div>
             <div style="margin-top: 15px; padding: 10px; background: #f8f9fa; border-radius: 5px;">
                 <label><strong>Configurar Respuesta:</strong></label>
-                <button type="button" class="btn btn-sm btn-success" onclick="configureSubmenuResponse('${row.id}', this)" style="margin-left: 10px;">
-                    <i class="fas fa-cog"></i> Configurar Respuesta
-                </button>
+                <div style="margin-top: 10px; display: flex; gap: 10px;">
+                    <button type="button" class="btn btn-sm btn-success" onclick="configureSubmenuResponse('${row.id}', this)">
+                        <i class="fas fa-cog"></i> Configurar Respuesta
+                    </button>
+                    <button type="button" class="btn btn-sm btn-primary" onclick="openLinkMenuModal('${row.id}', '${row.title}', '${row.description}')">
+                        <i class="fas fa-link"></i> Vincular Submenú
+                    </button>
+                </div>
             </div>
         </div>
     `;
@@ -1713,3 +1718,146 @@ document.addEventListener('DOMContentLoaded', function() {
     // Cargar respuestas al iniciar
     loadResponses();
 });
+
+// ===== MODAL DE VINCULACIÓN DE MENÚS =====
+
+let currentLinkingOption = null;
+
+// Abrir modal de vinculación
+function openLinkMenuModal(optionId, optionTitle, optionDescription) {
+    currentLinkingOption = optionId;
+    
+    // Llenar información de la opción origen
+    document.getElementById('linkSourceId').textContent = optionId;
+    document.getElementById('linkSourceTitle').textContent = optionTitle;
+    document.getElementById('linkSourceDescription').textContent = optionDescription;
+    
+    // Cargar submenús disponibles
+    loadAvailableSubmenus();
+    
+    // Mostrar modal
+    document.getElementById('linkMenuModal').style.display = 'block';
+}
+
+// Cerrar modal de vinculación
+function closeLinkMenuModal() {
+    document.getElementById('linkMenuModal').style.display = 'none';
+    currentLinkingOption = null;
+    
+    // Limpiar campos
+    document.getElementById('linkTargetSubmenu').value = '';
+    document.getElementById('submenuPreview').style.display = 'none';
+    document.getElementById('linkTransitionMessage').value = '';
+}
+
+// Cargar submenús disponibles
+function loadAvailableSubmenus() {
+    const select = document.getElementById('linkTargetSubmenu');
+    select.innerHTML = '<option value="">Seleccionar submenú...</option>';
+    
+    // Cargar desde botConfig.submenus
+    if (botConfig.submenus) {
+        Object.keys(botConfig.submenus).forEach(submenuId => {
+            const submenu = botConfig.submenus[submenuId];
+            const option = document.createElement('option');
+            option.value = submenuId;
+            option.textContent = `${submenu.title} (${submenuId})`;
+            select.appendChild(option);
+        });
+    }
+}
+
+// Actualizar vista previa del submenú
+function updateSubmenuPreview() {
+    const submenuId = document.getElementById('linkTargetSubmenu').value;
+    const previewDiv = document.getElementById('submenuPreview');
+    
+    if (!submenuId || !botConfig.submenus || !botConfig.submenus[submenuId]) {
+        previewDiv.style.display = 'none';
+        return;
+    }
+    
+    const submenu = botConfig.submenus[submenuId];
+    
+    // Mostrar información del submenú
+    document.getElementById('previewTitle').textContent = submenu.title;
+    document.getElementById('previewDescription').textContent = submenu.description;
+    
+    // Mostrar secciones
+    const sectionsDiv = document.getElementById('previewSections');
+    sectionsDiv.innerHTML = '';
+    
+    if (submenu.sections) {
+        submenu.sections.forEach(section => {
+            const sectionDiv = document.createElement('div');
+            sectionDiv.className = 'preview-section';
+            sectionDiv.innerHTML = `
+                <strong>${section.title}</strong> 
+                (${section.rows ? section.rows.length : 0} opciones)
+            `;
+            sectionsDiv.appendChild(sectionDiv);
+        });
+    }
+    
+    previewDiv.style.display = 'block';
+}
+
+// Guardar configuración de vinculación
+async function saveLinkConfiguration() {
+    const submenuId = document.getElementById('linkTargetSubmenu').value;
+    const message = document.getElementById('linkTransitionMessage').value.trim();
+    
+    if (!submenuId) {
+        showToast('Debes seleccionar un submenú', 'error');
+        return;
+    }
+    
+    if (!message) {
+        showToast('Debes escribir un mensaje de transición', 'error');
+        return;
+    }
+    
+    // Crear la configuración de respuesta
+    const responseConfig = {
+        type: 'text_with_submenu',
+        message: message,
+        submenu: submenuId
+    };
+    
+    // Guardar en listResponses
+    if (!botConfig.listResponses) {
+        botConfig.listResponses = {};
+    }
+    
+    botConfig.listResponses[currentLinkingOption] = responseConfig;
+    
+    try {
+        // Enviar al servidor
+        const response = await fetch('/api/responses', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(botConfig.listResponses)
+        });
+        
+        if (response.ok) {
+            showToast('Vinculación creada correctamente', 'success');
+            closeLinkMenuModal();
+            
+            // Recargar listas para mostrar la vinculación
+            loadLists();
+        } else {
+            throw new Error('Error guardando vinculación');
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        showToast('Error creando vinculación', 'error');
+    }
+}
+
+// Hacer funciones globales
+window.openLinkMenuModal = openLinkMenuModal;
+window.closeLinkMenuModal = closeLinkMenuModal;
+window.updateSubmenuPreview = updateSubmenuPreview;
+window.saveLinkConfiguration = saveLinkConfiguration;
