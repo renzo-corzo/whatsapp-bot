@@ -174,35 +174,45 @@
         <div class="modal" id="responseModal">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h3 id="modalTitle">Editar Respuesta</h3>
+                    <h3 id="modalTitle">✏️ Editar Respuesta del Bot</h3>
                     <button class="modal-close" id="closeModal">
                         <i class="fas fa-times"></i>
                     </button>
                 </div>
                 <div class="modal-body">
+                    <div class="help-banner">
+                        <i class="fas fa-info-circle"></i>
+                        <span>Configura cómo responderá el bot cuando los usuarios escriban este comando</span>
+                    </div>
+                    
                     <div class="form-group">
-                        <label>Comando/Trigger:</label>
-                        <input type="text" id="responseCommand" placeholder="ej: hola, menu, soporte">
+                        <label>🔤 Comando/Palabra Clave:</label>
+                        <input type="text" id="responseCommand" placeholder="Ejemplo: hola, menu, soporte, ayuda">
+                        <small class="form-help">Los usuarios escribirán esta palabra para activar la respuesta</small>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>💬 Mensaje de Respuesta:</label>
+                        <textarea id="responseText" placeholder="¡Hola! 👋 Bienvenido a nuestro servicio. ¿En qué puedo ayudarte?" rows="4"></textarea>
+                        <small class="form-help">Este es el mensaje que verá el usuario. Puedes usar emojis para hacerlo más amigable</small>
                     </div>
                     <div class="form-group">
-                        <label>Respuesta:</label>
-                        <textarea id="responseText" placeholder="Texto de respuesta del bot"></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label>Tipo de respuesta:</label>
+                        <label>📋 Tipo de Respuesta:</label>
                         <select id="responseType">
-                            <option value="text">Texto Simple</option>
-                            <option value="list">Lista Interactiva</option>
-                            <option value="button">Botones</option>
+                            <option value="text">💬 Texto Simple - Solo envía un mensaje</option>
+                            <option value="list">📋 Lista Interactiva - Menú con opciones</option>
+                            <option value="button">🔘 Botones - Opciones rápidas</option>
                         </select>
+                        <small class="form-help">Elige cómo quieres que responda el bot</small>
                     </div>
+                    
                     <div class="form-group">
-                        <label>Menú automático después del mensaje:</label>
+                        <label>🔄 Menú Automático (Opcional):</label>
                         <select id="responseFollowUp">
-                            <option value="">Sin menú automático</option>
-                            <option value="demo_list">📋 Menú Principal</option>
+                            <option value="">❌ No enviar menú automático</option>
+                            <option value="demo_list">📋 Enviar Menú Principal automáticamente</option>
                         </select>
-                        <small class="form-help">Si seleccionas una opción, se enviará automáticamente después del mensaje</small>
+                        <small class="form-help">💡 Si seleccionas una opción, se enviará el menú automáticamente después del mensaje</small>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -217,31 +227,39 @@
     <div id="linkMenuModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
-                <h3><i class="fas fa-link"></i> Vincular Menú con Submenú</h3>
+                <h3>🔗 Crear Vinculación Automática</h3>
                 <span class="close" onclick="closeLinkMenuModal()">&times;</span>
             </div>
             
             <div class="modal-body">
+                <div class="help-banner">
+                    <i class="fas fa-lightbulb"></i>
+                    <span>Cuando un usuario seleccione esta opción, se mostrará automáticamente el submenú que elijas</span>
+                </div>
+                
                 <div class="link-info">
                     <div class="source-info">
-                        <h4><i class="fas fa-list"></i> Opción de Menú:</h4>
+                        <h4>📋 Opción del Menú Principal:</h4>
                         <div class="info-card">
                             <strong id="linkSourceTitle">Soporte Técnico</strong>
                             <p id="linkSourceDescription">Ayuda con el sistema</p>
-                            <small>ID: <code id="linkSourceId">soporte_tecnico</code></small>
+                            <small>🆔 ID: <code id="linkSourceId">soporte_tecnico</code></small>
                         </div>
                     </div>
                     
                     <div class="link-arrow">
-                        <i class="fas fa-arrow-right"></i>
+                        <i class="fas fa-arrow-down"></i>
+                        <span>Se vinculará con</span>
+                        <i class="fas fa-arrow-down"></i>
                     </div>
                     
                     <div class="target-info">
-                        <h4><i class="fas fa-sitemap"></i> Submenú Destino:</h4>
+                        <h4>🎯 Submenú que se Mostrará:</h4>
                         <div class="form-group">
                             <select id="linkTargetSubmenu" onchange="updateSubmenuPreview()">
-                                <option value="">Seleccionar submenú...</option>
+                                <option value="">🔽 Selecciona un submenú...</option>
                             </select>
+                            <small class="form-help">💡 Elige qué submenú aparecerá automáticamente cuando seleccionen esta opción</small>
                         </div>
                         
                         <div id="submenuPreview" class="submenu-preview" style="display: none;">
@@ -256,10 +274,11 @@
                 </div>
                 
                 <div class="form-group">
-                    <label><i class="fas fa-comment"></i> Mensaje de transición:</label>
-                    <textarea id="linkTransitionMessage" rows="3" placeholder="Mensaje que se mostrará antes del submenú...">🔧 Soporte Técnico disponible.
+                    <label>💬 Mensaje de Transición:</label>
+                    <textarea id="linkTransitionMessage" rows="3" placeholder="Ejemplo: 🔧 Soporte Técnico disponible. ¿Qué tipo de ayuda necesitas?">🔧 Soporte Técnico disponible.
 
 ¿Qué tipo de ayuda necesitas?</textarea>
+                    <small class="form-help">📝 Este mensaje aparecerá antes de mostrar el submenú. Hazlo claro y amigable</small>
                 </div>
                 
                 <div class="link-options">
@@ -276,8 +295,8 @@
                 <button class="btn btn-secondary" onclick="closeLinkMenuModal()">
                     <i class="fas fa-times"></i> Cancelar
                 </button>
-                <button class="btn btn-primary" onclick="saveLinkConfiguration()">
-                    <i class="fas fa-link"></i> Crear Vinculación
+                <button class="btn btn-success" onclick="saveLinkConfiguration()">
+                    <i class="fas fa-magic"></i> ✨ Crear Vinculación Automática
                 </button>
             </div>
         </div>
