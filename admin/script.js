@@ -118,11 +118,29 @@ async function loadConfiguration() {
         if (response.ok) {
             botConfig = await response.json();
             console.log('✅ Configuración cargada:', botConfig);
+            
+            // Cargar también las respuestas de lista
+            await loadListResponses();
         }
     } catch (error) {
         console.error('Error cargando configuración:', error);
         // Cargar configuración por defecto
         loadDefaultConfiguration();
+    }
+}
+
+// Cargar respuestas de lista
+async function loadListResponses() {
+    try {
+        const response = await fetch('/api/responses');
+        if (response.ok) {
+            const listResponses = await response.json();
+            botConfig.listResponses = listResponses;
+            console.log('✅ Respuestas de lista cargadas:', listResponses);
+        }
+    } catch (error) {
+        console.error('Error cargando respuestas de lista:', error);
+        botConfig.listResponses = {};
     }
 }
 
@@ -233,6 +251,34 @@ function loadLists() {
 }
 
 // Crear tarjeta de lista
+// Función para obtener indicador de vinculación
+function getLinkedIndicator(optionId) {
+    if (!botConfig.listResponses || !botConfig.listResponses[optionId]) {
+        return '';
+    }
+    
+    const response = botConfig.listResponses[optionId];
+    if (response.type === 'text_with_submenu' && response.submenu) {
+        const submenuName = botConfig.submenus && botConfig.submenus[response.submenu] 
+            ? botConfig.submenus[response.submenu].title 
+            : response.submenu;
+        return `<span class="badge badge-success" style="background-color: #28a745; color: white; padding: 2px 6px; border-radius: 12px; font-size: 0.7rem;">
+            <i class="fas fa-link"></i> → ${submenuName}
+        </span>`;
+    }
+    
+    if (response.followUp) {
+        const followUpName = botConfig.lists && botConfig.lists[response.followUp] 
+            ? botConfig.lists[response.followUp].title 
+            : response.followUp;
+        return `<span class="badge badge-info" style="background-color: #17a2b8; color: white; padding: 2px 6px; border-radius: 12px; font-size: 0.7rem;">
+            <i class="fas fa-arrow-right"></i> → ${followUpName}
+        </span>`;
+    }
+    
+    return '';
+}
+
 function createListCard(listId, listConfig) {
     const div = document.createElement('div');
     div.className = 'list-card';
@@ -240,7 +286,10 @@ function createListCard(listId, listConfig) {
     const itemsHtml = listConfig.sections.map(section => 
         section.rows.map(row => `
             <div class="list-item" style="display: flex; justify-content: space-between; align-items: center; padding: 8px; border-bottom: 1px solid #eee;">
-                <span>${row.title}</span>
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <span>${row.title}</span>
+                    ${getLinkedIndicator(row.id)}
+                </div>
                 <div style="display: flex; gap: 5px;">
                     <button class="btn btn-sm btn-info" onclick="editListResponse('${row.id}')" style="padding: 4px 8px; font-size: 0.8rem;">
                         <i class="fas fa-comment"></i> Respuesta
@@ -1903,7 +1952,8 @@ async function saveLinkConfiguration() {
             showToast('Vinculación creada correctamente', 'success');
             closeLinkMenuModal();
             
-            // Recargar listas para mostrar la vinculación
+            // Recargar las respuestas de lista y luego las listas
+            await loadListResponses();
             loadLists();
         } else {
             const errorText = await response.text();
