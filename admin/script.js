@@ -1401,28 +1401,7 @@ function createResponseConfigModal() {
 }
 
 // Actualizar campos según el tipo de respuesta
-function updateResponseFields() {
-    const type = document.getElementById('responseTypeSelect').value;
-    
-    document.getElementById('urlFields').style.display = type === 'text_with_url' ? 'block' : 'none';
-    document.getElementById('buttonsFields').style.display = type === 'text_with_buttons' ? 'block' : 'none';
-    document.getElementById('submenuFields').style.display = type === 'text_with_submenu' ? 'block' : 'none';
-    
-    // Cargar submenús disponibles
-    if (type === 'text_with_submenu') {
-        const select = document.getElementById('responseSubmenu');
-        select.innerHTML = '<option value="">Seleccionar submenú...</option>';
-        
-        if (botConfig.submenus) {
-            Object.keys(botConfig.submenus).forEach(submenuId => {
-                const option = document.createElement('option');
-                option.value = submenuId;
-                option.textContent = botConfig.submenus[submenuId].title;
-                select.appendChild(option);
-            });
-        }
-    }
-}
+// Función eliminada - duplicada más abajo
 
 // Agregar configuración de botón
 function addButtonConfig() {
@@ -1448,21 +1427,25 @@ function addButtonConfig() {
 function updateResponseFields() {
     const responseType = document.getElementById('responseTypeSelect').value;
     
-    // Ocultar todos los campos específicos
-    document.getElementById('urlFields').style.display = 'none';
-    document.getElementById('buttonFields').style.display = 'none';
-    document.getElementById('submenuFields').style.display = 'none';
+    // Ocultar todos los campos específicos (verificar que existan)
+    const urlFields = document.getElementById('urlFields');
+    const buttonFields = document.getElementById('buttonFields');
+    const submenuFields = document.getElementById('submenuFields');
+    
+    if (urlFields) urlFields.style.display = 'none';
+    if (buttonFields) buttonFields.style.display = 'none';
+    if (submenuFields) submenuFields.style.display = 'none';
     
     // Mostrar campos según el tipo seleccionado
     switch(responseType) {
         case 'text_with_url':
-            document.getElementById('urlFields').style.display = 'block';
+            if (urlFields) urlFields.style.display = 'block';
             break;
         case 'text_with_buttons':
-            document.getElementById('buttonFields').style.display = 'block';
+            if (buttonFields) buttonFields.style.display = 'block';
             break;
         case 'text_with_submenu':
-            document.getElementById('submenuFields').style.display = 'block';
+            if (submenuFields) submenuFields.style.display = 'block';
             loadSubmenuOptions(); // Cargar lista de submenús disponibles
             break;
     }
@@ -1470,6 +1453,8 @@ function updateResponseFields() {
 
 function loadSubmenuOptions() {
     const submenuSelect = document.getElementById('responseSubmenu');
+    if (!submenuSelect) return; // Si no existe el elemento, salir
+    
     submenuSelect.innerHTML = '<option value="">Seleccionar submenú...</option>';
     
     // Cargar submenús disponibles
