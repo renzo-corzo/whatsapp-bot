@@ -939,44 +939,128 @@ async function editResponseForOption(optionId, responseType) {
         ? currentResponse 
         : JSON.stringify(currentResponse, null, 2);
     
-    const newResponse = prompt(
-        `Editar respuesta para la opción "${optionId}"\n\n` +
-        `Cuando un usuario seleccione esta opción, el bot responderá:\n\n` +
-        `Respuesta actual:\n${displayResponse}\n\n` +
-        `Nueva respuesta (texto simple):`,
-        typeof currentResponse === 'string' ? currentResponse : currentResponse.message || ''
-    );
+    // Crear modal mejorado en lugar de prompt
+    createImprovedResponseModal(optionId, currentResponse, responseType);
+}
 
-    if (newResponse !== null && newResponse.trim() !== '') {
-        // Asegurar que existe el objeto
-        if (!botConfig[responseType]) {
-            botConfig[responseType] = {};
+// Crear modal de respuesta mejorado
+function createImprovedResponseModal(optionId, currentResponse, responseType) {
+    // Eliminar modal existente si existe
+    const existingModal = document.getElementById('improvedResponseModal');
+    if (existingModal) {
+        existingModal.remove();
+    }
+
+    const modal = document.createElement('div');
+    modal.id = 'improvedResponseModal';
+    modal.className = 'modal';
+    modal.style.display = 'flex';
+    modal.style.zIndex = '10001';
+
+    const currentMessage = typeof currentResponse === 'string' 
+        ? currentResponse 
+        : currentResponse.message || '';
+
+    modal.innerHTML = `
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>✏️ Editar Respuesta del Bot</h3>
+                <button class="modal-close" onclick="closeImprovedResponseModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="help-banner">
+                    <i class="fas fa-info-circle"></i>
+                    <span>Configura cómo responderá el bot cuando los usuarios seleccionen "${optionId}"</span>
+                </div>
+                
+                <div class="form-group">
+                    <label>🆔 Opción Seleccionada:</label>
+                    <input type="text" value="${optionId}" disabled style="background: #f8f9fa; color: #666;">
+                    <small class="form-help">Esta es la opción que el usuario seleccionó del menú</small>
+                </div>
+                
+                <div class="form-group">
+                    <label>💬 Mensaje de Respuesta:</label>
+                    <textarea id="improvedResponseText" placeholder="¡Hola! 👋 Gracias por seleccionar esta opción. ¿En qué puedo ayudarte?" rows="4">${currentMessage}</textarea>
+                    <small class="form-help">Este es el mensaje que verá el usuario. Puedes usar emojis para hacerlo más amigable</small>
+                </div>
+                
+                <div class="form-group">
+                    <label>📋 Tipo de Respuesta:</label>
+                    <select id="improvedResponseType">
+                        <option value="text" ${currentResponse.type === 'text' ? 'selected' : ''}>💬 Texto Simple - Solo envía un mensaje</option>
+                        <option value="text_with_url" ${currentResponse.type === 'text_with_url' ? 'selected' : ''}>🔗 Texto con URL - Incluye un enlace</option>
+                        <option value="text_with_buttons" ${currentResponse.type === 'text_with_buttons' ? 'selected' : ''}>🔘 Botones - Opciones rápidas</option>
+                        <option value="text_with_submenu" ${currentResponse.type === 'text_with_submenu' ? 'selected' : ''}>📋 Texto con Submenú - Abre otro menú</option>
+                    </select>
+                    <small class="form-help">Elige cómo quieres que responda el bot</small>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeImprovedResponseModal()">
+                    <i class="fas fa-times"></i> Cancelar
+                </button>
+                <button class="btn btn-success" onclick="saveImprovedResponse('${optionId}', '${responseType}')">
+                    <i class="fas fa-save"></i> ✨ Guardar Respuesta
+                </button>
+            </div>
+        </div>
+    `;
+
+    document.body.appendChild(modal);
+}
+
+// Cerrar modal mejorado
+function closeImprovedResponseModal() {
+    const modal = document.getElementById('improvedResponseModal');
+    if (modal) {
+        modal.remove();
+    }
+}
+
+// Guardar respuesta mejorada
+async function saveImprovedResponse(optionId, responseType) {
+    const message = document.getElementById('improvedResponseText').value.trim();
+    const type = document.getElementById('improvedResponseType').value;
+
+    if (!message) {
+        showToast('Por favor ingresa un mensaje', 'error');
+        return;
+    }
+
+    // Asegurar que existe el objeto
+    if (!botConfig[responseType]) {
+        botConfig[responseType] = {};
+    }
+    
+    // Crear respuesta según el tipo
+    botConfig[responseType][optionId] = {
+        type: type,
+        message: message
+    };
+
+    try {
+        const saveResponse = await fetch('/api/config', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(botConfig)
+        });
+
+        if (saveResponse.ok) {
+            showToast(`✅ Respuesta para "${optionId}" guardada correctamente`, 'success');
+            closeImprovedResponseModal();
+            // Recargar listas para mostrar cambios
+            loadLists();
+        } else {
+            throw new Error('Error guardando respuesta');
         }
-        
-        // Guardar como texto simple por ahora
-        botConfig[responseType][optionId] = {
-            type: 'text',
-            message: newResponse.trim()
-        };
-
-        try {
-            const saveResponse = await fetch('/api/config', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(botConfig)
-            });
-
-            if (saveResponse.ok) {
-                showToast(`Respuesta para "${optionId}" guardada correctamente`, 'success');
-            } else {
-                throw new Error('Error guardando respuesta');
-            }
-        } catch (error) {
-            console.error('Error:', error);
-            showToast('Error guardando respuesta', 'error');
-        }
+    } catch (error) {
+        console.error('Error guardando respuesta:', error);
+        showToast('❌ Error guardando respuesta', 'error');
     }
 }
 
