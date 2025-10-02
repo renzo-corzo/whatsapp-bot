@@ -80,22 +80,67 @@ async function loadConfig() {
               ]
             },
             {
-              title: 'Servicio Medico',
+              title: '🚨 Urgencias y Emergencias',
               rows: [
                 { 
-                  id: 'afiliacion_medica', 
-                  title: 'Afiliacion Medica', 
-                  description: 'Instructivo de afiliacion al servicio medico' 
+                  id: 'urgencias_emergencias', 
+                  title: '🆘 Urgencias Emergencias', 
+                  description: 'Atencion medica inmediata las 24hs' 
+                }
+              ]
+            },
+            {
+              title: '💊 Servicios Medicos',
+              rows: [
+                { 
+                  id: 'autorizaciones', 
+                  title: '📋 Autorizaciones', 
+                  description: 'Solicitar autorizaciones para estudios y tratamientos' 
                 },
                 { 
-                  id: 'ordenes_medicas', 
-                  title: 'Ordenes Medicas', 
-                  description: 'Impresion y gestion de ordenes' 
+                  id: 'medicamentos', 
+                  title: '💊 Medicamentos', 
+                  description: 'Consultas sobre cobertura de medicamentos' 
                 },
                 { 
-                  id: 'consulta_prestadores', 
-                  title: 'Prestadores', 
-                  description: 'Consultar medicos y farmacias' 
+                  id: 'reintegros', 
+                  title: '💰 Reintegros', 
+                  description: 'Solicitar reintegros de gastos medicos' 
+                }
+              ]
+            },
+            {
+              title: '🏥 Programas y Convenios',
+              rows: [
+                { 
+                  id: 'programas', 
+                  title: '🩺 Programas', 
+                  description: 'Programas de salud y prevencion' 
+                },
+                { 
+                  id: 'convenios_reciprocidad', 
+                  title: '🤝 Convenios de Reciprocidad', 
+                  description: 'Atencion en otras provincias' 
+                }
+              ]
+            },
+            {
+              title: 'ℹ️ Informacion y Soporte',
+              rows: [
+                { 
+                  id: 'preguntas_frecuentes', 
+                  title: '❓ Preguntas Frecuentes', 
+                  description: 'Respuestas a consultas comunes' 
+                },
+                { 
+                  id: 'asistencia_prestadores', 
+                  title: '👨‍⚕️ Asistencia a Prestadores', 
+                  description: 'Soporte para profesionales medicos' 
+                },
+                { 
+                  id: 'afiliacion', 
+                  title: '📝 Afiliacion', 
+                  description: 'Informacion sobre afiliacion al servicio medico' 
                 }
               ]
             },
@@ -146,6 +191,55 @@ async function loadConfig() {
         'afiliacion_caja': {
           type: 'text',
           message: '📝 Afiliación a la Caja Previsional.\n\nPara más información sobre el proceso de afiliación, contacta con nuestras oficinas.'
+        },
+        
+        // 🚨 URGENCIAS Y EMERGENCIAS
+        'urgencias_emergencias': {
+          type: 'text',
+          message: '🆘 *URGENCIAS Y EMERGENCIAS - 24HS*\n\n📞 *Línea de Emergencias:*\n• 351 5284546 (WhatsApp)\n• 0800-555-URGENCIA\n\n🏥 *Centros de Atención Inmediata:*\n• Hospital Privado Córdoba\n• Sanatorio Allende\n• Clínica Universitaria Reina Fabiola\n\n⚠️ *En caso de emergencia vital:*\nLlama al 107 (SAME) o dirígete al centro médico más cercano.\n\n💡 *Recuerda tener a mano:*\n• Credencial de afiliado\n• DNI\n• Orden médica (si la tienes)'
+        },
+        
+        // 💊 SERVICIOS MÉDICOS
+        'autorizaciones': {
+          type: 'text',
+          message: '📋 *AUTORIZACIONES MÉDICAS*\n\n📝 *Para solicitar autorizaciones necesitas:*\n• Orden médica del profesional tratante\n• Credencial de afiliado vigente\n• DNI del paciente\n\n📞 *Canales de solicitud:*\n• WhatsApp: 351 5284546\n• Teléfono: 351 4235900 - int 200\n• Presencial: 27 de Abril 842\n\n⏰ *Tiempo de respuesta:*\n• Urgentes: 24-48hs\n• Programadas: 3-5 días hábiles\n\n💡 *Tip:* Envía la documentación por WhatsApp para agilizar el trámite.'
+        },
+        
+        'medicamentos': {
+          type: 'text',
+          message: '💊 *MEDICAMENTOS Y COBERTURA*\n\n📋 *Cobertura incluye:*\n• Medicamentos del Vademécum\n• Tratamientos crónicos\n• Medicación oncológica\n• Insulinas y diabéticos\n\n🏪 *Farmacias adheridas:*\n• Farmacity\n• Dr. Ahorro\n• Farmacias del Centro\n\n📱 *Para consultar cobertura:*\n• WhatsApp: 351 5284546\n• Web: www.caja-abogados.org.ar/vademecum\n\n💰 *Descuentos:*\n• Afiliados: 40-60%\n• Grupo familiar: 40%\n• Jubilados: 70%'
+        },
+        
+        'reintegros': {
+          type: 'text',
+          message: '💰 *REINTEGROS MÉDICOS*\n\n📄 *Documentación requerida:*\n• Factura original del prestador\n• Recibo de pago\n• Orden médica\n• Credencial de afiliado\n\n📍 *Presentación:*\n• Presencial: 27 de Abril 842\n• Email: reintegros@caja-abogados.com.ar\n• WhatsApp: 351 5284546\n\n⏰ *Plazos:*\n• Presentación: hasta 60 días\n• Procesamiento: 15-20 días hábiles\n• Pago: 5 días hábiles\n\n💡 *Montos máximos según categoría de afiliación disponibles en nuestra web.'
+        },
+        
+        // 🏥 PROGRAMAS Y CONVENIOS
+        'programas': {
+          type: 'text',
+          message: '🩺 *PROGRAMAS DE SALUD*\n\n🔬 *Programas Preventivos:*\n• Chequeos anuales gratuitos\n• Mamografías y PAP\n• Control cardiológico\n• Vacunación antigripal\n\n👶 *Programas Especiales:*\n• Maternidad y pediatría\n• Tercera edad\n• Enfermedades crónicas\n• Salud mental\n\n📅 *Para inscribirte:*\n• WhatsApp: 351 5284546\n• Teléfono: 351 4235900 - int 250\n• Web: www.caja-abogados.org.ar/programas\n\n🎁 *Beneficios adicionales para participantes activos.'
+        },
+        
+        'convenios_reciprocidad': {
+          type: 'text',
+          message: '🤝 *CONVENIOS DE RECIPROCIDAD*\n\n🗺️ *Cobertura en:*\n• Buenos Aires - CABA\n• Santa Fe - Rosario\n• Mendoza - Capital\n• Tucumán - San Miguel\n\n📋 *Para usar el convenio:*\n• Credencial vigente\n• Autorización previa (no urgencias)\n• DNI del afiliado\n\n📞 *Gestión de autorizaciones:*\n• WhatsApp: 351 5284546\n• Email: reciprocidad@caja-abogados.com.ar\n\n⚠️ *Importante:* Consulta prestadores adheridos en cada provincia antes de viajar.'
+        },
+        
+        // ℹ️ INFORMACIÓN Y SOPORTE
+        'preguntas_frecuentes': {
+          type: 'text',
+          message: '❓ *PREGUNTAS FRECUENTES*\n\n🔸 *¿Cómo obtengo mi credencial?*\nSe envía por correo al domicilio registrado.\n\n🔸 *¿Puedo atenderme sin credencial?*\nSí, con DNI y número de afiliado.\n\n🔸 *¿Cómo cambio de médico de cabecera?*\nSolicítalo por WhatsApp o presencialmente.\n\n🔸 *¿Qué hago si pierdo la credencial?*\nSolicita duplicado por WhatsApp.\n\n🔸 *¿Hay copagos?*\nConsultas y estudios básicos sin costo.\n\n📱 *Más consultas:* WhatsApp 351 5284546'
+        },
+        
+        'asistencia_prestadores': {
+          type: 'text',
+          message: '👨‍⚕️ *ASISTENCIA A PRESTADORES*\n\n🏥 *Servicios para profesionales:*\n• Liquidación de prácticas\n• Consultas de nomenclador\n• Gestión de autorizaciones\n• Capacitaciones\n\n📞 *Mesa de ayuda:*\n• Teléfono: 351 4235900 - int 300\n• Email: prestadores@caja-abogados.com.ar\n• WhatsApp: 351 5284546\n\n💻 *Portal web:*\nwww.caja-abogados.org.ar/prestadores\n\n📋 *Documentación y formularios disponibles online las 24hs.'
+        },
+        
+        'afiliacion': {
+          type: 'text',
+          message: '📝 *AFILIACIÓN AL SERVICIO MÉDICO*\n\n👥 *Quiénes pueden afiliarse:*\n• Abogados matriculados\n• Procuradores habilitados\n• Grupo familiar directo\n\n📄 *Documentación requerida:*\n• Solicitud de afiliación\n• Fotocopia de matrícula\n• DNI y CUIL\n• Constancia domicilio\n\n💰 *Aportes mensuales:*\n• Activos: según categoría\n• Jubilados: bonificado\n• Grupo familiar: adicional\n\n📍 *Inscripción:*\n27 de Abril 842 - Lunes a Viernes 8 a 16hs\n\n📞 *Consultas:* 351 4235900 - int 185'
         },
         'calendario_pagos': {
           type: 'text',
