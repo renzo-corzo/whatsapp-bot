@@ -190,6 +190,17 @@ class WhatsAppClient {
    * @returns {Promise<Object>} Respuesta de la API
    */
   async sendListFromConfig(to, listConfig) {
+    console.log(`🔧 sendListFromConfig iniciado para: ${to}`);
+    console.log(`📋 Configuración recibida:`, JSON.stringify(listConfig, null, 2));
+    
+    if (!listConfig) {
+      throw new Error('listConfig es null o undefined');
+    }
+    
+    if (!listConfig.sections) {
+      throw new Error('listConfig.sections es null o undefined');
+    }
+    
     const options = {
       to: to,
       header: listConfig.header || undefined,
@@ -199,7 +210,16 @@ class WhatsAppClient {
       sections: listConfig.sections
     };
 
-    return await this.sendListMessage(options);
+    console.log(`📤 Opciones para sendListMessage:`, JSON.stringify(options, null, 2));
+    
+    try {
+      const result = await this.sendListMessage(options);
+      console.log(`✅ sendListMessage completado exitosamente`);
+      return result;
+    } catch (error) {
+      console.error(`❌ Error en sendListMessage:`, error);
+      throw error;
+    }
   }
 
   /**

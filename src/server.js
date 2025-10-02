@@ -230,8 +230,29 @@ async function handleTextMessage(message, from) {
             }
             
             console.log(`📤 Enviando lista a: ${formattedNumber}`);
-            await currentClient.sendListFromConfig(formattedNumber, listData);
-            console.log(`✅ Lista enviada correctamente`);
+            
+            // Intentar enviar la lista
+            try {
+              await currentClient.sendListFromConfig(formattedNumber, listData);
+              console.log(`✅ Lista enviada correctamente`);
+            } catch (listError) {
+              console.error(`❌ Error enviando lista:`, listError);
+              // Fallback: enviar mensaje simple
+              await currentClient.sendText(formattedNumber, 
+                '📋 Menú de servicios:\n\n' +
+                '1️⃣ Urgencias Emergencias\n' +
+                '2️⃣ Autorizaciones\n' +
+                '3️⃣ Medicamentos\n' +
+                '4️⃣ Reintegros\n' +
+                '5️⃣ Programas\n' +
+                '6️⃣ Convenios de Reciprocidad\n' +
+                '7️⃣ Preguntas Frecuentes\n' +
+                '8️⃣ Asistencia a Prestadores\n' +
+                '9️⃣ Afiliación\n\n' +
+                'Escribe el número de la opción que necesitas.'
+              );
+              console.log(`✅ Menú de fallback enviado`);
+            }
           } else {
             console.log(`❌ Lista no encontrada: ${botResponse.followUp}`);
           }
