@@ -644,23 +644,7 @@ router.get('/api/status', (req, res) => {
       const config = await loadConfig();
       const linkedOptions = [];
       
-      // Buscar en las respuestas principales
-      Object.keys(config.responses || {}).forEach(responseId => {
-        const response = config.responses[responseId];
-        if (response && response.followUp) {
-          linkedOptions.push({
-            id: responseId,
-            title: responseId,
-            description: response.message ? response.message.substring(0, 100) + '...' : 'Sin descripción',
-            listId: 'main_responses',
-            listTitle: 'Respuestas Principales',
-            sectionTitle: 'Comandos',
-            submenuId: response.followUp
-          });
-        }
-      });
-      
-      // Buscar en las listas
+      // Buscar solo en las listas interactivas (menús principales)
       Object.keys(config.lists || {}).forEach(listId => {
         const list = config.lists[listId];
         if (list.sections) {
