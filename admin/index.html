@@ -420,6 +420,75 @@
             }
         }
 
+        // Función para verificar y actualizar botones de vinculación
+        function updateLinkButtons() {
+            // Buscar todos los botones "Vincular"
+            const linkButtons = document.querySelectorAll('button[onclick*="linkOption"]');
+            linkButtons.forEach(button => {
+                const optionId = button.getAttribute('data-option-id');
+                if (optionId) {
+                    checkLinkStatus(optionId, button);
+                }
+            });
+        }
+
+        function checkLinkStatus(optionId, button) {
+            fetch(`/api/check-link/${optionId}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        if (data.hasLink) {
+                            // Cambiar a botón "Desvincular"
+                            button.innerHTML = '<i class="fas fa-unlink"></i> Desvincular';
+                            button.className = 'btn btn-danger';
+                            button.onclick = function() { unlinkOption(optionId, button); };
+                        } else {
+                            // Mantener como botón "Vincular"
+                            button.innerHTML = '<i class="fas fa-link"></i> Vincular';
+                            button.className = 'btn btn-success';
+                            button.onclick = function() { linkOption(optionId); };
+                        }
+                    }
+                })
+                .catch(error => {
+                    console.error('Error verificando estado de vinculación:', error);
+                });
+        }
+
+        function unlinkOption(optionId, button) {
+            if (confirm('¿Estás seguro de que quieres desvincular esta opción?')) {
+                fetch('/api/unlink-submenu', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ optionId: optionId })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert('✅ Opción desvinculada correctamente');
+                        // Actualizar el botón
+                        checkLinkStatus(optionId, button);
+                        // Recargar la página para reflejar cambios
+                        setTimeout(() => {
+                            location.reload();
+                        }, 1000);
+                    } else {
+                        alert('❌ Error: ' + data.message);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('❌ Error desvinculando opción');
+                });
+            }
+        }
+
+        function linkOption(optionId) {
+            alert('Para vincular esta opción, usa el portal de administración o contacta soporte técnico.');
+        }
+
         // Corregir errores de JavaScript existentes
         window.addEventListener('load', function() {
             // Verificar si hay errores con openListModal
@@ -430,6 +499,9 @@
                     createNewList();
                 });
             }
+            
+            // Actualizar botones de vinculación después de cargar
+            setTimeout(updateLinkButtons, 1000);
         });
     </script>
 </body>

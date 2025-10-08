@@ -683,6 +683,30 @@ router.get('/api/status', (req, res) => {
     }
   });
 
+  // API para verificar si una opción tiene vinculación
+  router.get('/api/check-link/:optionId', async (req, res) => {
+    try {
+      const { optionId } = req.params;
+      const config = await loadConfig();
+      
+      // Buscar en las respuestas de lista
+      const response = config.listResponses && config.listResponses[optionId];
+      const hasLink = response && response.followUp;
+      
+      res.json({ 
+        success: true, 
+        hasLink: hasLink,
+        submenuId: hasLink ? response.followUp : null
+      });
+    } catch (error) {
+      console.error('Error verificando vinculación:', error);
+      res.status(500).json({ 
+        success: false, 
+        message: 'Error verificando vinculación' 
+      });
+    }
+  });
+
   // API simple para desvincular submenú
   router.post('/api/unlink-submenu', async (req, res) => {
     try {
