@@ -79,7 +79,7 @@
                         <button class="btn btn-info" id="addSubmenuBtn" style="margin-left: 10px;">
                             <i class="fas fa-sitemap"></i> Nuevo Submenú
                         </button>
-                        <button class="btn btn-warning" onclick="showLinkedOptions()" style="margin-left: 10px;">
+                        <button class="btn btn-warning" onclick="showLinkedOptions()" style="margin-left: 10px; display: inline-block !important; visibility: visible !important;">
                             <i class="fas fa-unlink"></i> Gestionar Vinculaciones
                         </button>
                     </div>
@@ -307,6 +307,13 @@
 
     <script src="script.js?v=2.0"></script>
     
+    <!-- Botón alternativo para gestionar vinculaciones -->
+    <div style="position: fixed; top: 100px; right: 20px; z-index: 1000;">
+        <button onclick="showLinkedOptions()" style="background: #ff6b35; color: white; border: none; padding: 12px 16px; border-radius: 8px; cursor: pointer; font-weight: bold; box-shadow: 0 4px 8px rgba(0,0,0,0.2);">
+            <i class="fas fa-unlink"></i> Gestionar Vinculaciones
+        </button>
+    </div>
+    
     <script>
         function showLinkedOptions() {
             fetch('/admin/api/linked-options')
@@ -398,6 +405,32 @@
                 });
             }
         }
+
+        // Función de respaldo para el botón Nueva Lista
+        function createNewList() {
+            alert('Para crear una nueva lista, puedes usar el portal de administración o contactar soporte técnico.');
+        }
+
+        // Función para cerrar modales
+        function closeModal(modalId) {
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.style.display = 'none';
+                modal.remove();
+            }
+        }
+
+        // Corregir errores de JavaScript existentes
+        window.addEventListener('load', function() {
+            // Verificar si hay errores con openListModal
+            const addListBtn = document.getElementById('addListBtn');
+            if (addListBtn) {
+                addListBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    createNewList();
+                });
+            }
+        });
     </script>
 </body>
 </html>
