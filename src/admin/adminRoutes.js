@@ -56,111 +56,71 @@ async function loadConfig() {
       },
       lists: {
         'demo_list': {
-          title: 'Caja de Abogados - Cordoba',
+          title: '🏥 Servicio Médico Caja de Abogados',
           description: 'Selecciona el servicio que necesitas:',
           sections: [
             {
-              title: 'Caja Previsional',
+              title: '📋 Información General',
               rows: [
                 { 
-                  id: 'afiliacion_caja', 
-                  title: 'Afiliacion', 
-                  description: 'Instructivo y requisitos de afiliacion' 
+                  id: 'info_servicio', 
+                  title: 'ℹ️ Sobre el Servicio', 
+                  description: 'Conoce nuestro servicio médico' 
                 },
                 { 
-                  id: 'calendario_pagos', 
-                  title: 'Calendario de Pagos', 
-                  description: 'Fechas de vencimiento y pagos' 
-                },
-                { 
-                  id: 'emision_boletas', 
-                  title: 'Emision de Boletas', 
-                  description: 'Generar boletas de pago' 
+                  id: 'cobertura', 
+                  title: '🛡️ Qué Cubrimos', 
+                  description: 'Cobertura médica completa' 
                 }
               ]
             },
             {
-              title: '🚨 Urgencias y Emergencias',
+              title: '📝 Gestión de Afiliados',
               rows: [
                 { 
-                  id: 'urgencias_emergencias', 
-                  title: '🆘 Urgencias Emergencias', 
-                  description: 'Atencion medica inmediata las 24hs' 
-                }
-              ]
-            },
-            {
-              title: '💊 Servicios Medicos',
-              rows: [
+                  id: 'afiliacion', 
+                  title: '📋 Afiliarse', 
+                  description: 'Cómo ser parte del servicio' 
+                },
                 { 
                   id: 'autorizaciones', 
-                  title: '📋 Autorizaciones', 
-                  description: 'Solicitar autorizaciones para estudios y tratamientos' 
-                },
-                { 
-                  id: 'medicamentos', 
-                  title: '💊 Medicamentos', 
-                  description: 'Consultas sobre cobertura de medicamentos' 
+                  title: '✅ Autorizaciones', 
+                  description: 'Solicitar autorizaciones' 
                 },
                 { 
                   id: 'reintegros', 
                   title: '💰 Reintegros', 
-                  description: 'Solicitar reintegros de gastos medicos' 
+                  description: 'Solicitar reintegros' 
                 }
               ]
             },
             {
-              title: '🏥 Programas y Convenios',
+              title: '🏥 Red de Prestadores',
               rows: [
                 { 
-                  id: 'programas', 
-                  title: '🩺 Programas', 
-                  description: 'Programas de salud y prevencion' 
+                  id: 'buscar_medico', 
+                  title: '🔍 Buscar Médico', 
+                  description: 'Encuentra tu especialista' 
                 },
                 { 
-                  id: 'convenios_reciprocidad', 
-                  title: '🤝 Convenios de Reciprocidad', 
-                  description: 'Atencion en otras provincias' 
+                  id: 'farmacias', 
+                  title: '💊 Farmacias', 
+                  description: 'Farmacias de la red' 
                 }
               ]
             },
             {
-              title: 'ℹ️ Informacion y Soporte',
+              title: '📞 Contacto y Soporte',
               rows: [
                 { 
-                  id: 'preguntas_frecuentes', 
-                  title: '❓ Preguntas Frecuentes', 
-                  description: 'Respuestas a consultas comunes' 
+                  id: 'contacto_servicio', 
+                  title: '📱 Contactar', 
+                  description: 'Teléfonos y emails' 
                 },
                 { 
-                  id: 'asistencia_prestadores', 
-                  title: '👨‍⚕️ Asistencia a Prestadores', 
-                  description: 'Soporte para profesionales medicos' 
-                },
-                { 
-                  id: 'afiliacion', 
-                  title: '📝 Afiliacion', 
-                  description: 'Informacion sobre afiliacion al servicio medico' 
-                }
-              ]
-            },
-            {
-              title: 'Contacto y Soporte',
-              rows: [
-                { 
-                  id: 'info_contacto', 
-                  title: 'Informacion de Contacto', 
-                  description: 'Telefonos y direcciones' 
-                },
-                { 
-                  id: 'horarios_atencion', 
-                  title: 'Horarios de Atencion', 
-                  description: 'Consulta nuestros horarios' 
-                },
-                { 
-                  id: 'soporte_tecnico', 
-                  title: 'Soporte Tecnico', 
-                  description: 'Ayuda con el sistema' 
+                  id: 'emergencias', 
+                  title: '🚨 Emergencias', 
+                  description: 'Atención urgente 24hs' 
                 }
               ]
             }
