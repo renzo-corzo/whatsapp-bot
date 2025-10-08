@@ -4,14 +4,31 @@ Un bot completo de WhatsApp que utiliza la WhatsApp Cloud API de Meta para envia
 
 ## 🚀 Características
 
+### 🤖 Funcionalidades del Bot
 - ✅ Webhook para verificación y recepción de mensajes
 - ✅ Soporte para mensajes de texto simples
-- ✅ Mensajes interactivos tipo lista
+- ✅ Mensajes interactivos tipo lista (hasta 10 opciones)
 - ✅ Procesamiento de respuestas de lista (`list_reply`)
 - ✅ Cliente robusto para WhatsApp Cloud API
 - ✅ Logger con Morgan
 - ✅ Variables de entorno configurables
 - ✅ Endpoint de demostración
+
+### 🎛️ Portal de Administración
+- ✅ **Interfaz web moderna** para gestión completa del bot
+- ✅ **Gestión de respuestas** con editor visual
+- ✅ **Listas interactivas** configurables
+- ✅ **Submenús** con navegación automática
+- ✅ **Estadísticas** de uso y mensajes
+- ✅ **Configuración de API** (tokens, números de teléfono)
+- ✅ **Gestión de vinculaciones** entre menús y submenús
+
+### 🔗 Gestión de Vinculaciones
+- ✅ **Detección automática** de vinculaciones existentes
+- ✅ **Botones dinámicos** que cambian de "Vincular" a "Desvincular"
+- ✅ **Desvinculación directa** desde la interfaz
+- ✅ **Modal de gestión** con lista completa de vinculaciones
+- ✅ **APIs REST** para gestión programática
 
 ## 📋 Requisitos previos
 
@@ -169,6 +186,88 @@ await whatsappClient.sendDemoList('521234567890');
 - Verifica que el \`META_WABA_TOKEN\` sea válido y tenga los permisos necesarios
 - Confirma que el \`PHONE_NUMBER_ID\` sea correcto
 - Revisa que el número de destino esté en formato internacional (ej: 521234567890)
+
+## 📚 Historial de Desarrollo
+
+### 🎯 Funcionalidades Implementadas
+
+#### **Fase 1: Bot Base (Octubre 2025)**
+- ✅ Configuración inicial del bot de WhatsApp
+- ✅ Integración con WhatsApp Cloud API
+- ✅ Manejo de webhooks y mensajes
+- ✅ Límite de 10 opciones en listas interactivas
+
+#### **Fase 2: Portal de Administración (Octubre 2025)**
+- ✅ Interfaz web moderna y responsive
+- ✅ Gestión de respuestas y listas interactivas
+- ✅ Sistema de estadísticas
+- ✅ Configuración de API y tokens
+
+#### **Fase 3: Gestión de Vinculaciones (Octubre 2025)**
+- ✅ Detección automática de vinculaciones
+- ✅ Botones dinámicos (Vincular/Desvincular)
+- ✅ Modal de gestión de vinculaciones
+- ✅ APIs REST para gestión programática
+- ✅ Persistencia de cambios en configuración
+
+### 🔧 APIs Implementadas
+
+#### **Gestión de Vinculaciones:**
+- `GET /api/linked-options` - Obtener todas las vinculaciones
+- `GET /api/check-link/:optionId` - Verificar vinculación específica
+- `POST /api/unlink-submenu` - Desvincular opción
+
+#### **Configuración:**
+- `GET /api/config` - Obtener configuración completa
+- `POST /api/config` - Actualizar configuración
+- `POST /api/update-token` - Actualizar token de WhatsApp
+
+### 🎨 Interfaz de Usuario
+
+#### **Características del Portal:**
+- **Diseño moderno** con gradientes y colores profesionales
+- **Navegación por pestañas** (Respuestas, Listas, Estadísticas, Configuración)
+- **Botones dinámicos** que cambian según el estado
+- **Modales interactivos** para gestión
+- **Notificaciones toast** para feedback
+- **Responsive design** para móviles y desktop
+
+#### **Gestión Visual:**
+- **Cards organizadas** para listas y submenús
+- **Iconos descriptivos** para cada opción
+- **Colores semánticos** (verde=vincular, rojo=desvincular)
+- **Scroll automático** en listas largas
+- **Confirmaciones** para acciones destructivas
+
+### 🚀 Deploy y Configuración
+
+#### **Plataforma:** Render.com
+- **Deploy automático** desde GitHub
+- **Variables de entorno** configurables
+- **Logs en tiempo real**
+- **Restart automático** en cambios
+
+#### **Configuración Requerida:**
+```env
+META_WABA_TOKEN=tu_token_de_whatsapp
+PHONE_NUMBER_ID=tu_phone_number_id
+VERIFY_TOKEN=tu_verify_token
+PORT=3000
+```
+
+### 📱 Casos de Uso
+
+#### **Para Empresas:**
+- **Atención al cliente** automatizada
+- **Menús interactivos** para servicios
+- **Submenús** para información detallada
+- **Gestión visual** sin código
+
+#### **Para Desarrolladores:**
+- **APIs REST** para integración
+- **Configuración dinámica** sin redeploy
+- **Logs detallados** para debugging
+- **Código modular** y extensible
 
 ## 📄 Licencia
 
