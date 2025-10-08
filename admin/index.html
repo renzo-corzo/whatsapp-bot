@@ -316,7 +316,7 @@
     
     <script>
         function showLinkedOptions() {
-            fetch('/admin/api/linked-options')
+            fetch('/api/linked-options')
                 .then(response => response.json())
                 .then(data => {
                     if (data.success) {
@@ -383,7 +383,7 @@
 
         function unlinkSubmenu(optionId) {
             if (confirm('¿Estás seguro de que quieres desvincular este submenú?')) {
-                fetch('/admin/api/unlink-submenu', {
+                fetch('/api/unlink-submenu', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
