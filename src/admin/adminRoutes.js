@@ -27,42 +27,42 @@ async function loadConfig() {
     console.log('📄 Creando archivo de configuración por defecto');
     // Configuración por defecto
     const defaultConfig = {
-      responses: {
-        'hola': {
-          type: 'text',
+  responses: {
+    'hola': {
+      type: 'text',
           message: '🏛️ ¡Hola! Bienvenido/a a la *Caja de Previsión y Seguridad Social de Abogados y Procuradores de Córdoba*.\n\n👋 Soy tu asistente virtual y estoy aquí para ayudarte con consultas sobre nuestros servicios.',
-          followUp: 'demo_list'
-        },
-        'hello': {
-          type: 'text',
+      followUp: 'demo_list'
+    },
+    'hello': {
+      type: 'text',
           message: '🏛️ ¡Hola! Bienvenido/a a la *Caja de Previsión y Seguridad Social de Abogados y Procuradores de Córdoba*.\n\n👋 Soy tu asistente virtual y estoy aquí para ayudarte con consultas sobre nuestros servicios.',
-          followUp: 'demo_list'
-        },
-        'hi': {
-          type: 'text',
+      followUp: 'demo_list'
+    },
+    'hi': {
+      type: 'text',
           message: '🏛️ ¡Hola! Bienvenido/a a la *Caja de Previsión y Seguridad Social de Abogados y Procuradores de Córdoba*.\n\n👋 Soy tu asistente virtual y estoy aquí para ayudarte con consultas sobre nuestros servicios.',
-          followUp: 'demo_list'
-        },
-        'menu': {
-          type: 'text',
+      followUp: 'demo_list'
+    },
+    'menu': {
+      type: 'text',
           message: '📋 *Caja de Abogados - Córdoba*\n\nAquí tienes nuestro menú de servicios:',
-          followUp: 'demo_list'
-        },
-        'opciones': {
-          type: 'text',
+      followUp: 'demo_list'
+    },
+    'opciones': {
+      type: 'text',
           message: '📋 *Caja de Abogados - Córdoba*\n\nAquí tienes las opciones disponibles:',
-          followUp: 'demo_list'
-        }
-      },
-      lists: {
-        'demo_list': {
+      followUp: 'demo_list'
+    }
+  },
+  lists: {
+    'demo_list': {
           title: '🏥 Servicio Médico Caja de Abogados',
           description: 'Selecciona el servicio que necesitas:',
-          sections: [
-            {
-              title: '📋 Información General',
-              rows: [
-                { 
+      sections: [
+        {
+          title: '📋 Información General',
+          rows: [
+            { 
                   id: 'info_servicio', 
                   title: 'ℹ️ Sobre el Servicio', 
                   description: 'Conoce nuestro servicio médico' 
@@ -106,30 +106,30 @@ async function loadConfig() {
                   id: 'farmacias', 
                   title: '💊 Farmacias', 
                   description: 'Farmacias de la red' 
-                }
-              ]
-            },
-            {
-              title: '📞 Contacto y Soporte',
-              rows: [
-                { 
+            }
+          ]
+        },
+        {
+          title: '📞 Contacto y Soporte',
+          rows: [
+            { 
                   id: 'contacto_servicio', 
                   title: '📱 Contactar', 
-                  description: 'Teléfonos y emails' 
-                },
-                { 
+              description: 'Teléfonos y emails' 
+            },
+            { 
                   id: 'emergencias', 
                   title: '🚨 Emergencias', 
                   description: 'Atención urgente 24hs' 
-                }
-              ]
             }
           ]
         }
-      },
-      listResponses: {
-        'info_general': {
-          type: 'text',
+      ]
+    }
+  },
+  listResponses: {
+    'info_general': {
+      type: 'text',
           message: '✅ Información General.\n\n🏢 Somos la Caja de Previsión y Seguridad Social de Abogados y Procuradores de Córdoba. Estamos aquí para ayudarte con todas tus consultas.'
         },
         'soporte_tecnico': {
@@ -202,23 +202,23 @@ async function loadConfig() {
           message: '📝 *AFILIACIÓN AL SERVICIO MÉDICO*\n\n👥 *Quiénes pueden afiliarse:*\n• Abogados matriculados\n• Procuradores habilitados\n• Grupo familiar directo\n\n📄 *Documentación requerida:*\n• Solicitud de afiliación\n• Fotocopia de matrícula\n• DNI y CUIL\n• Constancia domicilio\n\n💰 *Aportes mensuales:*\n• Activos: según categoría\n• Jubilados: bonificado\n• Grupo familiar: adicional\n\n📍 *Inscripción:*\n27 de Abril 842 - Lunes a Viernes 8 a 16hs\n\n📞 *Consultas:* 351 4235900 - int 185'
         },
         'calendario_pagos': {
-          type: 'text',
+      type: 'text',
           message: '📅 Calendario de Pagos.\n\nConsulta las fechas de vencimiento en nuestra página web o contacta con nosotros.'
-        },
+    },
         'emision_boletas': {
-          type: 'text',
+      type: 'text',
           message: '🧾 Emisión de Boletas.\n\nPuedes generar tus boletas a través de nuestro sistema de autogestión online.'
-        },
+    },
         'afiliacion_medica': {
-          type: 'text',
+      type: 'text',
           message: '🩺 Afiliación al Servicio Médico.\n\nPara información sobre afiliación médica, consulta en nuestras oficinas.'
-        },
+    },
         'ordenes_medicas': {
-          type: 'text',
+      type: 'text',
           message: '📋 Órdenes Médicas.\n\nPuedes gestionar tus órdenes médicas desde nuestro sistema de autogestión.'
-        },
+    },
         'consulta_prestadores': {
-          type: 'text',
+      type: 'text',
           message: '🏥 Consulta de Prestadores.\n\nInformación sobre médicos y prestadores disponible en nuestra web.'
         },
         'contactar_humano': {
@@ -479,13 +479,13 @@ function createAdminRoutes() {
   router.use('/admin', express.static(path.join(__dirname, '../../admin')));
 
   // API: Estado del bot
-  router.get('/api/status', (req, res) => {
-    res.json({
-      status: 'online',
-      timestamp: new Date().toISOString(),
-      version: '1.0.0'
-    });
+router.get('/api/status', (req, res) => {
+  res.json({
+    status: 'online',
+    timestamp: new Date().toISOString(),
+    version: '1.0.0'
   });
+});
 
   // API: Obtener configuración completa
   router.get('/api/config', async (req, res) => {
@@ -638,6 +638,97 @@ function createAdminRoutes() {
     }
   });
 
+  // API para obtener opciones vinculadas
+  router.get('/api/linked-options', (req, res) => {
+    try {
+      const linkedOptions = [];
+      
+      Object.keys(config.lists).forEach(listId => {
+        const list = config.lists[listId];
+        if (list.sections) {
+          list.sections.forEach(section => {
+            if (section.rows) {
+              section.rows.forEach(row => {
+                if (row.followUp) {
+                  linkedOptions.push({
+                    id: row.id,
+                    title: row.title,
+                    description: row.description,
+                    listId: listId,
+                    listTitle: list.title,
+                    sectionTitle: section.title,
+                    submenuId: row.followUp
+                  });
+                }
+              });
+            }
+          });
+        }
+      });
+
+      res.json({ 
+        success: true, 
+        linkedOptions: linkedOptions 
+      });
+    } catch (error) {
+      console.error('Error obteniendo opciones vinculadas:', error);
+      res.status(500).json({ 
+        success: false, 
+        message: 'Error obteniendo opciones vinculadas' 
+      });
+    }
+  });
+
+  // API simple para desvincular submenú
+  router.post('/api/unlink-submenu', (req, res) => {
+    try {
+      const { optionId } = req.body;
+      
+      if (!optionId) {
+        return res.status(400).json({ 
+          success: false, 
+          message: 'ID de opcion requerido' 
+        });
+      }
+
+      let unlinked = false;
+      Object.keys(config.lists).forEach(listId => {
+        const list = config.lists[listId];
+        if (list.sections) {
+          list.sections.forEach(section => {
+            if (section.rows) {
+              section.rows.forEach(row => {
+                if (row.id === optionId && row.followUp) {
+                  delete row.followUp;
+                  unlinked = true;
+                  console.log(`Desvinculado submenu de: ${optionId}`);
+                }
+              });
+            }
+          });
+        }
+      });
+
+      if (unlinked) {
+        res.json({ 
+          success: true, 
+          message: 'Submenu desvinculado correctamente' 
+        });
+      } else {
+        res.json({ 
+          success: false, 
+          message: 'No se encontro vinculacion para esta opcion' 
+        });
+      }
+    } catch (error) {
+      console.error('Error desvinculando submenu:', error);
+      res.status(500).json({ 
+        success: false, 
+        message: 'Error desvinculando submenu' 
+      });
+    }
+  });
+
   return router;
 }
 
@@ -718,96 +809,6 @@ async function updateUniqueUsers(userId) {
   }
 }
 
-// API para obtener opciones vinculadas
-router.get('/api/linked-options', (req, res) => {
-  try {
-    const linkedOptions = [];
-    
-    Object.keys(config.lists).forEach(listId => {
-      const list = config.lists[listId];
-      if (list.sections) {
-        list.sections.forEach(section => {
-          if (section.rows) {
-            section.rows.forEach(row => {
-              if (row.followUp) {
-                linkedOptions.push({
-                  id: row.id,
-                  title: row.title,
-                  description: row.description,
-                  listId: listId,
-                  listTitle: list.title,
-                  sectionTitle: section.title,
-                  submenuId: row.followUp
-                });
-              }
-            });
-          }
-        });
-      }
-    });
-
-    res.json({ 
-      success: true, 
-      linkedOptions: linkedOptions 
-    });
-  } catch (error) {
-    console.error('Error obteniendo opciones vinculadas:', error);
-    res.status(500).json({ 
-      success: false, 
-      message: 'Error obteniendo opciones vinculadas' 
-    });
-  }
-});
-
-// API simple para desvincular submenú
-router.post('/api/unlink-submenu', (req, res) => {
-  try {
-    const { optionId } = req.body;
-    
-    if (!optionId) {
-      return res.status(400).json({ 
-        success: false, 
-        message: 'ID de opcion requerido' 
-      });
-    }
-
-    let unlinked = false;
-    Object.keys(config.lists).forEach(listId => {
-      const list = config.lists[listId];
-      if (list.sections) {
-        list.sections.forEach(section => {
-          if (section.rows) {
-            section.rows.forEach(row => {
-              if (row.id === optionId && row.followUp) {
-                delete row.followUp;
-                unlinked = true;
-                console.log(`Desvinculado submenu de: ${optionId}`);
-              }
-            });
-          }
-        });
-      }
-    });
-
-    if (unlinked) {
-      res.json({ 
-        success: true, 
-        message: 'Submenu desvinculado correctamente' 
-      });
-    } else {
-      res.json({ 
-        success: false, 
-        message: 'No se encontro vinculacion para esta opcion' 
-      });
-    }
-  } catch (error) {
-    console.error('Error desvinculando submenu:', error);
-    res.status(500).json({ 
-      success: false, 
-      message: 'Error desvinculando submenu' 
-    });
-  }
-});
 
 module.exports = {
   createAdminRoutes,
