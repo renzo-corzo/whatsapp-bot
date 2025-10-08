@@ -639,11 +639,12 @@ router.get('/api/status', (req, res) => {
   });
 
   // API para obtener opciones vinculadas
-  router.get('/api/linked-options', (req, res) => {
+  router.get('/api/linked-options', async (req, res) => {
     try {
+      const config = await loadConfig();
       const linkedOptions = [];
       
-      Object.keys(config.lists).forEach(listId => {
+      Object.keys(config.lists || {}).forEach(listId => {
         const list = config.lists[listId];
         if (list.sections) {
           list.sections.forEach(section => {
@@ -680,7 +681,7 @@ router.get('/api/status', (req, res) => {
   });
 
   // API simple para desvincular submenú
-  router.post('/api/unlink-submenu', (req, res) => {
+  router.post('/api/unlink-submenu', async (req, res) => {
     try {
       const { optionId } = req.body;
       
@@ -691,8 +692,10 @@ router.get('/api/status', (req, res) => {
         });
       }
 
+      const config = await loadConfig();
       let unlinked = false;
-      Object.keys(config.lists).forEach(listId => {
+      
+      Object.keys(config.lists || {}).forEach(listId => {
         const list = config.lists[listId];
         if (list.sections) {
           list.sections.forEach(section => {
@@ -710,6 +713,7 @@ router.get('/api/status', (req, res) => {
       });
 
       if (unlinked) {
+        await saveConfig(config);
         res.json({ 
           success: true, 
           message: 'Submenu desvinculado correctamente' 
