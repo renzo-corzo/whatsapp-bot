@@ -303,5 +303,36 @@
     </div>
 
     <script src="script.js?v=2.0"></script>
+    
+    <script>
+        function desvincularSubmenu(optionId) {
+            if (confirm('¿Estás seguro de que quieres desvincular este submenú?')) {
+                fetch('/admin/api/unlink-submenu', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ optionId: optionId })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert('✅ Submenú desvinculado correctamente');
+                    } else {
+                        alert('❌ Error: ' + data.message);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('❌ Error desvinculando submenú');
+                });
+            }
+        }
+        
+        // Función para mostrar opciones vinculadas
+        function verVinculaciones() {
+            alert('Para desvincular un submenú, usa: desvincularSubmenu("ID_DE_LA_OPCION")\n\nEjemplo: desvincularSubmenu("emergencias")');
+        }
+    </script>
 </body>
 </html>

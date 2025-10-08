@@ -718,6 +718,56 @@ async function updateUniqueUsers(userId) {
   }
 }
 
+// API simple para desvincular submenú
+router.post('/api/unlink-submenu', (req, res) => {
+  try {
+    const { optionId } = req.body;
+    
+    if (!optionId) {
+      return res.status(400).json({ 
+        success: false, 
+        message: 'ID de opcion requerido' 
+      });
+    }
+
+    let unlinked = false;
+    Object.keys(config.lists).forEach(listId => {
+      const list = config.lists[listId];
+      if (list.sections) {
+        list.sections.forEach(section => {
+          if (section.rows) {
+            section.rows.forEach(row => {
+              if (row.id === optionId && row.followUp) {
+                delete row.followUp;
+                unlinked = true;
+                console.log(`Desvinculado submenu de: ${optionId}`);
+              }
+            });
+          }
+        });
+      }
+    });
+
+    if (unlinked) {
+      res.json({ 
+        success: true, 
+        message: 'Submenu desvinculado correctamente' 
+      });
+    } else {
+      res.json({ 
+        success: false, 
+        message: 'No se encontro vinculacion para esta opcion' 
+      });
+    }
+  } catch (error) {
+    console.error('Error desvinculando submenu:', error);
+    res.status(500).json({ 
+      success: false, 
+      message: 'Error desvinculando submenu' 
+    });
+  }
+});
+
 module.exports = {
   createAdminRoutes,
   getBotResponse,
