@@ -644,6 +644,22 @@ router.get('/api/status', (req, res) => {
       const config = await loadConfig();
       const linkedOptions = [];
       
+      // Buscar en las respuestas principales
+      Object.keys(config.responses || {}).forEach(responseId => {
+        const response = config.responses[responseId];
+        if (response && response.followUp) {
+          linkedOptions.push({
+            id: responseId,
+            title: responseId,
+            description: response.message ? response.message.substring(0, 100) + '...' : 'Sin descripción',
+            listId: 'main_responses',
+            listTitle: 'Respuestas Principales',
+            sectionTitle: 'Comandos',
+            submenuId: response.followUp
+          });
+        }
+      });
+      
       // Buscar en las listas
       Object.keys(config.lists || {}).forEach(listId => {
         const list = config.lists[listId];
@@ -698,11 +714,18 @@ router.get('/api/status', (req, res) => {
       const config = await loadConfig();
       let unlinked = false;
       
+      // Buscar en las respuestas principales
+      if (config.responses && config.responses[optionId] && config.responses[optionId].followUp) {
+        delete config.responses[optionId].followUp;
+        unlinked = true;
+        console.log(`Desvinculado submenu de respuesta principal: ${optionId}`);
+      }
+      
       // Buscar en las respuestas de lista
       if (config.listResponses && config.listResponses[optionId] && config.listResponses[optionId].followUp) {
         delete config.listResponses[optionId].followUp;
         unlinked = true;
-        console.log(`Desvinculado submenu de: ${optionId}`);
+        console.log(`Desvinculado submenu de lista: ${optionId}`);
       }
 
       if (unlinked) {
