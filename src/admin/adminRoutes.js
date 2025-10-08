@@ -644,13 +644,16 @@ router.get('/api/status', (req, res) => {
       const config = await loadConfig();
       const linkedOptions = [];
       
+      // Buscar en las listas
       Object.keys(config.lists || {}).forEach(listId => {
         const list = config.lists[listId];
         if (list.sections) {
           list.sections.forEach(section => {
             if (section.rows) {
               section.rows.forEach(row => {
-                if (row.followUp) {
+                // Verificar si la respuesta de esta opción tiene followUp
+                const response = config.listResponses && config.listResponses[row.id];
+                if (response && response.followUp) {
                   linkedOptions.push({
                     id: row.id,
                     title: row.title,
@@ -658,7 +661,7 @@ router.get('/api/status', (req, res) => {
                     listId: listId,
                     listTitle: list.title,
                     sectionTitle: section.title,
-                    submenuId: row.followUp
+                    submenuId: response.followUp
                   });
                 }
               });
@@ -695,22 +698,12 @@ router.get('/api/status', (req, res) => {
       const config = await loadConfig();
       let unlinked = false;
       
-      Object.keys(config.lists || {}).forEach(listId => {
-        const list = config.lists[listId];
-        if (list.sections) {
-          list.sections.forEach(section => {
-            if (section.rows) {
-              section.rows.forEach(row => {
-                if (row.id === optionId && row.followUp) {
-                  delete row.followUp;
-                  unlinked = true;
-                  console.log(`Desvinculado submenu de: ${optionId}`);
-                }
-              });
-            }
-          });
-        }
-      });
+      // Buscar en las respuestas de lista
+      if (config.listResponses && config.listResponses[optionId] && config.listResponses[optionId].followUp) {
+        delete config.listResponses[optionId].followUp;
+        unlinked = true;
+        console.log(`Desvinculado submenu de: ${optionId}`);
+      }
 
       if (unlinked) {
         await saveConfig(config);
