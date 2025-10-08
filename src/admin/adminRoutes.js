@@ -156,7 +156,15 @@ async function loadConfig() {
         // 🚨 URGENCIAS Y EMERGENCIAS
         'urgencias_emergencias': {
           type: 'text',
-          message: '🆘 *URGENCIAS Y EMERGENCIAS - 24HS*\n\n📞 *Línea de Emergencias:*\n• 351 5284546 (WhatsApp)\n• 0800-555-URGENCIA\n\n🏥 *Centros de Atención Inmediata:*\n• Hospital Privado Córdoba\n• Sanatorio Allende\n• Clínica Universitaria Reina Fabiola\n\n⚠️ *En caso de emergencia vital:*\nLlama al 107 (SAME) o dirígete al centro médico más cercano.\n\n💡 *Recuerda tener a mano:*\n• Credencial de afiliado\n• DNI\n• Orden médica (si la tienes)'
+          message: '🆘 *URGENCIAS Y EMERGENCIAS - 24HS*\n\n📞 *Línea de Emergencias:*\n• 351 5284546 (WhatsApp)\n• 0800-555-URGENCIA\n\n🏥 *Centros de Atención Inmediata:*\n• Hospital Privado Córdoba\n• Sanatorio Allende\n• Clínica Universitaria Reina Fabiola\n\n⚠️ *En caso de emergencia vital:*\nLlama al 107 (SAME) o dirígete al centro médico más cercano.\n\n💡 *Recuerda tener a mano:*\n• Credencial de afiliado\n• DNI\n• Orden médica (si la tienes)',
+          followUp: 'soporte_submenu'
+        },
+        
+        // 🚨 EMERGENCIAS (opción del menú principal)
+        'emergencias': {
+          type: 'text',
+          message: '🆘 *EMERGENCIAS - ATENCIÓN 24HS*\n\nPara emergencias médicas urgentes:',
+          followUp: 'soporte_submenu'
         },
         
         // 💊 SERVICIOS MÉDICOS
