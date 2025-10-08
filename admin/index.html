@@ -79,6 +79,9 @@
                         <button class="btn btn-info" id="addSubmenuBtn" style="margin-left: 10px;">
                             <i class="fas fa-sitemap"></i> Nuevo Submenú
                         </button>
+                        <button class="btn btn-warning" onclick="showLinkedOptions()" style="margin-left: 10px;">
+                            <i class="fas fa-unlink"></i> Gestionar Vinculaciones
+                        </button>
                     </div>
                 </div>
 
@@ -305,7 +308,73 @@
     <script src="script.js?v=2.0"></script>
     
     <script>
-        function desvincularSubmenu(optionId) {
+        function showLinkedOptions() {
+            fetch('/admin/api/linked-options')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        displayLinkedOptions(data.linkedOptions);
+                    } else {
+                        alert('❌ Error: ' + data.message);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('❌ Error cargando vinculaciones');
+                });
+        }
+
+        function displayLinkedOptions(options) {
+            const modal = document.createElement('div');
+            modal.className = 'modal';
+            modal.id = 'linkedOptionsModal';
+            modal.style.display = 'block';
+            
+            let html = `
+                <div class="modal-content" style="max-width: 800px;">
+                    <div class="modal-header">
+                        <h3><i class="fas fa-unlink"></i> Gestionar Vinculaciones de Submenús</h3>
+                        <span class="close" onclick="closeModal('linkedOptionsModal')">&times;</span>
+                    </div>
+                    <div class="modal-body">
+            `;
+            
+            if (options.length === 0) {
+                html += '<p style="text-align: center; color: #666; padding: 20px;">No hay opciones vinculadas a submenús.</p>';
+            } else {
+                html += '<div style="max-height: 400px; overflow-y: auto;">';
+                options.forEach(option => {
+                    html += `
+                        <div style="border: 1px solid #ddd; border-radius: 8px; padding: 15px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; background: #f9f9f9;">
+                            <div style="flex: 1;">
+                                <h4 style="margin: 0 0 5px 0; color: #333;">${option.title}</h4>
+                                <p style="margin: 0 0 5px 0; color: #666; font-size: 14px;">${option.description}</p>
+                                <small style="color: #999;">Lista: ${option.listTitle} > ${option.sectionTitle}</small>
+                            </div>
+                            <div>
+                                <button onclick="unlinkSubmenu('${option.id}')" style="background: #dc3545; color: white; border: none; padding: 8px 12px; border-radius: 4px; cursor: pointer; font-size: 12px;">
+                                    <i class="fas fa-unlink"></i> Desvincular
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                });
+                html += '</div>';
+            }
+            
+            html += `
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" onclick="closeModal('linkedOptionsModal')">Cerrar</button>
+                    </div>
+                </div>
+            `;
+            
+            modal.innerHTML = html;
+            document.body.appendChild(modal);
+        }
+
+        function unlinkSubmenu(optionId) {
             if (confirm('¿Estás seguro de que quieres desvincular este submenú?')) {
                 fetch('/admin/api/unlink-submenu', {
                     method: 'POST',
@@ -318,6 +387,7 @@
                 .then(data => {
                     if (data.success) {
                         alert('✅ Submenú desvinculado correctamente');
+                        showLinkedOptions(); // Recargar la lista
                     } else {
                         alert('❌ Error: ' + data.message);
                     }
@@ -327,11 +397,6 @@
                     alert('❌ Error desvinculando submenú');
                 });
             }
-        }
-        
-        // Función para mostrar opciones vinculadas
-        function verVinculaciones() {
-            alert('Para desvincular un submenú, usa: desvincularSubmenu("ID_DE_LA_OPCION")\n\nEjemplo: desvincularSubmenu("emergencias")');
         }
     </script>
 </body>

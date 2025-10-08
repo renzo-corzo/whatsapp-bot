@@ -718,6 +718,47 @@ async function updateUniqueUsers(userId) {
   }
 }
 
+// API para obtener opciones vinculadas
+router.get('/api/linked-options', (req, res) => {
+  try {
+    const linkedOptions = [];
+    
+    Object.keys(config.lists).forEach(listId => {
+      const list = config.lists[listId];
+      if (list.sections) {
+        list.sections.forEach(section => {
+          if (section.rows) {
+            section.rows.forEach(row => {
+              if (row.followUp) {
+                linkedOptions.push({
+                  id: row.id,
+                  title: row.title,
+                  description: row.description,
+                  listId: listId,
+                  listTitle: list.title,
+                  sectionTitle: section.title,
+                  submenuId: row.followUp
+                });
+              }
+            });
+          }
+        });
+      }
+    });
+
+    res.json({ 
+      success: true, 
+      linkedOptions: linkedOptions 
+    });
+  } catch (error) {
+    console.error('Error obteniendo opciones vinculadas:', error);
+    res.status(500).json({ 
+      success: false, 
+      message: 'Error obteniendo opciones vinculadas' 
+    });
+  }
+});
+
 // API simple para desvincular submenú
 router.post('/api/unlink-submenu', (req, res) => {
   try {
