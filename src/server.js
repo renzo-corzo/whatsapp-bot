@@ -210,7 +210,7 @@ async function handleTextMessage(message, from) {
   if (!botResponse && ['a', 'b', 'c', 'd', 'e'].includes(textBody)) {
     console.log(`💬 Opción de texto seleccionada: "${textBody}"`);
     
-    // Intentar primero con reintegros
+    // Detectar contexto basado en el mensaje anterior
     let responseKey = null;
     let responseType = null;
     
@@ -232,15 +232,20 @@ async function handleTextMessage(message, from) {
       'e': 'medicamentos_volver'
     };
     
-    // Probar primero reintegros, luego medicamentos
-    responseKey = reintegrosKeys[textBody];
-    let response = await getBotResponse(responseKey);
+    // Intentar detectar contexto por el mensaje anterior
+    // Si el mensaje anterior contenía "REINTEGROS", usar reintegros
+    // Si el mensaje anterior contenía "MEDICAMENTOS", usar medicamentos
+    // Por defecto, usar medicamentos (ya que es más reciente)
     
+    // Por ahora, usar medicamentos por defecto para evitar confusión
+    responseKey = medicamentosKeys[textBody];
+    let response = await getBotResponse(responseKey);
+    responseType = 'medicamentos';
+    
+    // Si no se encuentra en medicamentos, probar reintegros
     if (!response) {
-      responseKey = medicamentosKeys[textBody];
+      responseKey = reintegrosKeys[textBody];
       response = await getBotResponse(responseKey);
-      responseType = 'medicamentos';
-    } else {
       responseType = 'reintegros';
     }
     
