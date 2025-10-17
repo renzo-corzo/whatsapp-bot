@@ -60,67 +60,22 @@ async function loadConfig() {
           description: 'Selecciona el servicio que necesitas:',
       sections: [
         {
-          title: '📋 Información General',
+          title: '📋 Menú Principal',
           rows: [
             { 
-                  id: 'info_servicio', 
-                  title: 'ℹ️ Sobre el Servicio', 
-                  description: 'Conoce nuestro servicio médico' 
-                },
-                { 
-                  id: 'cobertura', 
-                  title: '🛡️ Qué Cubrimos', 
-                  description: 'Cobertura médica completa' 
-                }
-              ]
-            },
-            {
-              title: '📝 Gestión de Afiliados',
-              rows: [
-                { 
-                  id: 'afiliacion', 
-                  title: '📋 Afiliarse', 
-                  description: 'Cómo ser parte del servicio' 
+                  id: 'urgencias', 
+                  title: '🚨 Urgencias', 
+                  description: 'Atención de emergencias' 
                 },
                 { 
                   id: 'autorizaciones', 
-                  title: '✅ Autorizaciones', 
+                  title: '📄 Autorizaciones', 
                   description: 'Solicitar autorizaciones' 
                 },
                 { 
-                  id: 'reintegros', 
-                  title: '💰 Reintegros', 
-                  description: 'Solicitar reintegros' 
-                }
-              ]
-            },
-            {
-              title: '🏥 Red de Prestadores',
-              rows: [
-                { 
-                  id: 'buscar_medico', 
-                  title: '🔍 Buscar Médico', 
-                  description: 'Encuentra tu especialista' 
-                },
-                { 
-                  id: 'farmacias', 
-                  title: '💊 Farmacias', 
-                  description: 'Farmacias de la red' 
-            }
-          ]
-        },
-        {
-          title: '📞 Contacto y Soporte',
-          rows: [
-            { 
-                  id: 'contacto_servicio', 
-                  title: '📱 Contactar', 
-              description: 'Teléfonos y emails' 
-            },
-            { 
-                  id: 'emergencias', 
-                  title: '🚨 Emergencias', 
-                  description: 'Atención urgente 24hs' 
+                  id: 'otras_gestiones', 
+                  title: '📋 Otras gestiones', 
+                  description: 'Más servicios disponibles' 
             }
           ]
         }
@@ -128,6 +83,24 @@ async function loadConfig() {
     }
   },
   listResponses: {
+    // 🚨 URGENCIAS
+    'urgencias': {
+      type: 'text',
+      message: '🆘 URGENCIAS\n\n📞 0800-888-3226 (ECCO)\n📞 351 4466666\n\n📌 Al momento del llamado, tenga a mano el número de DNI del paciente.\n\n🏠 Médico a domicilio:\nPrestación destinada a consultas médicas generales realizadas en el domicilio del afiliado.\n\n⚠️ Sujeta a disponibilidad. Puede requerir copago y tiene tope mensual y anual.\n\n🔁 Para volver al menú principal, toque "↩️ Volver al Menú" o escriba "Menú".'
+    },
+    
+    // 📄 AUTORIZACIONES
+    'autorizaciones': {
+      type: 'text',
+      message: '📄 AUTORIZACIONES\n\nPara gestionar autorizaciones médicas, por favor contacte con nuestro equipo especializado.\n\n📞 Teléfono: 351 4235900 - int 250\n📱 WhatsApp: 351 5284546\n\n⏰ Horarios de atención:\n• Lunes a Viernes: 8:00 - 16:00\n• Sábados: 9:00 - 12:00'
+    },
+    
+    // 📋 OTRAS GESTIONES
+    'otras_gestiones': {
+      type: 'text',
+      message: '📋 OTRAS GESTIONES\n\nSeleccione el trámite:\n1. 👤 Afiliación\n2. 💸 Reintegros\n3. 💊 Medicamentos\n4. ❤️ Programas\n5. 🏥 Prestadores\n6. 🤝 Reciprocidad\n7. 🧑‍⚕️ Soporte prestador\n8. ❓ Otras consultas\n\n↩️ Volver al Menú'
+    },
+    
     'info_general': {
       type: 'text',
           message: '✅ Información General.\n\n🏢 Somos la Caja de Previsión y Seguridad Social de Abogados y Procuradores de Córdoba. Estamos aquí para ayudarte con todas tus consultas.'
