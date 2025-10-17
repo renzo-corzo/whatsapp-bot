@@ -299,10 +299,6 @@ async function loadConfig() {
           message: '💊 *MEDICAMENTOS Y COBERTURA*\n\n📋 *Cobertura incluye:*\n• Medicamentos del Vademécum\n• Tratamientos crónicos\n• Medicación oncológica\n• Insulinas y diabéticos\n\n🏪 *Farmacias adheridas:*\n• Farmacity\n• Dr. Ahorro\n• Farmacias del Centro\n\n📱 *Para consultar cobertura:*\n• WhatsApp: 351 5284546\n• Web: www.caja-abogados.org.ar/vademecum\n\n💰 *Descuentos:*\n• Afiliados: 40-60%\n• Grupo familiar: 40%\n• Jubilados: 70%'
         },
         
-        'reintegros': {
-          type: 'text',
-          message: '💰 *REINTEGROS MÉDICOS*\n\n📄 *Documentación requerida:*\n• Factura original del prestador\n• Recibo de pago\n• Orden médica\n• Credencial de afiliado\n\n📍 *Presentación:*\n• Presencial: 27 de Abril 842\n• Email: reintegros@caja-abogados.com.ar\n• WhatsApp: 351 5284546\n\n⏰ *Plazos:*\n• Presentación: hasta 60 días\n• Procesamiento: 15-20 días hábiles\n• Pago: 5 días hábiles\n\n💡 *Montos máximos según categoría de afiliación disponibles en nuestra web.'
-        },
         
         // 🏥 PROGRAMAS Y CONVENIOS
         'programas': {
