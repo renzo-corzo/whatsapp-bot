@@ -102,10 +102,20 @@ async function loadConfig() {
       ]
     },
     
-    // 📋 OTRAS GESTIONES - Submenú implementado
+    // 📋 OTRAS GESTIONES - Submenú implementado como lista interactiva
     'otras_gestiones': {
-      type: 'text',
-      message: 'Seleccioná el trámite:\n1. 👤 Afiliación\n2. 💸 Reintegros\n3. 💊 Medicamentos\n4. ❤️ Programas\n5. 🏥 Prestadores\n6. 🤝 Reciprocidad\n7. 🧑‍⚕️ Soporte prestador\n8. ❓ Otras consultas\n(Próximamente se implementan como listas o botones)\n\n↩️ Volver al Menú'
+      type: 'text_with_buttons',
+      message: '📋 OTRAS GESTIONES\n\nSeleccioná el trámite que necesitas:',
+      buttons: [
+        { id: 'afiliacion', title: '👤 Afiliación' },
+        { id: 'reintegros', title: '💸 Reintegros' },
+        { id: 'medicamentos', title: '💊 Medicamentos' },
+        { id: 'programas', title: '❤️ Programas' },
+        { id: 'prestadores', title: '🏥 Prestadores' },
+        { id: 'reciprocidad', title: '🤝 Reciprocidad' },
+        { id: 'soporte_prestador', title: '🧑‍⚕️ Soporte prestador' },
+        { id: 'otras_consultas', title: '❓ Otras consultas' }
+      ]
     },
     
     // 📝 SOLICITAR AUTORIZACIONES
@@ -145,6 +155,48 @@ async function loadConfig() {
       message: '👤 AFILIACIÓN\n\n📄 Instructivo de afiliación:\n\n✉️ enviar formularios a serviciomedico.afil@caja-abogados.com.ar\n\n📞 351 4235900 int. 103',
       url: 'https://www.caja-abogados.org.ar/servicio-medico/instructivo-de-afiliacion/',
       url_text: '📄 Ver Instructivo de Afiliación'
+    },
+    
+    // 💸 REINTEGROS - Otras Gestiones (temporal)
+    'reintegros': {
+      type: 'text',
+      message: '💸 REINTEGROS\n\n📋 Información detallada próximamente disponible.\n\n📞 Para consultas: 351 4235900 int. 103\n\n✉️ serviciomedico@caja-abogados.com.ar'
+    },
+    
+    // 💊 MEDICAMENTOS - Otras Gestiones (temporal)
+    'medicamentos': {
+      type: 'text',
+      message: '💊 MEDICAMENTOS\n\n📋 Información detallada próximamente disponible.\n\n📞 Para consultas: 351 4235900 int. 103\n\n✉️ serviciomedico@caja-abogados.com.ar'
+    },
+    
+    // ❤️ PROGRAMAS - Otras Gestiones (temporal)
+    'programas': {
+      type: 'text',
+      message: '❤️ PROGRAMAS\n\n📋 Información detallada próximamente disponible.\n\n📞 Para consultas: 351 4235900 int. 103\n\n✉️ serviciomedico@caja-abogados.com.ar'
+    },
+    
+    // 🏥 PRESTADORES - Otras Gestiones (temporal)
+    'prestadores': {
+      type: 'text',
+      message: '🏥 PRESTADORES\n\n📋 Información detallada próximamente disponible.\n\n📞 Para consultas: 351 4235900 int. 103\n\n✉️ serviciomedico@caja-abogados.com.ar'
+    },
+    
+    // 🤝 RECIPROCIDAD - Otras Gestiones (temporal)
+    'reciprocidad': {
+      type: 'text',
+      message: '🤝 RECIPROCIDAD\n\n📋 Información detallada próximamente disponible.\n\n📞 Para consultas: 351 4235900 int. 103\n\n✉️ serviciomedico@caja-abogados.com.ar'
+    },
+    
+    // 🧑‍⚕️ SOPORTE PRESTADOR - Otras Gestiones (temporal)
+    'soporte_prestador': {
+      type: 'text',
+      message: '🧑‍⚕️ SOPORTE PRESTADOR\n\n📋 Información detallada próximamente disponible.\n\n📞 Para consultas: 351 4235900 int. 103\n\n✉️ serviciomedico@caja-abogados.com.ar'
+    },
+    
+    // ❓ OTRAS CONSULTAS - Otras Gestiones (temporal)
+    'otras_consultas': {
+      type: 'text',
+      message: '❓ OTRAS CONSULTAS\n\n📋 Información detallada próximamente disponible.\n\n📞 Para consultas: 351 4235900 int. 103\n\n✉️ serviciomedico@caja-abogados.com.ar'
     },
     
     'info_general': {
