@@ -294,10 +294,6 @@ async function loadConfig() {
           message: '📋 *AUTORIZACIONES MÉDICAS*\n\n📝 *Para solicitar autorizaciones necesitas:*\n• Orden médica del profesional tratante\n• Credencial de afiliado vigente\n• DNI del paciente\n\n📞 *Canales de solicitud:*\n• WhatsApp: 351 5284546\n• Teléfono: 351 4235900 - int 200\n• Presencial: 27 de Abril 842\n\n⏰ *Tiempo de respuesta:*\n• Urgentes: 24-48hs\n• Programadas: 3-5 días hábiles\n\n💡 *Tip:* Envía la documentación por WhatsApp para agilizar el trámite.'
         },
         
-        'medicamentos': {
-          type: 'text',
-          message: '💊 *MEDICAMENTOS Y COBERTURA*\n\n📋 *Cobertura incluye:*\n• Medicamentos del Vademécum\n• Tratamientos crónicos\n• Medicación oncológica\n• Insulinas y diabéticos\n\n🏪 *Farmacias adheridas:*\n• Farmacity\n• Dr. Ahorro\n• Farmacias del Centro\n\n📱 *Para consultar cobertura:*\n• WhatsApp: 351 5284546\n• Web: www.caja-abogados.org.ar/vademecum\n\n💰 *Descuentos:*\n• Afiliados: 40-60%\n• Grupo familiar: 40%\n• Jubilados: 70%'
-        },
         
         
         // 🏥 PROGRAMAS Y CONVENIOS
