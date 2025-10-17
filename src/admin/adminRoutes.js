@@ -396,9 +396,49 @@ function getCompleteConfig() {
   submenus: {},
       
       // Respuestas para botones y opciones de submenús - Limpiadas
-  submenuResponses: {}
-};
-}
+  submenuResponses: {},
+  
+  // Agregar las respuestas de listResponses
+  listResponses: {
+    // 🚨 URGENCIAS
+    'urgencias': {
+      type: 'text',
+      message: '🆘 URGENCIAS\n\n📞 0800-888-3226 (ECCO)\n📞 351 4466666\n\n📌 Al momento del llamado, tenga a mano el número de DNI del paciente.\n\n🏠 Médico a domicilio:\nPrestación destinada a consultas médicas generales realizadas en el domicilio del afiliado.\n\n⚠️ Sujeta a disponibilidad. Puede requerir copago y tiene tope mensual y anual.\n\n🔁 Para volver al menú principal, toque "↩️ Volver al Menú" o escriba "Menú".'
+    },
+    
+    // 📄 AUTORIZACIONES - Botones
+    'autorizaciones': {
+      type: 'text_with_buttons',
+      message: '📄 AUTORIZACIONES\nSelecciona una opción:',
+      buttons: [
+        { id: 'amb_solicitar', title: '📝 Solicitar Autoriz.' },
+        { id: 'amb_seguimiento', title: '📦 Seguimiento' },
+        { id: 'amb_reclamo', title: '⚠️ Reclamo' },
+        { id: 'amb_revision', title: '🔎 Revisión' },
+        { id: 'amb_volver', title: '↩️ Volver al Menú' }
+      ]
+    },
+    
+    // 📋 OTRAS GESTIONES - Submenú implementado como lista interactiva
+    'otras_gestiones': {
+      type: 'text',
+      message: '📋 OTRAS GESTIONES\n\nSeleccioná el trámite que necesitas:',
+      followUp: 'otras_gestiones_list'
+    },
+    
+    // 💸 REINTEGROS - Opciones de texto
+    'reintegros': {
+      type: 'text',
+      message: '💸 REINTEGROS\n\nPor favor, indique qué desea hacer:\n\n🔸 A. Solicitar un reintegro\n🔸 B. Consultar el estado de un reintegro ya presentado\n🔸 C. Conocer los casos posibles de un reintegro\n🔸 D. Consultar proveedores por especialidad\n🔸 E. Volver al Menú\n\n👉 Responda con "A", "B", "C", "D" o "E".'
+    },
+    
+    // 💊 MEDICAMENTOS - Opciones de texto (FORZADO)
+    'medicamentos': {
+      type: 'text',
+      message: '💊 MEDICAMENTOS\n\nSelecciona la opción que necesitas:\n\n🔸 A. Buscar en Vademécum\n🔸 B. Consultar farmacias prestadoras\n🔸 C. Información sobre recetas\n🔸 D. Cobertura fuera del vademécum\n🔸 E. Volver al Menú\n\n👉 Responda con "A", "B", "C", "D" o "E".'
+    }
+  }
+  };
 }
 
 // Guardar configuración en archivo
