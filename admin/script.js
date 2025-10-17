@@ -244,6 +244,8 @@ function loadLists() {
     // Crear tarjeta especial para "Autorizaciones" como botones
     const autorizacionesCard = createAutorizacionesButtonsCard();
     container.appendChild(autorizacionesCard);
+    
+    console.log('✅ Cargadas 2 tarjetas: Servicio Médico (Lista) y Autorizaciones (Botones)');
 
     // Cargar submenús
     if (botConfig.submenus) {
