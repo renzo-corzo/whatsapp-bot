@@ -89,10 +89,17 @@ async function loadConfig() {
       message: '🆘 URGENCIAS\n\n📞 0800-888-3226 (ECCO)\n📞 351 4466666\n\n📌 Al momento del llamado, tenga a mano el número de DNI del paciente.\n\n🏠 Médico a domicilio:\nPrestación destinada a consultas médicas generales realizadas en el domicilio del afiliado.\n\n⚠️ Sujeta a disponibilidad. Puede requerir copago y tiene tope mensual y anual.\n\n🔁 Para volver al menú principal, toque "↩️ Volver al Menú" o escriba "Menú".'
     },
     
-    // 📄 AUTORIZACIONES
+    // 📄 AUTORIZACIONES - Botones
     'autorizaciones': {
-      type: 'text',
-      message: '📄 AUTORIZACIONES\n\nPara gestionar autorizaciones médicas, por favor contacte con nuestro equipo especializado.\n\n📞 Teléfono: 351 4235900 - int 250\n📱 WhatsApp: 351 5284546\n\n⏰ Horarios de atención:\n• Lunes a Viernes: 8:00 - 16:00\n• Sábados: 9:00 - 12:00'
+      type: 'text_with_buttons',
+      message: '📄 AUTORIZACIONES\nSelecciona una opción:',
+      buttons: [
+        { id: 'amb_solicitar', title: '📝 Solicitar Autoriz.' },
+        { id: 'amb_seguimiento', title: '📦 Seguimiento' },
+        { id: 'amb_reclamo', title: '⚠️ Reclamo' },
+        { id: 'amb_revision', title: '🔎 Revisión' },
+        { id: 'amb_volver', title: '↩️ Volver al Menú' }
+      ]
     },
     
     // 📋 OTRAS GESTIONES
@@ -402,6 +409,37 @@ async function loadConfig() {
         
         // Botón para volver al menú principal
         'volver_menu_principal': {
+          type: 'text',
+          message: '🔙 Regresando al menú principal...',
+          followUp: 'demo_list'
+        },
+        
+        // 📝 SOLICITAR AUTORIZACIONES
+        'amb_solicitar': {
+          type: 'text',
+          message: 'Los prestadores ya gestionan las autorizaciones desde el sistema web de la Caja.\nAl cargar el pedido, se genera un Nº de trámite (ej: 19----). Con ese número podrá consultar el estado en el portal.\nSi el pedido es de Sanatorio Allende u otro prestador que no opere por sistema, envíenos una foto clara del pedido por este medio.'
+        },
+        
+        // 📦 SEGUIMIENTO
+        'amb_seguimiento': {
+          type: 'text',
+          message: 'Consulte el estado de su autorización en el portal de la Caja ingresando el Nº de trámite:\nhttps://autogestion.caja-abogados.org.ar'
+        },
+        
+        // ⚠️ RECLAMO
+        'amb_reclamo': {
+          type: 'text',
+          message: 'El tiempo estimado de resolución de una autorización ambulatoria es de hasta 48 horas hábiles.\nSi el trámite excede ese plazo, por favor envíenos:\n• Nº de trámite (ej: 19----)\n• Nombre del afiliado/paciente\n• Observaciones (si las hubiera)\nImportante: Las prácticas de urgencia y/o internación poseen plazos diferenciados.'
+        },
+        
+        // 🔎 REVISIÓN
+        'amb_revision': {
+          type: 'text',
+          message: 'Puede solicitar revisión del trámite en los siguientes casos:\n• Pedido médico devuelto en el portal (requiere documentación adicional)\n• Prácticas fuera de convenio (adjuntar informe, estudios previos y presupuesto)\n• Procedimientos especiales o de alto costo (justificar con documentación)\n• Errores en la solicitud (adjuntar corrección solicitada por auditoría)'
+        },
+        
+        // ↩️ VOLVER AL MENÚ
+        'amb_volver': {
           type: 'text',
           message: '🔙 Regresando al menú principal...',
           followUp: 'demo_list'

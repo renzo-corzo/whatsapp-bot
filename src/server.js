@@ -294,6 +294,45 @@ async function handleInteractiveMessage(message, from) {
     
     // Mensaje automático eliminado - navegación mejorada
     
+  } else if (message.interactive.type === 'button_reply') {
+    const buttonReply = message.interactive.button_reply;
+    const selectedId = buttonReply.id;
+    const selectedTitle = buttonReply.title;
+    
+    console.log(`🔘 Botón presionado: ${selectedId} - ${selectedTitle}`);
+    
+    // Incrementar contador de mensajes
+    await incrementMessageCount();
+    
+    // Convertir número al formato correcto
+    const formattedNumber = formatArgentineNumber(from);
+    console.log(`📱 Respuesta a número: ${from} → ${formattedNumber}`);
+    
+    // Usar cliente global actualizado
+    const currentClient = global.whatsappClient || whatsappClient;
+    
+    // Buscar respuesta configurada para el botón presionado
+    let response = await getListResponse(selectedId);
+    
+    // Si no se encuentra en listResponses, buscar en submenuResponses
+    if (!response) {
+      response = await getSubmenuResponse(selectedId);
+    }
+    
+    if (response) {
+      console.log(`✅ Respuesta configurada encontrada para botón: ${selectedId}`);
+      console.log(`📋 Tipo de respuesta: ${response.type}`);
+      console.log(`💬 Mensaje: ${response.message?.substring(0, 50)}...`);
+      if (response.followUp) {
+        console.log(`🔗 FollowUp vinculado: ${response.followUp}`);
+      }
+      await handleComplexResponse(currentClient, formattedNumber, response);
+    } else {
+      // Respuesta por defecto si no se encuentra configuración
+      const defaultResponse = `✅ Has presionado: "${selectedTitle}"\n\nGracias por tu selección. ¿En qué más puedo ayudarte?`;
+      await currentClient.sendText(formattedNumber, defaultResponse);
+    }
+    
   } else {
     console.log(`ℹ️ Tipo de interacción no manejada: ${message.interactive.type}`);
     const formattedNumber = formatArgentineNumber(from);
