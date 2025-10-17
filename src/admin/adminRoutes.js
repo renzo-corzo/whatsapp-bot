@@ -139,6 +139,12 @@ async function loadConfig() {
       followUp: 'demo_list'
     },
     
+    // 👤 AFILIACIÓN - Otras Gestiones
+    'afiliacion': {
+      type: 'text',
+      message: '👤 AFILIACIÓN\n\n📄 Instructivo de afiliación:\n\n✉️ enviar formularios a serviciomedico.afil@caja-abogados.com.ar\n\n📞 351 4235900 int. 103'
+    },
+    
     'info_general': {
       type: 'text',
           message: '✅ Información General.\n\n🏢 Somos la Caja de Previsión y Seguridad Social de Abogados y Procuradores de Córdoba. Estamos aquí para ayudarte con todas tus consultas.'

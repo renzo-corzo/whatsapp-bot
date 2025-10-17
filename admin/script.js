@@ -432,14 +432,14 @@ function createOtrasGestionesCard() {
     
     // Trámites de otras gestiones
     const tramites = [
-        { id: 'afiliacion', title: '👤 Afiliación' },
-        { id: 'reintegros', title: '💸 Reintegros' },
-        { id: 'medicamentos', title: '💊 Medicamentos' },
-        { id: 'programas', title: '❤️ Programas' },
-        { id: 'prestadores', title: '🏥 Prestadores' },
-        { id: 'reciprocidad', title: '🤝 Reciprocidad' },
-        { id: 'soporte_prestador', title: '🧑‍⚕️ Soporte prestador' },
-        { id: 'otras_consultas', title: '❓ Otras consultas' }
+        { id: 'afiliacion', title: '👤 Afiliación', hasResponse: true },
+        { id: 'reintegros', title: '💸 Reintegros', hasResponse: false },
+        { id: 'medicamentos', title: '💊 Medicamentos', hasResponse: false },
+        { id: 'programas', title: '❤️ Programas', hasResponse: false },
+        { id: 'prestadores', title: '🏥 Prestadores', hasResponse: false },
+        { id: 'reciprocidad', title: '🤝 Reciprocidad', hasResponse: false },
+        { id: 'soporte_prestador', title: '🧑‍⚕️ Soporte prestador', hasResponse: false },
+        { id: 'otras_consultas', title: '❓ Otras consultas', hasResponse: false }
     ];
 
     const tramitesHtml = tramites.map(tramite => `
@@ -448,11 +448,11 @@ function createOtrasGestionesCard() {
                 <span>${tramite.title}</span>
             </div>
             <div style="display: flex; gap: 5px;">
-                <button class="btn btn-sm btn-info" onclick="editListResponse('otras_gestiones')" style="padding: 4px 8px; font-size: 0.8rem;">
+                <button class="btn btn-sm btn-info" onclick="editListResponse('${tramite.hasResponse ? tramite.id : 'otras_gestiones'}')" style="padding: 4px 8px; font-size: 0.8rem;">
                     <i class="fas fa-comment"></i> Respuesta
                 </button>
                 <span class="badge badge-info" style="background-color: #17a2b8; color: white; padding: 2px 6px; border-radius: 12px; font-size: 0.7rem;">
-                    <i class="fas fa-text-width"></i> Texto
+                    <i class="fas fa-text-width"></i> ${tramite.hasResponse ? 'Específica' : 'Texto'}
                 </span>
             </div>
         </div>
