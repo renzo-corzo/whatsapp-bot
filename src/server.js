@@ -238,10 +238,6 @@ async function handleTextMessage(message, from) {
   if (!botResponse && ['a', 'b', 'c', 'd', 'e'].includes(textBody)) {
     console.log(`💬 Opción de texto seleccionada: "${textBody}"`);
     
-    // Detectar contexto basado en el mensaje anterior
-    let responseKey = null;
-    let responseType = null;
-    
     // Buscar en reintegros
     const reintegrosKeys = {
       'a': 'reintegros_solicitar',
