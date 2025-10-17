@@ -429,7 +429,7 @@ function createOtrasGestionesCard() {
     // Trámites de otras gestiones
     const tramites = [
         { id: 'afiliacion', title: '👤 Afiliación', hasResponse: true },
-        { id: 'reintegros', title: '💸 Reintegros', hasResponse: false },
+        { id: 'reintegros', title: '💸 Reintegros', hasResponse: true },
         { id: 'medicamentos', title: '💊 Medicamentos', hasResponse: false },
         { id: 'programas', title: '❤️ Programas', hasResponse: false },
         { id: 'prestadores', title: '🏥 Prestadores', hasResponse: false },

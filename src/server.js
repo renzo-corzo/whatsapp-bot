@@ -206,6 +206,60 @@ async function handleTextMessage(message, from) {
   // Buscar respuesta configurada
   const botResponse = await getBotResponse(textBody);
   
+  // Manejo especial para opciones de reintegros (A, B, C, D, E)
+  if (!botResponse && ['a', 'b', 'c', 'd', 'e'].includes(textBody)) {
+    console.log(`💸 Opción de reintegros seleccionada: "${textBody}"`);
+    
+    let reintegrosResponse;
+    switch (textBody) {
+      case 'a':
+        reintegrosResponse = await getBotResponse('reintegros_solicitar');
+        break;
+      case 'b':
+        reintegrosResponse = await getBotResponse('reintegros_consultar');
+        break;
+      case 'c':
+        reintegrosResponse = await getBotResponse('reintegros_casos');
+        break;
+      case 'd':
+        reintegrosResponse = await getBotResponse('reintegros_proveedores');
+        break;
+      case 'e':
+        reintegrosResponse = await getBotResponse('reintegros_volver');
+        break;
+    }
+    
+    if (reintegrosResponse) {
+      console.log(`✅ Respuesta de reintegros encontrada para "${textBody}":`, reintegrosResponse);
+      
+      // Enviar mensaje principal
+      await currentClient.sendText(formattedNumber, reintegrosResponse.message);
+      
+      // Si tiene follow-up (como volver al menú), enviarlo después de un delay
+      if (reintegrosResponse.followUp) {
+        setTimeout(async () => {
+          console.log(`🔍 Procesando followUp de reintegros: ${reintegrosResponse.followUp}`);
+          const listData = await getBotList(reintegrosResponse.followUp);
+          if (listData) {
+            await currentClient.sendListFromConfig(formattedNumber, listData);
+            console.log(`✅ Lista de reintegros enviada correctamente`);
+          } else {
+            console.log(`❌ Lista no encontrada: ${reintegrosResponse.followUp}`);
+          }
+        }, 1500);
+      }
+      
+      // Si es respuesta con URL, enviarla también
+      if (reintegrosResponse.url && reintegrosResponse.url_text) {
+        setTimeout(async () => {
+          await currentClient.sendTextWithUrl(formattedNumber, reintegrosResponse.url, reintegrosResponse.url_text);
+        }, 2000);
+      }
+      
+      return; // Salir de la función para no procesar más
+    }
+  }
+  
   if (botResponse) {
     console.log(`✅ Respuesta encontrada para "${textBody}":`, botResponse);
     

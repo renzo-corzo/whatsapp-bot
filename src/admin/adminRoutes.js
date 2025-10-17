@@ -129,6 +129,45 @@ async function loadConfig() {
       followUp: 'otras_gestiones_list'
     },
     
+    // 💸 REINTEGROS - Opciones de texto
+    'reintegros': {
+      type: 'text',
+      message: '💸 REINTEGROS\n\nPor favor, indique qué desea hacer:\n\n🔸 A. Solicitar un reintegro\n🔸 B. Consultar el estado de un reintegro ya presentado\n🔸 C. Conocer los casos posibles de un reintegro\n🔸 D. Consultar proveedores por especialidad\n🔸 E. Volver al Menú\n\n👉 Responda con "A", "B", "C", "D" o "E".'
+    },
+    
+    // 📝 SOLICITAR REINTEGRO (Opción A)
+    'reintegros_solicitar': {
+      type: 'text',
+      message: '📝 SOLICITAR REINTEGRO\n\n📋 Documentación requerida:\n• Comprobante original de pago\n• Pedido médico/receta correspondiente\n• CBU de cuenta bancaria a nombre del titular\n• CUIT del titular\n• Datos de contacto actualizados (teléfono y correo electrónico)\n• Documentación específica para cada tipo de reintegro\n\n📌 Entrega de documentación:\n🏠 Servicio médico de Caja de Abogados de Cba\n📍 Domicilio: 27 de abril 842 - Córdoba\n\n📞 Asesoramiento: 351 4235900 int. 116\n✉️ serviciomedico@caja-abogados.com.ar\n📩 Con copia a: psaad@caja-abogados.com.ar'
+    },
+    
+    // 🔍 CONSULTAR ESTADO (Opción B)
+    'reintegros_consultar': {
+      type: 'text',
+      message: '🔍 CONSULTAR ESTADO DE REINTEGRO\n\n📋 Puede consultar el estado de su reintegro:\n\n🏠 En forma presencial en el Servicio de Salud\n✉️ Por correo electrónico:\n   • serviciomedico@caja-abogados.com.ar\n   • Con copia a: psaad@caja-abogados.com.ar\n\n📞 Teléfono: 351 4235900 int. 116'
+    },
+    
+    // ❓ CASOS POSIBLES (Opción C)
+    'reintegros_casos': {
+      type: 'text_with_url',
+      message: '❓ CASOS POSIBLES DE REINTEGRO\n\n📄 Para conocer los casos posibles de reintegro, consulte el artículo 32 del reglamento:\n\n📞 Teléfono: 351 4235900 int. 116',
+      url: 'https://www.caja-abogados.org.ar/servicio-medico/reglamento-2013/',
+      url_text: '📄 Ver Artículo 32 - Reglamento 2013'
+    },
+    
+    // 🏥 CONSULTAR PROVEEDORES (Opción D)
+    'reintegros_proveedores': {
+      type: 'text',
+      message: '🏥 CONSULTAR PROVEEDORES POR ESPECIALIDAD\n\n📋 Para solicitar listado de proveedores:\n\n✉️ serviciomedico@caja-abogados.com.ar\n📩 Con copia a: psaad@caja-abogados.com.ar\n\n📞 Teléfono: 351 4235900 int. 116'
+    },
+    
+    // ↩️ VOLVER AL MENÚ (Opción E)
+    'reintegros_volver': {
+      type: 'text',
+      message: '🔙 Regresando al menú principal...',
+      followUp: 'demo_list'
+    },
+    
     // 📝 SOLICITAR AUTORIZACIONES
     'amb_solicitar': {
       type: 'text',
