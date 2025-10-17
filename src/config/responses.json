@@ -1,0 +1,203 @@
+{
+  "responses": {
+    "hola": {
+      "type": "text",
+      "message": "🏛️ ¡Hola! Bienvenido/a a la *Caja de Previsión y Seguridad Social de Abogados y Procuradores de Córdoba*.\n\n👋 Soy tu asistente virtual y estoy aquí para ayudarte con consultas sobre nuestros servicios.",
+      "followUp": "demo_list"
+    },
+    "hello": {
+      "type": "text",
+      "message": "🏛️ ¡Hola! Bienvenido/a a la *Caja de Previsión y Seguridad Social de Abogados y Procuradores de Córdoba*.\n\n👋 Soy tu asistente virtual y estoy aquí para ayudarte con consultas sobre nuestros servicios.",
+      "followUp": "demo_list"
+    },
+    "hi": {
+      "type": "text",
+      "message": "🏛️ ¡Hola! Bienvenido/a a la *Caja de Previsión y Seguridad Social de Abogados y Procuradores de Córdoba*.\n\n👋 Soy tu asistente virtual y estoy aquí para ayudarte con consultas sobre nuestros servicios.",
+      "followUp": "demo_list"
+    },
+    "menu": {
+      "type": "text",
+      "message": "📋 *Caja de Abogados - Córdoba*\n\nAquí tienes nuestro menú de servicios:",
+      "followUp": "demo_list"
+    },
+    "opciones": {
+      "type": "text",
+      "message": "📋 *Caja de Abogados - Córdoba*\n\nAquí tienes las opciones disponibles:",
+      "followUp": "demo_list"
+    }
+  },
+  "lists": {
+    "demo_list": {
+      "title": "🏥 Servicio Médico Caja de Abogados",
+      "description": "Selecciona el servicio que necesitas:",
+      "sections": [
+        {
+          "title": "📋 Menú Principal",
+          "rows": [
+            {
+              "id": "urgencias",
+              "title": "🚨 Urgencias",
+              "description": "Atención de emergencias"
+            },
+            {
+              "id": "autorizaciones",
+              "title": "📄 Autorizaciones",
+              "description": "Solicitar autorizaciones"
+            },
+            {
+              "id": "otras_gestiones",
+              "title": "📋 Otras gestiones",
+              "description": "Más servicios disponibles"
+            }
+          ]
+        }
+      ]
+    },
+    "otras_gestiones_list": {
+      "title": "📋 Otras Gestiones",
+      "description": "Selecciona el trámite que necesitas:",
+      "sections": [
+        {
+          "title": "📋 Trámites Disponibles",
+          "rows": [
+            {
+              "id": "afiliacion",
+              "title": "👤 Afiliación",
+              "description": "Instructivo y requisitos"
+            },
+            {
+              "id": "reintegros",
+              "title": "💸 Reintegros",
+              "description": "Solicitar y consultar"
+            },
+            {
+              "id": "medicamentos",
+              "title": "💊 Medicamentos",
+              "description": "Vademécum y farmacias"
+            },
+            {
+              "id": "programas",
+              "title": "❤️ Programas",
+              "description": "Programas médicos"
+            },
+            {
+              "id": "prestadores",
+              "title": "🏥 Prestadores",
+              "description": "Listado de prestadores"
+            },
+            {
+              "id": "reciprocidad",
+              "title": "🤝 Reciprocidad",
+              "description": "Convenios y cobertura"
+            },
+            {
+              "id": "soporte_prestador",
+              "title": "🧑‍⚕️ Soporte",
+              "description": "Ayuda para prestadores"
+            },
+            {
+              "id": "otras_consultas",
+              "title": "❓ Consultas",
+              "description": "Otras consultas"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "listResponses": {
+    "urgencias": {
+      "type": "text",
+      "message": "🆘 URGENCIAS\n\n📞 0800-888-3226 (ECCO)\n📞 351 4466666\n\n📌 Al momento del llamado, tenga a mano el número de DNI del paciente.\n\n🏠 Médico a domicilio:\nPrestación destinada a consultas médicas generales realizadas en el domicilio del afiliado.\n\n⚠️ Sujeta a disponibilidad. Puede requerir copago y tiene tope mensual y anual.\n\n🔁 Para volver al menú principal, toque \"↩️ Volver al Menú\" o escriba \"Menú\"."
+    },
+    "autorizaciones": {
+      "type": "text_with_buttons",
+      "message": "📄 AUTORIZACIONES\nSelecciona una opción:",
+      "buttons": [
+        {
+          "id": "amb_solicitar",
+          "title": "📝 Solicitar Autoriz."
+        },
+        {
+          "id": "amb_seguimiento",
+          "title": "📦 Seguimiento"
+        },
+        {
+          "id": "amb_reclamo",
+          "title": "⚠️ Reclamo"
+        },
+        {
+          "id": "amb_revision",
+          "title": "🔎 Revisión"
+        },
+        {
+          "id": "amb_volver",
+          "title": "↩️ Volver al Menú"
+        }
+      ]
+    },
+    "otras_gestiones": {
+      "type": "text",
+      "message": "📋 OTRAS GESTIONES\n\nSeleccioná el trámite que necesitas:",
+      "followUp": "otras_gestiones_list"
+    },
+    "reintegros": {
+      "type": "text",
+      "message": "💸 REINTEGROS\n\nPor favor, indique qué desea hacer:\n\n🔸 A. Solicitar un reintegro\n🔸 B. Consultar el estado de un reintegro ya presentado\n🔸 C. Conocer los casos posibles de un reintegro\n🔸 D. Consultar proveedores por especialidad\n🔸 E. Volver al Menú\n\n👉 Responda con \"A\", \"B\", \"C\", \"D\" o \"E\"."
+    },
+    "medicamentos": {
+      "type": "text",
+      "message": "💊 MEDICAMENTOS\n\nSelecciona la opción que necesitas:\n\n🔸 A. Buscar en Vademécum\n🔸 B. Consultar farmacias prestadoras\n🔸 C. Información sobre recetas\n🔸 D. Cobertura fuera del vademécum\n🔸 E. Volver al Menú\n\n👉 Responda con \"A\", \"B\", \"C\", \"D\" o \"E\"."
+    },
+    "reintegros_solicitar": {
+      "type": "text",
+      "message": "📝 SOLICITAR REINTEGRO\n\n📋 Documentación requerida:\n• Comprobante original de pago\n• Pedido médico/receta correspondiente\n• CBU de cuenta bancaria a nombre del titular\n• CUIT del titular\n• Datos de contacto actualizados (teléfono y correo electrónico)\n• Documentación específica para cada tipo de reintegro\n\n📌 Entrega de documentación:\n🏠 Servicio médico de Caja de Abogados de Cba\n📍 Domicilio: 27 de abril 842 - Córdoba\n\n📞 Asesoramiento: 351 4235900 int. 116\n✉️ serviciomedico@caja-abogados.com.ar\n📩 Con copia a: psaad@caja-abogados.com.ar"
+    },
+    "reintegros_consultar": {
+      "type": "text",
+      "message": "🔍 CONSULTAR ESTADO DE REINTEGRO\n\n📋 Puede consultar el estado de su reintegro:\n\n🏠 En forma presencial en el Servicio de Salud\n✉️ Por correo electrónico:\n   • serviciomedico@caja-abogados.com.ar\n   • Con copia a: psaad@caja-abogados.com.ar\n\n📞 Teléfono: 351 4235900 int. 116"
+    },
+    "reintegros_casos": {
+      "type": "text_with_url",
+      "message": "❓ CASOS POSIBLES DE REINTEGRO\n\n📄 Para conocer los casos posibles de reintegro, consulte el artículo 32 del reglamento:\n\n📞 Teléfono: 351 4235900 int. 116",
+      "url": "https://www.caja-abogados.org.ar/servicio-medico/reglamento-2013/",
+      "url_text": "📄 Ver Artículo 32 - Reglamento 2013"
+    },
+    "reintegros_proveedores": {
+      "type": "text",
+      "message": "🏥 CONSULTAR PROVEEDORES POR ESPECIALIDAD\n\n📋 Para solicitar listado de proveedores:\n\n✉️ serviciomedico@caja-abogados.com.ar\n📩 Con copia a: psaad@caja-abogados.com.ar\n\n📞 Teléfono: 351 4235900 int. 116"
+    },
+    "reintegros_volver": {
+      "type": "text",
+      "message": "🔙 Regresando al menú principal...",
+      "followUp": "demo_list"
+    },
+    "medicamentos_vademecum": {
+      "type": "text_with_url",
+      "message": "🔍 BUSCAR EN VADEMÉCUM\n\n📋 Consulte los medicamentos cubiertos por la Caja de Abogados:\n\n📞 Para consultas: 351 4235900 int. 103",
+      "url": "https://autogestion.caja-abogados.org.ar/agconsultavademecum.aspx",
+      "url_text": "🔍 Consultar Vademécum Online"
+    },
+    "medicamentos_farmacias": {
+      "type": "text_with_url",
+      "message": "💊 FARMACIAS PRESTADORAS\n\n🏪 Consulte las farmacias adheridas donde puede retirar sus medicamentos:\n\n📞 Para consultas: 351 4235900 int. 103",
+      "url": "https://autogestion.caja-abogados.org.ar/agconsultafarmacias.aspx",
+      "url_text": "🏪 Ver Farmacias Prestadoras"
+    },
+    "medicamentos_recetas": {
+      "type": "text",
+      "message": "📜 INFORMACIÓN SOBRE RECETAS\n\n📋 Recetas válidas:\n• Manuscritas o digitales\n• Máximo 2 medicamentos por receta\n• Máximo 2 cajas por medicamento\n\n⚠️ Datos completos obligatorios:\n• Nombre del medicamento\n• Concentración y dosis\n• Cantidad solicitada\n• Firma del médico\n• Sello del consultorio\n\n📞 Para consultas: 351 4235900 int. 103"
+    },
+    "medicamentos_cobertura": {
+      "type": "text",
+      "message": "🧾 COBERTURA FUERA DEL VADEMÉCUM\n\n📋 Para medicamentos no incluidos en el vademécum:\n\n📄 Requisitos:\n• Justificación médica detallada\n• Informe clínico completo\n• Estudios complementarios\n• Presupuesto del medicamento\n\n📌 Presentación:\n• Presencial: Servicio Médico\n• Email: serviciomedico@caja-abogados.com.ar\n\n⏰ Plazo de evaluación: 15 días hábiles\n\n📞 Para consultas: 351 4235900 int. 103"
+    },
+    "medicamentos_volver": {
+      "type": "text",
+      "message": "🔙 Regresando al menú principal...",
+      "followUp": "demo_list"
+    }
+  },
+  "submenus": {},
+  "submenuResponses": {}
+}

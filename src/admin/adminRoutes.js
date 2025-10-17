@@ -436,6 +436,74 @@ function getCompleteConfig() {
     'medicamentos': {
       type: 'text',
       message: '💊 MEDICAMENTOS\n\nSelecciona la opción que necesitas:\n\n🔸 A. Buscar en Vademécum\n🔸 B. Consultar farmacias prestadoras\n🔸 C. Información sobre recetas\n🔸 D. Cobertura fuera del vademécum\n🔸 E. Volver al Menú\n\n👉 Responda con "A", "B", "C", "D" o "E".'
+    },
+    
+    // 📝 SOLICITAR REINTEGRO (Opción A)
+    'reintegros_solicitar': {
+      type: 'text',
+      message: '📝 SOLICITAR REINTEGRO\n\n📋 Documentación requerida:\n• Comprobante original de pago\n• Pedido médico/receta correspondiente\n• CBU de cuenta bancaria a nombre del titular\n• CUIT del titular\n• Datos de contacto actualizados (teléfono y correo electrónico)\n• Documentación específica para cada tipo de reintegro\n\n📌 Entrega de documentación:\n🏠 Servicio médico de Caja de Abogados de Cba\n📍 Domicilio: 27 de abril 842 - Córdoba\n\n📞 Asesoramiento: 351 4235900 int. 116\n✉️ serviciomedico@caja-abogados.com.ar\n📩 Con copia a: psaad@caja-abogados.com.ar'
+    },
+    
+    // 🔍 CONSULTAR ESTADO (Opción B)
+    'reintegros_consultar': {
+      type: 'text',
+      message: '🔍 CONSULTAR ESTADO DE REINTEGRO\n\n📋 Puede consultar el estado de su reintegro:\n\n🏠 En forma presencial en el Servicio de Salud\n✉️ Por correo electrónico:\n   • serviciomedico@caja-abogados.com.ar\n   • Con copia a: psaad@caja-abogados.com.ar\n\n📞 Teléfono: 351 4235900 int. 116'
+    },
+    
+    // ❓ CASOS POSIBLES (Opción C)
+    'reintegros_casos': {
+      type: 'text_with_url',
+      message: '❓ CASOS POSIBLES DE REINTEGRO\n\n📄 Para conocer los casos posibles de reintegro, consulte el artículo 32 del reglamento:\n\n📞 Teléfono: 351 4235900 int. 116',
+      url: 'https://www.caja-abogados.org.ar/servicio-medico/reglamento-2013/',
+      url_text: '📄 Ver Artículo 32 - Reglamento 2013'
+    },
+    
+    // 🏥 CONSULTAR PROVEEDORES (Opción D)
+    'reintegros_proveedores': {
+      type: 'text',
+      message: '🏥 CONSULTAR PROVEEDORES POR ESPECIALIDAD\n\n📋 Para solicitar listado de proveedores:\n\n✉️ serviciomedico@caja-abogados.com.ar\n📩 Con copia a: psaad@caja-abogados.com.ar\n\n📞 Teléfono: 351 4235900 int. 116'
+    },
+    
+    // ↩️ VOLVER AL MENÚ (Opción E)
+    'reintegros_volver': {
+      type: 'text',
+      message: '🔙 Regresando al menú principal...',
+      followUp: 'demo_list'
+    },
+    
+    // 🔍 BUSCAR EN VADEMÉCUM (Opción A)
+    'medicamentos_vademecum': {
+      type: 'text_with_url',
+      message: '🔍 BUSCAR EN VADEMÉCUM\n\n📋 Consulte los medicamentos cubiertos por la Caja de Abogados:\n\n📞 Para consultas: 351 4235900 int. 103',
+      url: 'https://autogestion.caja-abogados.org.ar/agconsultavademecum.aspx',
+      url_text: '🔍 Consultar Vademécum Online'
+    },
+    
+    // 💊 FARMACIAS PRESTADORAS (Opción B)
+    'medicamentos_farmacias': {
+      type: 'text_with_url',
+      message: '💊 FARMACIAS PRESTADORAS\n\n🏪 Consulte las farmacias adheridas donde puede retirar sus medicamentos:\n\n📞 Para consultas: 351 4235900 int. 103',
+      url: 'https://autogestion.caja-abogados.org.ar/agconsultafarmacias.aspx',
+      url_text: '🏪 Ver Farmacias Prestadoras'
+    },
+    
+    // 📜 INFORMACIÓN SOBRE RECETAS (Opción C)
+    'medicamentos_recetas': {
+      type: 'text',
+      message: '📜 INFORMACIÓN SOBRE RECETAS\n\n📋 Recetas válidas:\n• Manuscritas o digitales\n• Máximo 2 medicamentos por receta\n• Máximo 2 cajas por medicamento\n\n⚠️ Datos completos obligatorios:\n• Nombre del medicamento\n• Concentración y dosis\n• Cantidad solicitada\n• Firma del médico\n• Sello del consultorio\n\n📞 Para consultas: 351 4235900 int. 103'
+    },
+    
+    // 🧾 COBERTURA FUERA DEL VADEMÉCUM (Opción D)
+    'medicamentos_cobertura': {
+      type: 'text',
+      message: '🧾 COBERTURA FUERA DEL VADEMÉCUM\n\n📋 Para medicamentos no incluidos en el vademécum:\n\n📄 Requisitos:\n• Justificación médica detallada\n• Informe clínico completo\n• Estudios complementarios\n• Presupuesto del medicamento\n\n📌 Presentación:\n• Presencial: Servicio Médico\n• Email: serviciomedico@caja-abogados.com.ar\n\n⏰ Plazo de evaluación: 15 días hábiles\n\n📞 Para consultas: 351 4235900 int. 103'
+    },
+    
+    // ↩️ VOLVER AL MENÚ (Opción E)
+    'medicamentos_volver': {
+      type: 'text',
+      message: '🔙 Regresando al menú principal...',
+      followUp: 'demo_list'
     }
   }
   };
