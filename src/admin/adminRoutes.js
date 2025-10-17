@@ -80,6 +80,26 @@ async function loadConfig() {
           ]
         }
       ]
+    },
+    
+    'otras_gestiones_list': {
+      title: '📋 Otras Gestiones',
+      description: 'Selecciona el trámite que necesitas:',
+      sections: [
+        {
+          title: '📋 Trámites Disponibles',
+          rows: [
+            { id: 'afiliacion', title: '👤 Afiliación', description: 'Instructivo y requisitos' },
+            { id: 'reintegros', title: '💸 Reintegros', description: 'Solicitar y consultar' },
+            { id: 'medicamentos', title: '💊 Medicamentos', description: 'Vademécum y farmacias' },
+            { id: 'programas', title: '❤️ Programas', description: 'Programas médicos' },
+            { id: 'prestadores', title: '🏥 Prestadores', description: 'Listado de prestadores' },
+            { id: 'reciprocidad', title: '🤝 Reciprocidad', description: 'Convenios y cobertura' },
+            { id: 'soporte_prestador', title: '🧑‍⚕️ Soporte', description: 'Ayuda para prestadores' },
+            { id: 'otras_consultas', title: '❓ Consultas', description: 'Otras consultas' }
+          ]
+        }
+      ]
     }
   },
   listResponses: {
@@ -104,18 +124,9 @@ async function loadConfig() {
     
     // 📋 OTRAS GESTIONES - Submenú implementado como lista interactiva
     'otras_gestiones': {
-      type: 'text_with_buttons',
-      message: '📋 OTRAS GESTIONES\n\nSeleccioná el trámite:',
-      buttons: [
-        { id: 'afiliacion', title: '👤 Afiliación' },
-        { id: 'reintegros', title: '💸 Reintegros' },
-        { id: 'medicamentos', title: '💊 Medicamentos' },
-        { id: 'programas', title: '❤️ Programas' },
-        { id: 'prestadores', title: '🏥 Prestadores' },
-        { id: 'reciprocidad', title: '🤝 Reciprocidad' },
-        { id: 'soporte_prestador', title: '🧑‍⚕️ Soporte' },
-        { id: 'otras_consultas', title: '❓ Consultas' }
-      ]
+      type: 'text',
+      message: '📋 OTRAS GESTIONES\n\nSeleccioná el trámite que necesitas:',
+      followUp: 'otras_gestiones_list'
     },
     
     // 📝 SOLICITAR AUTORIZACIONES
