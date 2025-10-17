@@ -135,6 +135,12 @@ async function loadConfig() {
       message: '💸 REINTEGROS\n\nPor favor, indique qué desea hacer:\n\n🔸 A. Solicitar un reintegro\n🔸 B. Consultar el estado de un reintegro ya presentado\n🔸 C. Conocer los casos posibles de un reintegro\n🔸 D. Consultar proveedores por especialidad\n🔸 E. Volver al Menú\n\n👉 Responda con "A", "B", "C", "D" o "E".'
     },
     
+    // 💊 MEDICAMENTOS - Opciones de texto (FORZADO)
+    'medicamentos': {
+      type: 'text',
+      message: '💊 MEDICAMENTOS\n\nSelecciona la opción que necesitas:\n\n🔸 A. Buscar en Vademécum\n🔸 B. Consultar farmacias prestadoras\n🔸 C. Información sobre recetas\n🔸 D. Cobertura fuera del vademécum\n🔸 E. Volver al Menú\n\n👉 Responda con "A", "B", "C", "D" o "E".'
+    },
+    
     // 📝 SOLICITAR REINTEGRO (Opción A)
     'reintegros_solicitar': {
       type: 'text',
