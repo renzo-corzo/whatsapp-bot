@@ -289,23 +289,51 @@ function createListCard(listId, listConfig) {
     const div = document.createElement('div');
     div.className = 'list-card';
     
+    // Función para obtener el estado de implementación
+    function getImplementationStatus(optionId) {
+        const statusMap = {
+            'afiliacion': { status: 'implementado', type: 'URL' },
+            'reintegros': { status: 'implementado', type: 'Opciones A-E' },
+            'medicamentos': { status: 'implementado', type: 'Opciones A-E' },
+            'programas': { status: 'pendiente', type: 'Texto básico' },
+            'prestadores': { status: 'pendiente', type: 'Texto básico' },
+            'reciprocidad': { status: 'pendiente', type: 'Texto básico' },
+            'soporte_prestador': { status: 'pendiente', type: 'Texto básico' },
+            'otras_consultas': { status: 'pendiente', type: 'Texto básico' }
+        };
+        
+        return statusMap[optionId] || { status: 'pendiente', type: 'Texto básico' };
+    }
+    
     const itemsHtml = listConfig.sections.map(section => 
-        section.rows.map(row => `
-            <div class="list-item" style="display: flex; justify-content: space-between; align-items: center; padding: 8px; border-bottom: 1px solid #eee;">
-                <div style="display: flex; align-items: center; gap: 10px;">
-                    <span>${row.title}</span>
-                    ${getLinkedIndicator(row.id)}
+        section.rows.map(row => {
+            const implementationStatus = listId === 'otras_gestiones_list' ? getImplementationStatus(row.id) : null;
+            const statusColor = implementationStatus && implementationStatus.status === 'implementado' ? '#28a745' : '#6c757d';
+            const statusText = implementationStatus && implementationStatus.status === 'implementado' ? '✅ Implementado' : '⏳ Pendiente';
+            
+            return `
+                <div class="list-item" style="display: flex; justify-content: space-between; align-items: center; padding: 8px; border-bottom: 1px solid #eee;">
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <span>${row.title}</span>
+                        ${implementationStatus ? `<small style="color: #666;">${implementationStatus.type}</small>` : ''}
+                        ${getLinkedIndicator(row.id)}
+                    </div>
+                    <div style="display: flex; gap: 5px; align-items: center;">
+                        <button class="btn btn-sm btn-info" onclick="editListResponse('${row.id}')" style="padding: 4px 8px; font-size: 0.8rem;">
+                            <i class="fas fa-comment"></i> Respuesta
+                        </button>
+                        <button class="btn btn-sm btn-primary" onclick="openLinkMenuModal('${row.id}', '${row.title}', '${row.description || ''}')" style="padding: 4px 8px; font-size: 0.8rem;">
+                            <i class="fas fa-link"></i> Vincular
+                        </button>
+                        ${implementationStatus ? `
+                            <span class="badge" style="background-color: ${statusColor}; color: white; padding: 2px 6px; border-radius: 3px; font-size: 0.7rem;">
+                                ${statusText}
+                            </span>
+                        ` : ''}
+                    </div>
                 </div>
-                <div style="display: flex; gap: 5px;">
-                    <button class="btn btn-sm btn-info" onclick="editListResponse('${row.id}')" style="padding: 4px 8px; font-size: 0.8rem;">
-                        <i class="fas fa-comment"></i> Respuesta
-                    </button>
-                    <button class="btn btn-sm btn-primary" onclick="openLinkMenuModal('${row.id}', '${row.title}', '${row.description || ''}')" style="padding: 4px 8px; font-size: 0.8rem;">
-                        <i class="fas fa-link"></i> Vincular
-                    </button>
-                </div>
-            </div>
-        `).join('')
+            `;
+        }).join('')
     ).join('');
 
     div.innerHTML = `
