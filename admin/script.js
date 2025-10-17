@@ -1072,17 +1072,23 @@ async function editSubmenuResponse(optionId) {
 
 // Función genérica para editar respuestas
 async function editResponseForOption(optionId, responseType) {
+    console.log(`🔍 Editando respuesta para: ${optionId}, tipo: ${responseType}`);
+    
     // Cargar configuración actual
     try {
         const response = await fetch('/api/config');
         if (response.ok) {
             botConfig = await response.json();
+            console.log('✅ Configuración cargada:', botConfig);
+            console.log(`📋 listResponses disponibles:`, Object.keys(botConfig.listResponses || {}));
         }
     } catch (error) {
         console.error('Error cargando configuración:', error);
     }
 
     const currentResponse = botConfig[responseType]?.[optionId] || '';
+    console.log(`📝 Respuesta encontrada para ${optionId}:`, currentResponse);
+    
     const displayResponse = typeof currentResponse === 'string' 
         ? currentResponse 
         : JSON.stringify(currentResponse, null, 2);
