@@ -438,8 +438,8 @@ function createOtrasGestionesCard() {
         { id: 'programas', title: '❤️ Programas', hasResponse: false },
         { id: 'prestadores', title: '🏥 Prestadores', hasResponse: false },
         { id: 'reciprocidad', title: '🤝 Reciprocidad', hasResponse: false },
-        { id: 'soporte_prestador', title: '🧑‍⚕️ Soporte prestador', hasResponse: false },
-        { id: 'otras_consultas', title: '❓ Otras consultas', hasResponse: false }
+        { id: 'soporte_prestador', title: '🧑‍⚕️ Soporte', hasResponse: false },
+        { id: 'otras_consultas', title: '❓ Consultas', hasResponse: false }
     ];
 
     const tramitesHtml = tramites.map(tramite => `
