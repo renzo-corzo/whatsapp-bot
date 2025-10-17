@@ -244,8 +244,12 @@ function loadLists() {
     // Crear tarjeta especial para "Autorizaciones" como botones
     const autorizacionesCard = createAutorizacionesButtonsCard();
     container.appendChild(autorizacionesCard);
+
+    // Crear tarjeta especial para "Otras Gestiones" como respuesta de texto
+    const otrasGestionesCard = createOtrasGestionesCard();
+    container.appendChild(otrasGestionesCard);
     
-    console.log('✅ Cargadas 2 tarjetas: Servicio Médico (Lista) y Autorizaciones (Botones)');
+    console.log('✅ Cargadas 3 tarjetas: Servicio Médico (Lista), Autorizaciones (Botones) y Otras Gestiones (Texto)');
 
     // Cargar submenús
     if (botConfig.submenus) {
@@ -415,6 +419,59 @@ function createAutorizacionesButtonsCard() {
         <p><strong>Descripción:</strong> Selecciona una opción:</p>
         <div class="list-items">
             ${buttonsHtml}
+        </div>
+    `;
+    return div;
+}
+
+// Crear tarjeta para Otras Gestiones
+function createOtrasGestionesCard() {
+    const div = document.createElement('div');
+    div.className = 'list-card';
+    div.style.borderLeft = '4px solid #17a2b8'; // Azul para texto
+    
+    // Trámites de otras gestiones
+    const tramites = [
+        { id: 'afiliacion', title: '👤 Afiliación' },
+        { id: 'reintegros', title: '💸 Reintegros' },
+        { id: 'medicamentos', title: '💊 Medicamentos' },
+        { id: 'programas', title: '❤️ Programas' },
+        { id: 'prestadores', title: '🏥 Prestadores' },
+        { id: 'reciprocidad', title: '🤝 Reciprocidad' },
+        { id: 'soporte_prestador', title: '🧑‍⚕️ Soporte prestador' },
+        { id: 'otras_consultas', title: '❓ Otras consultas' }
+    ];
+
+    const tramitesHtml = tramites.map(tramite => `
+        <div class="list-item" style="display: flex; justify-content: space-between; align-items: center; padding: 8px; border-bottom: 1px solid #eee;">
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <span>${tramite.title}</span>
+            </div>
+            <div style="display: flex; gap: 5px;">
+                <button class="btn btn-sm btn-info" onclick="editListResponse('otras_gestiones')" style="padding: 4px 8px; font-size: 0.8rem;">
+                    <i class="fas fa-comment"></i> Respuesta
+                </button>
+                <span class="badge badge-info" style="background-color: #17a2b8; color: white; padding: 2px 6px; border-radius: 12px; font-size: 0.7rem;">
+                    <i class="fas fa-text-width"></i> Texto
+                </span>
+            </div>
+        </div>
+    `).join('');
+
+    div.innerHTML = `
+        <div class="list-header">
+            <div class="list-title">📋 Otras Gestiones <small>(Texto)</small></div>
+            <span class="badge badge-info" style="background-color: #17a2b8; color: white;">Texto</span>
+        </div>
+        <p><strong>Descripción:</strong> Lista de trámites disponibles:</p>
+        <div class="list-items">
+            ${tramitesHtml}
+        </div>
+        <div style="margin-top: 10px; padding: 8px; background-color: #f8f9fa; border-radius: 4px;">
+            <small style="color: #6c757d;">
+                <i class="fas fa-info-circle"></i>
+                Próximamente se implementan como listas o botones interactivos
+            </small>
         </div>
     `;
     return div;
