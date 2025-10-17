@@ -105,7 +105,7 @@ async function loadConfig() {
     // 📋 OTRAS GESTIONES - Submenú implementado como lista interactiva
     'otras_gestiones': {
       type: 'text_with_buttons',
-      message: '📋 OTRAS GESTIONES\n\nSeleccioná el trámite que necesitas:',
+      message: '📋 OTRAS GESTIONES\n\nSeleccioná el trámite:',
       buttons: [
         { id: 'afiliacion', title: '👤 Afiliación' },
         { id: 'reintegros', title: '💸 Reintegros' },
@@ -113,8 +113,8 @@ async function loadConfig() {
         { id: 'programas', title: '❤️ Programas' },
         { id: 'prestadores', title: '🏥 Prestadores' },
         { id: 'reciprocidad', title: '🤝 Reciprocidad' },
-        { id: 'soporte_prestador', title: '🧑‍⚕️ Soporte prestador' },
-        { id: 'otras_consultas', title: '❓ Otras consultas' }
+        { id: 'soporte_prestador', title: '🧑‍⚕️ Soporte' },
+        { id: 'otras_consultas', title: '❓ Consultas' }
       ]
     },
     
