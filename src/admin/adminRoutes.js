@@ -111,25 +111,25 @@ async function loadConfig() {
     // 📝 SOLICITAR AUTORIZACIONES
     'amb_solicitar': {
       type: 'text',
-      message: 'Los prestadores ya gestionan las autorizaciones desde el sistema web de la Caja.\nAl cargar el pedido, se genera un Nº de trámite (ej: 19----). Con ese número podrá consultar el estado en el portal.\nSi el pedido es de Sanatorio Allende u otro prestador que no opere por sistema, envíenos una foto clara del pedido por este medio.'
+      message: '📝 SOLICITAR AUTORIZACIONES\n\n🏥 Los prestadores ya gestionan las autorizaciones desde el sistema web de la Caja.\n\n🔢 Al cargar el pedido, se genera un Nº de trámite (ej: 19----). Con ese número podrá consultar el estado en el portal.\n\n📸 Si el pedido es de Sanatorio Allende u otro prestador que no opere por sistema, envíenos una foto clara del pedido por este medio.'
     },
     
     // 📦 SEGUIMIENTO
     'amb_seguimiento': {
       type: 'text',
-      message: 'Consulte el estado de su autorización en el portal de la Caja ingresando el Nº de trámite:\nhttps://autogestion.caja-abogados.org.ar'
+      message: '📦 SEGUIMIENTO\n\n🔍 Consulte el estado de su autorización en el portal de la Caja ingresando el Nº de trámite:\n\n🌐 https://autogestion.caja-abogados.org.ar'
     },
     
     // ⚠️ RECLAMO
     'amb_reclamo': {
       type: 'text',
-      message: 'El tiempo estimado de resolución de una autorización ambulatoria es de hasta 48 horas hábiles.\nSi el trámite excede ese plazo, por favor envíenos:\n• Nº de trámite (ej: 19----)\n• Nombre del afiliado/paciente\n• Observaciones (si las hubiera)\nImportante: Las prácticas de urgencia y/o internación poseen plazos diferenciados.'
+      message: '⚠️ RECLAMO\n\n⏰ El tiempo estimado de resolución de una autorización ambulatoria es de hasta 48 horas hábiles.\n\n📋 Si el trámite excede ese plazo, por favor envíenos:\n• Nº de trámite (ej: 19----)\n• Nombre del afiliado/paciente\n• Observaciones (si las hubiera)\n\n⚠️ Importante: Las prácticas de urgencia y/o internación poseen plazos diferenciados.'
     },
     
     // 🔎 REVISIÓN
     'amb_revision': {
       type: 'text',
-      message: 'Puede solicitar revisión del trámite en los siguientes casos:\n• Pedido médico devuelto en el portal (requiere documentación adicional)\n• Prácticas fuera de convenio (adjuntar informe, estudios previos y presupuesto)\n• Procedimientos especiales o de alto costo (justificar con documentación)\n• Errores en la solicitud (adjuntar corrección solicitada por auditoría)'
+      message: '🔎 REVISIÓN\n\n📋 Puede solicitar revisión del trámite en los siguientes casos:\n\n• 📄 Pedido médico devuelto en el portal (requiere documentación adicional)\n• 🏥 Prácticas fuera de convenio (adjuntar informe, estudios previos y presupuesto)\n• 💰 Procedimientos especiales o de alto costo (justificar con documentación)\n• ✅ Errores en la solicitud (adjuntar corrección solicitada por auditoría)'
     },
     
     // ↩️ VOLVER AL MENÚ
