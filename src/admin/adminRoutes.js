@@ -746,7 +746,24 @@ router.get('/api/status', (req, res) => {
 async function getBotResponse(command) {
   try {
     const config = await loadConfig();
-    return config.responses[command.toLowerCase()] || null;
+    const lowerCommand = command.toLowerCase();
+    
+    // Buscar primero en responses
+    if (config.responses && config.responses[lowerCommand]) {
+      return config.responses[lowerCommand];
+    }
+    
+    // Si no se encuentra, buscar en listResponses
+    if (config.listResponses && config.listResponses[lowerCommand]) {
+      return config.listResponses[lowerCommand];
+    }
+    
+    // Si no se encuentra, buscar en submenuResponses
+    if (config.submenuResponses && config.submenuResponses[lowerCommand]) {
+      return config.submenuResponses[lowerCommand];
+    }
+    
+    return null;
   } catch (error) {
     console.error('Error obteniendo respuesta:', error);
     return null;

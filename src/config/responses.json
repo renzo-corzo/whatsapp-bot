@@ -1,0 +1,315 @@
+{
+  "responses": {
+    "hola": {
+      "type": "text",
+      "message": "🏛️ ¡Hola! Bienvenido/a a la *Caja de Previsión y Seguridad Social de Abogados y Procuradores de Córdoba*.\n\n👋 Soy tu asistente virtual y estoy aquí para ayudarte con consultas sobre nuestros servicios.",
+      "followUp": "demo_list"
+    },
+    "hello": {
+      "type": "text",
+      "message": "🏛️ ¡Hola! Bienvenido/a a la *Caja de Previsión y Seguridad Social de Abogados y Procuradores de Córdoba*.\n\n👋 Soy tu asistente virtual y estoy aquí para ayudarte con consultas sobre nuestros servicios.",
+      "followUp": "demo_list"
+    },
+    "hi": {
+      "type": "text",
+      "message": "🏛️ ¡Hola! Bienvenido/a a la *Caja de Previsión y Seguridad Social de Abogados y Procuradores de Córdoba*.\n\n👋 Soy tu asistente virtual y estoy aquí para ayudarte con consultas sobre nuestros servicios.",
+      "followUp": "demo_list"
+    },
+    "menu": {
+      "type": "text",
+      "message": "📋 *Caja de Abogados - Córdoba*\n\nAquí tienes nuestro menú de servicios:",
+      "followUp": "demo_list"
+    },
+    "opciones": {
+      "type": "text",
+      "message": "📋 *Caja de Abogados - Córdoba*\n\nAquí tienes las opciones disponibles:",
+      "followUp": "demo_list"
+    }
+  },
+  "lists": {
+    "demo_list": {
+      "title": "🏥 Servicio Médico Caja de Abogados",
+      "description": "Selecciona el servicio que necesitas:",
+      "sections": [
+        {
+          "title": "📋 Menú Principal",
+          "rows": [
+            {
+              "id": "urgencias",
+              "title": "🚨 Urgencias",
+              "description": "Atención de emergencias"
+            },
+            {
+              "id": "autorizaciones",
+              "title": "📄 Autorizaciones",
+              "description": "Solicitar autorizaciones"
+            },
+            {
+              "id": "otras_gestiones",
+              "title": "📋 Otras gestiones",
+              "description": "Más servicios disponibles"
+            }
+          ]
+        }
+      ]
+    },
+    "otras_gestiones_list": {
+      "title": "📋 Otras Gestiones",
+      "description": "Selecciona el trámite que necesitas:",
+      "sections": [
+        {
+          "title": "📋 Trámites Disponibles",
+          "rows": [
+            {
+              "id": "afiliacion",
+              "title": "👤 Afiliación",
+              "description": "Instructivo y requisitos"
+            },
+            {
+              "id": "reintegros",
+              "title": "💸 Reintegros",
+              "description": "Solicitar y consultar"
+            },
+            {
+              "id": "medicamentos",
+              "title": "💊 Medicamentos",
+              "description": "Vademécum y farmacias"
+            },
+            {
+              "id": "programas",
+              "title": "❤️ Programas",
+              "description": "Programas médicos"
+            },
+            {
+              "id": "prestadores",
+              "title": "🏥 Prestadores",
+              "description": "Listado de prestadores"
+            },
+            {
+              "id": "reciprocidad",
+              "title": "🤝 Reciprocidad",
+              "description": "Convenios y cobertura"
+            },
+            {
+              "id": "soporte_prestador",
+              "title": "🧑‍⚕️ Soporte",
+              "description": "Ayuda para prestadores"
+            },
+            {
+              "id": "otras_consultas",
+              "title": "❓ Consultas",
+              "description": "Otras consultas"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "listResponses": {
+    "urgencias": {
+      "type": "text",
+      "message": "🆘 URGENCIAS\n\n📞 0800-888-3226 (ECCO)\n📞 351 4466666\n\n📌 Al momento del llamado, tenga a mano el número de DNI del paciente.\n\n🏠 Médico a domicilio:\nPrestación destinada a consultas médicas generales realizadas en el domicilio del afiliado.\n\n⚠️ Sujeta a disponibilidad. Puede requerir copago y tiene tope mensual y anual.\n\n🔁 Para volver al menú principal, toque \"↩️ Volver al Menú\" o escriba \"Menú\"."
+    },
+    "autorizaciones": {
+      "type": "text",
+      "message": "📋 *AUTORIZACIONES MÉDICAS*\n\n📝 *Para solicitar autorizaciones necesitas:*\n• Orden médica del profesional tratante\n• Credencial de afiliado vigente\n• DNI del paciente\n\n📞 *Canales de solicitud:*\n• WhatsApp: 351 5284546\n• Teléfono: 351 4235900 - int 200\n• Presencial: 27 de Abril 842\n\n⏰ *Tiempo de respuesta:*\n• Urgentes: 24-48hs\n• Programadas: 3-5 días hábiles\n\n💡 *Tip:* Envía la documentación por WhatsApp para agilizar el trámite."
+    },
+    "otras_gestiones": {
+      "type": "text",
+      "message": "📋 OTRAS GESTIONES\n\nSeleccioná el trámite que necesitas:",
+      "followUp": "otras_gestiones_list"
+    },
+    "reintegros": {
+      "type": "text",
+      "message": "💸 REINTEGROS\n\nPor favor, indique qué desea hacer:\n\n🔸 A. Solicitar un reintegro\n🔸 B. Consultar el estado de un reintegro ya presentado\n🔸 C. Conocer los casos posibles de un reintegro\n🔸 D. Consultar proveedores por especialidad\n🔸 E. Volver al Menú\n\n👉 Responda con \"A\", \"B\", \"C\", \"D\" o \"E\"."
+    },
+    "reintegros_solicitar": {
+      "type": "text",
+      "message": "📝 SOLICITAR REINTEGRO\n\n📋 Documentación requerida:\n• Comprobante original de pago\n• Pedido médico/receta correspondiente\n• CBU de cuenta bancaria a nombre del titular\n• CUIT del titular\n• Datos de contacto actualizados (teléfono y correo electrónico)\n• Documentación específica para cada tipo de reintegro\n\n📌 Entrega de documentación:\n🏠 Servicio médico de Caja de Abogados de Cba\n📍 Domicilio: 27 de abril 842 - Córdoba\n\n📞 Asesoramiento: 351 4235900 int. 116\n✉️ serviciomedico@caja-abogados.com.ar\n📩 Con copia a: psaad@caja-abogados.com.ar"
+    },
+    "reintegros_consultar": {
+      "type": "text",
+      "message": "🔍 CONSULTAR ESTADO DE REINTEGRO\n\n📋 Puede consultar el estado de su reintegro:\n\n🏠 En forma presencial en el Servicio de Salud\n✉️ Por correo electrónico:\n   • serviciomedico@caja-abogados.com.ar\n   • Con copia a: psaad@caja-abogados.com.ar\n\n📞 Teléfono: 351 4235900 int. 116"
+    },
+    "reintegros_casos": {
+      "type": "text_with_url",
+      "message": "❓ CASOS POSIBLES DE REINTEGRO\n\n📄 Para conocer los casos posibles de reintegro, consulte el artículo 32 del reglamento:\n\n📞 Teléfono: 351 4235900 int. 116",
+      "url": "https://www.caja-abogados.org.ar/servicio-medico/reglamento-2013/",
+      "url_text": "📄 Ver Artículo 32 - Reglamento 2013"
+    },
+    "reintegros_proveedores": {
+      "type": "text",
+      "message": "🏥 CONSULTAR PROVEEDORES POR ESPECIALIDAD\n\n📋 Para solicitar listado de proveedores:\n\n✉️ serviciomedico@caja-abogados.com.ar\n📩 Con copia a: psaad@caja-abogados.com.ar\n\n📞 Teléfono: 351 4235900 int. 116"
+    },
+    "reintegros_volver": {
+      "type": "text",
+      "message": "🔙 Regresando al menú principal...",
+      "followUp": "demo_list"
+    },
+    "amb_solicitar": {
+      "type": "text",
+      "message": "📝 SOLICITAR AUTORIZACIONES\n\n🏥 Los prestadores ya gestionan las autorizaciones desde el sistema web de la Caja.\n\n🔢 Al cargar el pedido, se genera un Nº de trámite (ej: 19----). Con ese número podrá consultar el estado en el portal.\n\n📸 Si el pedido es de Sanatorio Allende u otro prestador que no opere por sistema, envíenos una foto clara del pedido por este medio."
+    },
+    "amb_seguimiento": {
+      "type": "text",
+      "message": "📦 SEGUIMIENTO\n\n🔍 Consulte el estado de su autorización en el portal de la Caja ingresando el Nº de trámite:\n\n🌐 https://autogestion.caja-abogados.org.ar"
+    },
+    "amb_reclamo": {
+      "type": "text",
+      "message": "⚠️ RECLAMO\n\n⏰ El tiempo estimado de resolución de una autorización ambulatoria es de hasta 48 horas hábiles.\n\n📋 Si el trámite excede ese plazo, por favor envíenos:\n• Nº de trámite (ej: 19----)\n• Nombre del afiliado/paciente\n• Observaciones (si las hubiera)\n\n⚠️ Importante: Las prácticas de urgencia y/o internación poseen plazos diferenciados."
+    },
+    "amb_revision": {
+      "type": "text",
+      "message": "🔎 REVISIÓN\n\n📋 Puede solicitar revisión del trámite en los siguientes casos:\n\n• 📄 Pedido médico devuelto en el portal (requiere documentación adicional)\n• 🏥 Prácticas fuera de convenio (adjuntar informe, estudios previos y presupuesto)\n• 💰 Procedimientos especiales o de alto costo (justificar con documentación)\n• ✅ Errores en la solicitud (adjuntar corrección solicitada por auditoría)"
+    },
+    "amb_volver": {
+      "type": "text",
+      "message": "🔙 Regresando al menú principal...",
+      "followUp": "demo_list"
+    },
+    "afiliacion": {
+      "type": "text",
+      "message": "📝 *AFILIACIÓN AL SERVICIO MÉDICO*\n\n👥 *Quiénes pueden afiliarse:*\n• Abogados matriculados\n• Procuradores habilitados\n• Grupo familiar directo\n\n📄 *Documentación requerida:*\n• Solicitud de afiliación\n• Fotocopia de matrícula\n• DNI y CUIL\n• Constancia domicilio\n\n💰 *Aportes mensuales:*\n• Activos: según categoría\n• Jubilados: bonificado\n• Grupo familiar: adicional\n\n📍 *Inscripción:*\n27 de Abril 842 - Lunes a Viernes 8 a 16hs\n\n📞 *Consultas:* 351 4235900 - int 185"
+    },
+    "medicamentos": {
+      "type": "text",
+      "message": "💊 *MEDICAMENTOS Y COBERTURA*\n\n📋 *Cobertura incluye:*\n• Medicamentos del Vademécum\n• Tratamientos crónicos\n• Medicación oncológica\n• Insulinas y diabéticos\n\n🏪 *Farmacias adheridas:*\n• Farmacity\n• Dr. Ahorro\n• Farmacias del Centro\n\n📱 *Para consultar cobertura:*\n• WhatsApp: 351 5284546\n• Web: www.caja-abogados.org.ar/vademecum\n\n💰 *Descuentos:*\n• Afiliados: 40-60%\n• Grupo familiar: 40%\n• Jubilados: 70%"
+    },
+    "programas": {
+      "type": "text",
+      "message": "🩺 *PROGRAMAS DE SALUD*\n\n🔬 *Programas Preventivos:*\n• Chequeos anuales gratuitos\n• Mamografías y PAP\n• Control cardiológico\n• Vacunación antigripal\n\n👶 *Programas Especiales:*\n• Maternidad y pediatría\n• Tercera edad\n• Enfermedades crónicas\n• Salud mental\n\n📅 *Para inscribirte:*\n• WhatsApp: 351 5284546\n• Teléfono: 351 4235900 - int 250\n• Web: www.caja-abogados.org.ar/programas\n\n🎁 *Beneficios adicionales para participantes activos."
+    },
+    "prestadores": {
+      "type": "text",
+      "message": "🏥 PRESTADORES\n\n📋 Información detallada próximamente disponible.\n\n📞 Para consultas: 351 4235900 int. 103\n\n✉️ serviciomedico@caja-abogados.com.ar"
+    },
+    "reciprocidad": {
+      "type": "text",
+      "message": "🤝 RECIPROCIDAD\n\n📋 Información detallada próximamente disponible.\n\n📞 Para consultas: 351 4235900 int. 103\n\n✉️ serviciomedico@caja-abogados.com.ar"
+    },
+    "soporte_prestador": {
+      "type": "text",
+      "message": "🧑‍⚕️ SOPORTE PRESTADOR\n\n📋 Información detallada próximamente disponible.\n\n📞 Para consultas: 351 4235900 int. 103\n\n✉️ serviciomedico@caja-abogados.com.ar"
+    },
+    "otras_consultas": {
+      "type": "text",
+      "message": "❓ OTRAS CONSULTAS\n\n📋 Información detallada próximamente disponible.\n\n📞 Para consultas: 351 4235900 int. 103\n\n✉️ serviciomedico@caja-abogados.com.ar"
+    },
+    "info_general": {
+      "type": "text",
+      "message": "✅ Información General.\n\n🏢 Somos la Caja de Previsión y Seguridad Social de Abogados y Procuradores de Córdoba. Estamos aquí para ayudarte con todas tus consultas."
+    },
+    "soporte_tecnico": {
+      "type": "text",
+      "message": "🔧 Soporte Técnico.\n\nNuestro equipo está disponible para ayudarte. Puedes contactarnos por los medios habituales."
+    },
+    "consulta_cuenta": {
+      "type": "text",
+      "message": "👤 Consulta de Cuenta.\n\nPara consultas sobre tu cuenta, puedes contactarnos por teléfono o email. Nuestro equipo te ayudará con cualquier información que necesites."
+    },
+    "horarios_atencion": {
+      "type": "text",
+      "message": "✅ Horarios de Atención.\n\n🕐 Nuestros horarios de atención son:\n• Lunes a Viernes: 8:00 AM - 6:00 PM\n• Sábados: 9:00 AM - 2:00 PM\n• Domingos: Cerrado\n\n⏰ Zona horaria: UTC-5"
+    },
+    "info_contacto": {
+      "type": "text",
+      "message": "📍 *Caja de Previsión y Seguridad Social de Abogados y Procuradores de Córdoba*\n\n🏢 *Dirección:*\n27 de Abril 842, Córdoba, Argentina\n\n📞 *Teléfonos:*\n• Información General: 351 4235900 - int 185\n• Mesa de entrada: 351 4235900 – int 109\n• Contralor de Aportes: 351 5734543\n• Servicio médico (WhatsApp): 351 5284546\n\n📧 *Email:*\ninformacion@caja-abogados.com.ar\n\n🌐 *Web:*\nwww.caja-abogados.org.ar"
+    },
+    "afiliacion_caja": {
+      "type": "text",
+      "message": "📝 Afiliación a la Caja Previsional.\n\nPara más información sobre el proceso de afiliación, contacta con nuestras oficinas."
+    },
+    "urgencias_emergencias": {
+      "type": "text",
+      "message": "🆘 *URGENCIAS Y EMERGENCIAS - 24HS*\n\n📞 *Línea de Emergencias:*\n• 351 5284546 (WhatsApp)\n• 0800-555-URGENCIA\n\n🏥 *Centros de Atención Inmediata:*\n• Hospital Privado Córdoba\n• Sanatorio Allende\n• Clínica Universitaria Reina Fabiola\n\n⚠️ *En caso de emergencia vital:*\nLlama al 107 (SAME) o dirígete al centro médico más cercano.\n\n💡 *Recuerda tener a mano:*\n• Credencial de afiliado\n• DNI\n• Orden médica (si la tienes)",
+      "followUp": "soporte_submenu"
+    },
+    "emergencias": {
+      "type": "text",
+      "message": "🆘 *EMERGENCIAS - ATENCIÓN 24HS*\n\nPara emergencias médicas urgentes:",
+      "followUp": "soporte_submenu"
+    },
+    "convenios_reciprocidad": {
+      "type": "text",
+      "message": "🤝 *CONVENIOS DE RECIPROCIDAD*\n\n🗺️ *Cobertura en:*\n• Buenos Aires - CABA\n• Santa Fe - Rosario\n• Mendoza - Capital\n• Tucumán - San Miguel\n\n📋 *Para usar el convenio:*\n• Credencial vigente\n• Autorización previa (no urgencias)\n• DNI del afiliado\n\n📞 *Gestión de autorizaciones:*\n• WhatsApp: 351 5284546\n• Email: reciprocidad@caja-abogados.com.ar\n\n⚠️ *Importante:* Consulta prestadores adheridos en cada provincia antes de viajar."
+    },
+    "preguntas_frecuentes": {
+      "type": "text",
+      "message": "❓ *PREGUNTAS FRECUENTES*\n\n🔸 *¿Cómo obtengo mi credencial?*\nSe envía por correo al domicilio registrado.\n\n🔸 *¿Puedo atenderme sin credencial?*\nSí, con DNI y número de afiliado.\n\n🔸 *¿Cómo cambio de médico de cabecera?*\nSolicítalo por WhatsApp o presencialmente.\n\n🔸 *¿Qué hago si pierdo la credencial?*\nSolicita duplicado por WhatsApp.\n\n🔸 *¿Hay copagos?*\nConsultas y estudios básicos sin costo.\n\n📱 *Más consultas:* WhatsApp 351 5284546"
+    },
+    "asistencia_prestadores": {
+      "type": "text",
+      "message": "👨‍⚕️ *ASISTENCIA A PRESTADORES*\n\n🏥 *Servicios para profesionales:*\n• Liquidación de prácticas\n• Consultas de nomenclador\n• Gestión de autorizaciones\n• Capacitaciones\n\n📞 *Mesa de ayuda:*\n• Teléfono: 351 4235900 - int 300\n• Email: prestadores@caja-abogados.com.ar\n• WhatsApp: 351 5284546\n\n💻 *Portal web:*\nwww.caja-abogados.org.ar/prestadores\n\n📋 *Documentación y formularios disponibles online las 24hs."
+    },
+    "calendario_pagos": {
+      "type": "text",
+      "message": "📅 Calendario de Pagos.\n\nConsulta las fechas de vencimiento en nuestra página web o contacta con nosotros."
+    },
+    "emision_boletas": {
+      "type": "text",
+      "message": "🧾 Emisión de Boletas.\n\nPuedes generar tus boletas a través de nuestro sistema de autogestión online."
+    },
+    "afiliacion_medica": {
+      "type": "text",
+      "message": "🩺 Afiliación al Servicio Médico.\n\nPara información sobre afiliación médica, consulta en nuestras oficinas."
+    },
+    "ordenes_medicas": {
+      "type": "text",
+      "message": "📋 Órdenes Médicas.\n\nPuedes gestionar tus órdenes médicas desde nuestro sistema de autogestión."
+    },
+    "consulta_prestadores": {
+      "type": "text",
+      "message": "🏥 Consulta de Prestadores.\n\nInformación sobre médicos y prestadores disponible en nuestra web."
+    },
+    "contactar_humano": {
+      "type": "text_with_buttons",
+      "message": "✅ Contacto con Agente Humano.\n\n👨‍💼 ¿Cómo prefieres contactarnos?",
+      "buttons": [
+        {
+          "id": "llamada_urgente",
+          "title": "📞 Llamada Urgente"
+        },
+        {
+          "id": "chat_whatsapp",
+          "title": "💬 Chat WhatsApp"
+        },
+        {
+          "id": "email_soporte",
+          "title": "📧 Email Soporte"
+        }
+      ]
+    },
+    "ver_catalogo": {
+      "type": "text_with_url",
+      "message": "🛒 Catálogo de Productos\n\n📋 Tenemos una amplia variedad de productos:\n\n• 📱 Smartphones última generación\n• 💻 Laptops y computadoras\n• 🎧 Accesorios tecnológicos\n• 📺 Smart TVs y entretenimiento\n\n💡 Ofertas especiales disponibles",
+      "url": "https://mi-tienda.com/catalogo",
+      "url_text": "🛒 Ver Catálogo Completo"
+    },
+    "precios_planes": {
+      "type": "text_with_buttons",
+      "message": "💰 Precios y Planes 2024\n\n📊 Selecciona qué información necesitas:",
+      "buttons": [
+        {
+          "id": "planes_basicos",
+          "title": "🥉 Planes Básicos"
+        },
+        {
+          "id": "planes_premium",
+          "title": "🥇 Planes Premium"
+        },
+        {
+          "id": "ofertas_especiales",
+          "title": "🎁 Ofertas"
+        }
+      ]
+    },
+    "hacer_pedido": {
+      "type": "text_with_url",
+      "message": "📱 Hacer tu Pedido\n\n🚀 ¡Es muy fácil!\n\n1️⃣ Elige tus productos\n2️⃣ Envíanos tu lista\n3️⃣ Confirmamos disponibilidad\n4️⃣ Coordinamos entrega\n\n💬 Contáctanos directamente:",
+      "url": "https://wa.me/543515747073?text=Hola,%20quiero%20hacer%20un%20pedido",
+      "url_text": "💬 WhatsApp Directo"
+    }
+  },
+  "submenus": {},
+  "submenuResponses": {}
+}
