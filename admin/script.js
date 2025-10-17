@@ -241,6 +241,10 @@ function loadLists() {
         });
     }
 
+    // Crear tarjeta especial para "Autorizaciones" como botones
+    const autorizacionesCard = createAutorizacionesButtonsCard();
+    container.appendChild(autorizacionesCard);
+
     // Cargar submenús
     if (botConfig.submenus) {
         Object.entries(botConfig.submenus).forEach(([submenuId, submenuConfig]) => {
@@ -357,6 +361,91 @@ function createSubmenuCard(submenuId, submenuConfig) {
         </div>
     `;
     return div;
+}
+
+// Crear tarjeta especial para "Autorizaciones" como botones
+function createAutorizacionesButtonsCard() {
+    const div = document.createElement('div');
+    div.className = 'list-card';
+    div.style.borderLeft = '4px solid #28a745'; // Verde para botones
+    
+    // Botones de autorizaciones
+    const buttons = [
+        { id: 'amb_solicitar', title: '📝 Solicitar Autoriz.' },
+        { id: 'amb_seguimiento', title: '📦 Seguimiento' },
+        { id: 'amb_reclamo', title: '⚠️ Reclamo' },
+        { id: 'amb_revision', title: '🔎 Revisión' },
+        { id: 'amb_volver', title: '↩️ Volver al Menú' }
+    ];
+
+    const buttonsHtml = buttons.map(button => `
+        <div class="list-item" style="display: flex; justify-content: space-between; align-items: center; padding: 8px; border-bottom: 1px solid #eee;">
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <span>${button.title}</span>
+                ${getLinkedIndicator(button.id)}
+            </div>
+            <div style="display: flex; gap: 5px;">
+                <button class="btn btn-sm btn-info" onclick="editListResponse('${button.id}')" style="padding: 4px 8px; font-size: 0.8rem;">
+                    <i class="fas fa-comment"></i> Respuesta
+                </button>
+                ${button.id !== 'amb_volver' ? `
+                    <button class="btn btn-sm btn-primary" onclick="openLinkMenuModal('${button.id}', '${button.title}', '')" style="padding: 4px 8px; font-size: 0.8rem;">
+                        <i class="fas fa-link"></i> Vincular
+                    </button>
+                ` : `
+                    <span class="badge badge-success" style="background-color: #28a745; color: white; padding: 2px 6px; border-radius: 12px; font-size: 0.7rem;">
+                        <i class="fas fa-arrow-right"></i> → demo_list
+                    </span>
+                `}
+            </div>
+        </div>
+    `).join('');
+
+    div.innerHTML = `
+        <div class="list-header">
+            <div class="list-title">📄 Autorizaciones <small>(Botones)</small></div>
+            <div class="response-actions">
+                <button class="btn btn-sm btn-success" onclick="refreshCache()" style="background-color: #28a745;">
+                    <i class="fas fa-sync"></i> Refrescar
+                </button>
+            </div>
+        </div>
+        <p><strong>Descripción:</strong> Selecciona una opción:</p>
+        <div class="list-items">
+            ${buttonsHtml}
+        </div>
+    `;
+    return div;
+}
+
+// Función para refrescar caché
+async function refreshCache() {
+    try {
+        console.log('♻️ Refrescando caché...');
+        showToast('Refrescando caché...', 'info');
+        
+        const response = await fetch('/admin/cache/refresh', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        
+        if (response.ok) {
+            const result = await response.json();
+            console.log('✅ Cache refrescada:', result);
+            showToast('Cache refrescada correctamente', 'success');
+            
+            // Recargar configuración y listas
+            await loadConfiguration();
+            loadLists();
+        } else {
+            throw new Error('Error en respuesta del servidor');
+        }
+    } catch (error) {
+        console.error('❌ Error refrescando caché:', error);
+        showToast('Error refrescando caché', 'error');
+    }
 }
 
 // Cargar estadísticas
