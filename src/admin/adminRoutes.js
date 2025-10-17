@@ -245,207 +245,12 @@ async function loadConfig() {
         }
       },
       
-      // Submenús para navegación por niveles
-      submenus: {
-        'info_submenu': {
-          title: '📍 Información Detallada',
-          description: '¿Qué información específica necesitas?',
-          sections: [
-            {
-              title: 'Sobre Nosotros',
-              rows: [
-                { id: 'historia_empresa', title: '📜 Historia de la Empresa', description: 'Conoce nuestros orígenes' },
-                { id: 'mision_vision', title: '🎯 Misión y Visión', description: 'Nuestros valores y objetivos' },
-                { id: 'equipo_trabajo', title: '👥 Nuestro Equipo', description: 'Conoce a nuestro equipo' }
-              ]
-            },
-            {
-              title: 'Servicios',
-              rows: [
-                { id: 'lista_servicios', title: '📋 Lista de Servicios', description: 'Todos nuestros servicios' },
-                { id: 'precios_tarifas', title: '💰 Precios y Tarifas', description: 'Información de costos' }
-              ]
-            },
-            {
-              title: 'Navegación',
-              rows: [
-                { id: 'volver_menu_principal', title: '🔙 Volver al Menú Principal', description: 'Regresar al inicio' }
-              ]
-            }
-          ]
-        },
-        
-        'soporte_submenu': {
-          title: 'Tipos de Soporte',
-          description: 'Que tipo de ayuda necesitas?',
-          sections: [
-            {
-              title: 'Soporte Tecnico',
-              rows: [
-                { id: 'problema_conexion', title: 'Problemas de Conexion', description: 'Internet, WiFi, red' },
-                { id: 'problema_software', title: 'Problemas de Software', description: 'Aplicaciones, programas' },
-                { id: 'problema_hardware', title: 'Problemas de Hardware', description: 'Equipos, dispositivos' }
-              ]
-            },
-            {
-              title: 'Soporte Comercial',
-              rows: [
-                { id: 'cambio_plan', title: 'Cambiar Plan', description: 'Upgrade o downgrade' },
-                { id: 'facturacion', title: 'Consultas de Facturacion', description: 'Facturas, pagos' }
-              ]
-            },
-            {
-              title: 'Navegacion',
-              rows: [
-                { id: 'volver_menu_principal', title: 'Volver al Menu Principal', description: 'Regresar al inicio' }
-              ]
-            }
-          ]
-        }
-      },
+      // Submenús eliminados - Solo mantener los necesarios
+  submenus: {},
       
-      // Respuestas para botones y opciones de submenús
-      submenuResponses: {
-        // Respuestas para botones de precios
-        'planes_basicos': {
-          type: 'text_with_url',
-          message: '🥉 Planes Básicos\n\n💰 Opciones económicas:\n\n📦 STARTER: $1,500/mes\n• 10GB almacenamiento\n• Soporte por email\n• 1 usuario\n\n📦 BÁSICO: $2,500/mes\n• 50GB almacenamiento\n• Soporte telefónico\n• 3 usuarios\n\n📋 Ver detalles completos:',
-          url: 'https://mi-empresa.com/planes-basicos',
-          url_text: '📋 Ver Planes Básicos'
-        },
-        
-        'planes_premium': {
-          type: 'text_with_url',
-          message: '🥇 Planes Premium\n\n⭐ Lo mejor para tu negocio:\n\n🚀 PROFESIONAL: $5,500/mes\n• 200GB almacenamiento\n• Soporte 24/7\n• 10 usuarios\n• Backup automático\n\n🏆 EMPRESARIAL: $9,500/mes\n• Almacenamiento ilimitado\n• Soporte dedicado\n• Usuarios ilimitados\n• Funciones avanzadas\n\n💎 Ver todos los beneficios:',
-          url: 'https://mi-empresa.com/planes-premium',
-          url_text: '💎 Ver Planes Premium'
-        },
-        
-        'ofertas_especiales': {
-          type: 'text_with_buttons',
-          message: '🎁 Ofertas Especiales\n\n🔥 ¡Aprovecha estas promociones limitadas!\n\n🎯 ¿Qué tipo de oferta te interesa?',
-          buttons: [
-            { id: 'descuento_nuevos', title: '🆕 Nuevos Clientes' },
-            { id: 'upgrade_gratis', title: '⬆️ Upgrade Gratis' },
-            { id: 'paquetes_combo', title: '📦 Paquetes Combo' }
-          ]
-        },
-        
-        // Respuestas para ofertas específicas
-        'descuento_nuevos': {
-          type: 'text_with_url',
-          message: '🆕 Oferta Nuevos Clientes\n\n🎉 ¡Bienvenido!\n\n💥 50% OFF primer mes\n💥 Setup gratuito (valor $500)\n💥 Soporte premium incluido\n\n⏰ Oferta válida hasta fin de mes\n\n🚀 ¡Aprovecha ahora!',
-          url: 'https://wa.me/543515747073?text=Quiero%20la%20oferta%20nuevos%20clientes',
-          url_text: '🚀 Quiero esta Oferta'
-        },
-        
-        'llamada_urgente': {
-          type: 'text_with_url',
-          message: '📞 Llamada Urgente\n\n🚨 Para emergencias y consultas urgentes:\n\n📱 Línea directa: +54 351 123-4567\n⏰ Disponible 24/7\n🔧 Soporte técnico inmediato\n\n¡Llamanos ahora!',
-          url: 'tel:+543511234567',
-          url_text: '📞 Llamar Ahora'
-        },
-        
-        'chat_whatsapp': {
-          type: 'text_with_url',
-          message: '💬 Chat WhatsApp\n\n📱 Habla directamente con nuestro equipo:\n\n✅ Respuesta inmediata\n✅ Envío de archivos\n✅ Seguimiento personalizado\n\n¡Escríbenos!',
-          url: 'https://wa.me/543515747073?text=Hola,%20necesito%20ayuda',
-          url_text: '💬 Abrir Chat'
-        },
-        
-        'email_soporte': {
-          type: 'text_with_url',
-          message: '📧 Email Soporte\n\n✉️ Para consultas detalladas:\n\n📮 soporte@mi-empresa.com\n⏱️ Respuesta en 2-4 horas\n📎 Puedes adjuntar archivos\n\n¡Escríbenos!',
-          url: 'mailto:soporte@mi-empresa.com?subject=Consulta%20desde%20WhatsApp',
-          url_text: '📧 Enviar Email'
-        },
-        
-        // Respuestas para problemas de soporte técnico
-        'problema_conexion': {
-          type: 'text_with_buttons',
-          message: '🌐 Problemas de Conexión\n\nVamos a ayudarte paso a paso. ¿Cuál es tu situación específica?',
-          buttons: [
-            { id: 'sin_internet', title: '❌ Sin Internet' },
-            { id: 'internet_lento', title: '🐌 Internet Lento' },
-            { id: 'wifi_problemas', title: '📶 Problemas WiFi' }
-          ]
-        },
-        
-        'problema_software': {
-          type: 'text_with_buttons',
-          message: '💻 Problemas de Software\n\n¿Qué tipo de problema tienes con el software?',
-          buttons: [
-            { id: 'app_no_abre', title: '🚫 App no Abre' },
-            { id: 'app_lenta', title: '🐌 App Lenta' },
-            { id: 'error_mensaje', title: '⚠️ Mensaje Error' }
-          ]
-        },
-        
-        'problema_hardware': {
-          type: 'text_with_buttons',
-          message: '🔧 Problemas de Hardware\n\n¿Qué dispositivo tiene problemas?',
-          buttons: [
-            { id: 'computadora', title: '💻 Computadora' },
-            { id: 'telefono', title: '📱 Teléfono' },
-            { id: 'tablet', title: '📱 Tablet' }
-          ]
-        },
-        
-        // Respuestas específicas para problemas de conexión
-        'sin_internet': {
-          type: 'text',
-          message: '❌ Sin Internet - Solución\n\n🔧 Pasos a seguir:\n\n1️⃣ Verifica que el cable esté conectado\n2️⃣ Reinicia el módem (desconecta 30 seg)\n3️⃣ Reinicia tu dispositivo\n4️⃣ Verifica luces del módem:\n   • Verde = OK\n   • Roja = Problema\n\n📞 Si persiste: +54 351 123-4567'
-        },
-        
-        'internet_lento': {
-          type: 'text',
-          message: '🐌 Internet Lento - Solución\n\n🔧 Pasos a seguir:\n\n1️⃣ Cierra aplicaciones innecesarias\n2️⃣ Acércate al router WiFi\n3️⃣ Reinicia el módem\n4️⃣ Verifica si otros dispositivos van lentos\n5️⃣ Prueba velocidad: speedtest.net\n\n📊 Velocidad contratada vs real'
-        },
-        
-        'wifi_problemas': {
-          type: 'text',
-          message: '📶 Problemas WiFi - Solución\n\n🔧 Pasos a seguir:\n\n1️⃣ Olvida y reconecta la red WiFi\n2️⃣ Verifica la contraseña\n3️⃣ Acércate al router\n4️⃣ Reinicia WiFi del dispositivo\n5️⃣ Reinicia el router\n\n🔑 ¿Olvidaste la contraseña? Está en el router'
-        },
-        
-        // Botón para volver al menú principal
-        'volver_menu_principal': {
-          type: 'text',
-          message: '🔙 Regresando al menú principal...',
-          followUp: 'demo_list'
-        },
-        
-        // 📝 SOLICITAR AUTORIZACIONES
-        'amb_solicitar': {
-          type: 'text',
-          message: 'Los prestadores ya gestionan las autorizaciones desde el sistema web de la Caja.\nAl cargar el pedido, se genera un Nº de trámite (ej: 19----). Con ese número podrá consultar el estado en el portal.\nSi el pedido es de Sanatorio Allende u otro prestador que no opere por sistema, envíenos una foto clara del pedido por este medio.'
-        },
-        
-        // 📦 SEGUIMIENTO
-        'amb_seguimiento': {
-          type: 'text',
-          message: 'Consulte el estado de su autorización en el portal de la Caja ingresando el Nº de trámite:\nhttps://autogestion.caja-abogados.org.ar'
-        },
-        
-        // ⚠️ RECLAMO
-        'amb_reclamo': {
-          type: 'text',
-          message: 'El tiempo estimado de resolución de una autorización ambulatoria es de hasta 48 horas hábiles.\nSi el trámite excede ese plazo, por favor envíenos:\n• Nº de trámite (ej: 19----)\n• Nombre del afiliado/paciente\n• Observaciones (si las hubiera)\nImportante: Las prácticas de urgencia y/o internación poseen plazos diferenciados.'
-        },
-        
-        // 🔎 REVISIÓN
-        'amb_revision': {
-          type: 'text',
-          message: 'Puede solicitar revisión del trámite en los siguientes casos:\n• Pedido médico devuelto en el portal (requiere documentación adicional)\n• Prácticas fuera de convenio (adjuntar informe, estudios previos y presupuesto)\n• Procedimientos especiales o de alto costo (justificar con documentación)\n• Errores en la solicitud (adjuntar corrección solicitada por auditoría)'
-        },
-        
-        // ↩️ VOLVER AL MENÚ
-        'amb_volver': {
-          type: 'text',
-          message: '🔙 Regresando al menú principal...',
-          followUp: 'demo_list'
-        }
-      }
-    };
+      // Respuestas para botones y opciones de submenús - Limpiadas
+  submenuResponses: {}
+};
 
     await saveConfig(defaultConfig);
     return defaultConfig;
@@ -505,6 +310,27 @@ router.get('/api/status', (req, res) => {
     version: '1.0.0'
   });
 });
+
+  // API: Refrescar cache
+  router.post('/admin/cache/refresh', async (req, res) => {
+    try {
+      console.log('🔄 Refrescando cache del servidor...');
+      // Forzar recarga de configuración
+      await loadConfig();
+      res.json({ 
+        success: true, 
+        message: 'Cache refrescado exitosamente',
+        timestamp: new Date().toISOString()
+      });
+    } catch (error) {
+      console.error('❌ Error refrescando cache:', error);
+      res.status(500).json({ 
+        success: false, 
+        message: 'Error refrescando cache',
+        error: error.message 
+      });
+    }
+  });
 
   // API: Obtener configuración completa
   router.get('/api/config', async (req, res) => {
