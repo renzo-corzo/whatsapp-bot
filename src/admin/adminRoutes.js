@@ -25,8 +25,16 @@ async function loadConfig() {
     return JSON.parse(data);
   } catch (error) {
     console.log('📄 Creando archivo de configuración por defecto');
-    // Configuración por defecto
-    const defaultConfig = {
+    // Configuración por defecto - USAR LA CONFIGURACION COMPLETA
+    const defaultConfig = getCompleteConfig();
+    await fs.writeFile(CONFIG_FILE, JSON.stringify(defaultConfig, null, 2));
+    return defaultConfig;
+  }
+}
+
+// Función para obtener la configuración completa
+function getCompleteConfig() {
+  return {
   responses: {
     'hola': {
       type: 'text',
@@ -390,10 +398,7 @@ async function loadConfig() {
       // Respuestas para botones y opciones de submenús - Limpiadas
   submenuResponses: {}
 };
-
-    await saveConfig(defaultConfig);
-    return defaultConfig;
-  }
+}
 }
 
 // Guardar configuración en archivo
