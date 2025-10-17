@@ -1176,8 +1176,13 @@ function closeImprovedResponseModal() {
 
 // Guardar respuesta mejorada
 async function saveImprovedResponse(optionId, responseType) {
+    console.log(`💾 Guardando respuesta para: ${optionId}, tipo: ${responseType}`);
+    
     const message = document.getElementById('improvedResponseText').value.trim();
     const type = document.getElementById('improvedResponseType').value;
+
+    console.log(`📝 Mensaje a guardar:`, message);
+    console.log(`🏷️ Tipo de respuesta:`, type);
 
     if (!message) {
         showToast('Por favor ingresa un mensaje', 'error');
@@ -1187,6 +1192,7 @@ async function saveImprovedResponse(optionId, responseType) {
     // Asegurar que existe el objeto
     if (!botConfig[responseType]) {
         botConfig[responseType] = {};
+        console.log(`🔧 Creando objeto ${responseType}`);
     }
     
     // Crear respuesta según el tipo
@@ -1195,7 +1201,10 @@ async function saveImprovedResponse(optionId, responseType) {
         message: message
     };
 
+    console.log(`📋 Configuración actualizada:`, botConfig[responseType][optionId]);
+
     try {
+        console.log(`🚀 Enviando configuración al servidor...`);
         const saveResponse = await fetch('/api/config', {
             method: 'POST',
             headers: {
@@ -1204,16 +1213,22 @@ async function saveImprovedResponse(optionId, responseType) {
             body: JSON.stringify(botConfig)
         });
 
+        console.log(`📡 Respuesta del servidor:`, saveResponse.status, saveResponse.statusText);
+
         if (saveResponse.ok) {
+            const result = await saveResponse.json();
+            console.log(`✅ Resultado del guardado:`, result);
             showToast(`✅ Respuesta para "${optionId}" guardada correctamente`, 'success');
             closeImprovedResponseModal();
             // Recargar listas para mostrar cambios
             loadLists();
         } else {
-            throw new Error('Error guardando respuesta');
+            const errorText = await saveResponse.text();
+            console.error(`❌ Error del servidor:`, errorText);
+            throw new Error(`Error guardando respuesta: ${saveResponse.status}`);
         }
     } catch (error) {
-        console.error('Error guardando respuesta:', error);
+        console.error('❌ Error guardando respuesta:', error);
         showToast('❌ Error guardando respuesta', 'error');
     }
 }
