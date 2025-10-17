@@ -244,8 +244,12 @@ function loadLists() {
     // Crear tarjeta especial para "Autorizaciones" como botones
     const autorizacionesCard = createAutorizacionesButtonsCard();
     container.appendChild(autorizacionesCard);
+
+    // Crear tarjeta especial para "Otras Gestiones" como lista interactiva
+    const otrasGestionesCard = createOtrasGestionesCard();
+    container.appendChild(otrasGestionesCard);
     
-    console.log('✅ Cargadas 2 tarjetas: Servicio Médico (Lista) y Autorizaciones (Botones)');
+    console.log('✅ Cargadas 3 tarjetas: Servicio Médico (Lista), Autorizaciones (Botones) y Otras Gestiones (Lista)');
 
     // Cargar submenús
     if (botConfig.submenus) {
