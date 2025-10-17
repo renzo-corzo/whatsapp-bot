@@ -244,8 +244,12 @@ function loadLists() {
     // Crear tarjeta especial para "Autorizaciones" como botones
     const autorizacionesCard = createAutorizacionesButtonsCard();
     container.appendChild(autorizacionesCard);
+
+    // Crear tarjeta especial para "Otras Gestiones" - Estado de implementación
+    const otrasGestionesCard = createOtrasGestionesStatusCard();
+    container.appendChild(otrasGestionesCard);
     
-    console.log('✅ Cargadas 2 tarjetas: Servicio Médico (Lista) y Autorizaciones (Botones)');
+    console.log('✅ Cargadas 3 tarjetas: Servicio Médico (Lista), Autorizaciones (Botones) y Otras Gestiones (Estado)');
 
     // Cargar submenús
     if (botConfig.submenus) {
@@ -468,6 +472,66 @@ function createOtrasGestionesCard() {
                 <i class="fas fa-info-circle"></i>
                 Próximamente se implementan como listas o botones interactivos
             </small>
+        </div>
+    `;
+    return div;
+}
+
+// Crear tarjeta para Otras Gestiones - Estado de implementación
+function createOtrasGestionesStatusCard() {
+    const div = document.createElement('div');
+    div.className = 'list-card';
+    div.style.borderLeft = '4px solid #ffc107'; // Amarillo para estado
+    
+    // Trámites de otras gestiones con su estado
+    const tramites = [
+        { id: 'afiliacion', title: '👤 Afiliación', status: 'implementado', type: 'URL' },
+        { id: 'reintegros', title: '💸 Reintegros', status: 'implementado', type: 'Opciones A-E' },
+        { id: 'medicamentos', title: '💊 Medicamentos', status: 'implementado', type: 'Opciones A-E' },
+        { id: 'programas', title: '❤️ Programas', status: 'pendiente', type: 'Texto básico' },
+        { id: 'prestadores', title: '🏥 Prestadores', status: 'pendiente', type: 'Texto básico' },
+        { id: 'reciprocidad', title: '🤝 Reciprocidad', status: 'pendiente', type: 'Texto básico' },
+        { id: 'soporte_prestador', title: '🧑‍⚕️ Soporte', status: 'pendiente', type: 'Texto básico' },
+        { id: 'otras_consultas', title: '❓ Consultas', status: 'pendiente', type: 'Texto básico' }
+    ];
+
+    const tramitesHtml = tramites.map(tramite => {
+        const statusColor = tramite.status === 'implementado' ? '#28a745' : '#6c757d';
+        const statusText = tramite.status === 'implementado' ? '✅ Implementado' : '⏳ Pendiente';
+        
+        return `
+            <div class="list-item" style="display: flex; justify-content: space-between; align-items: center; padding: 8px; border-bottom: 1px solid #eee;">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <span>${tramite.title}</span>
+                    <small style="color: #666;">${tramite.type}</small>
+                </div>
+                <div style="display: flex; gap: 5px; align-items: center;">
+                    <button class="btn btn-sm btn-info" onclick="editListResponse('${tramite.id}')" style="padding: 4px 8px; font-size: 0.8rem;">
+                        <i class="fas fa-comment"></i> Respuesta
+                    </button>
+                    <span class="badge" style="background-color: ${statusColor}; color: white; padding: 2px 6px; border-radius: 3px; font-size: 0.7rem;">
+                        ${statusText}
+                    </span>
+                </div>
+            </div>
+        `;
+    }).join('');
+
+    div.innerHTML = `
+        <div class="list-header">
+            <div class="list-title">📋 Otras Gestiones <small>(Estado de Implementación)</small></div>
+            <div class="response-actions">
+                <button class="btn btn-sm btn-warning" onclick="refreshCache()" style="background-color: #ffc107; color: #000;">
+                    <i class="fas fa-sync"></i> Refrescar
+                </button>
+            </div>
+        </div>
+        <p><strong>Descripción:</strong> Estado actual de cada trámite:</p>
+        <div class="list-items">
+            ${tramitesHtml}
+        </div>
+        <div style="margin-top: 10px; padding: 8px; background-color: #f8f9fa; border-radius: 4px; font-size: 0.8rem;">
+            <strong>📝 Nota:</strong> Los trámites implementados tienen respuestas específicas con opciones de texto A-E o enlaces directos.
         </div>
     `;
     return div;
