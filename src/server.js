@@ -1,4 +1,5 @@
 require('dotenv').config();
+// 🔄 Submenú Otras Gestiones implementado - versión 1.1
 const express = require('express');
 const morgan = require('morgan');
 const WhatsAppClient = require('./whatsappClient');
