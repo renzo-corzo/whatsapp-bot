@@ -102,7 +102,7 @@ async function loadConfig() {
       ]
     },
     
-    // 📋 OTRAS GESTIONES
+    // 📋 OTRAS GESTIONES - Submenú implementado
     'otras_gestiones': {
       type: 'text',
       message: 'Seleccioná el trámite:\n1. 👤 Afiliación\n2. 💸 Reintegros\n3. 💊 Medicamentos\n4. ❤️ Programas\n5. 🏥 Prestadores\n6. 🤝 Reciprocidad\n7. 🧑‍⚕️ Soporte prestador\n8. ❓ Otras consultas\n(Próximamente se implementan como listas o botones)\n\n↩️ Volver al Menú'
