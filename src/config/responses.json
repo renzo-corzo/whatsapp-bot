@@ -173,7 +173,42 @@
     },
     "medicamentos": {
       "type": "text",
-      "message": "💊 *MEDICAMENTOS Y COBERTURA*\n\n📋 *Cobertura incluye:*\n• Medicamentos del Vademécum\n• Tratamientos crónicos\n• Medicación oncológica\n• Insulinas y diabéticos\n\n🏪 *Farmacias adheridas:*\n• Farmacity\n• Dr. Ahorro\n• Farmacias del Centro\n\n📱 *Para consultar cobertura:*\n• WhatsApp: 351 5284546\n• Web: www.caja-abogados.org.ar/vademecum\n\n💰 *Descuentos:*\n• Afiliados: 40-60%\n• Grupo familiar: 40%\n• Jubilados: 70%"
+      "message": "💊 MEDICAMENTOS\n\nSelecciona la opción que necesitas:\n\n🔸 A. Buscar en Vademécum\n🔸 B. Consultar farmacias prestadoras\n🔸 C. Información sobre recetas\n🔸 D. Cobertura fuera del vademécum\n🔸 E. Volver al Menú\n\n👉 Responda con \"A\", \"B\", \"C\", \"D\" o \"E\"."
+    },
+    
+    // 🔍 BUSCAR EN VADEMÉCUM (Opción A)
+    "medicamentos_vademecum": {
+      "type": "text_with_url",
+      "message": "🔍 BUSCAR EN VADEMÉCUM\n\n📋 Consulte los medicamentos cubiertos por la Caja de Abogados:\n\n📞 Para consultas: 351 4235900 int. 103",
+      "url": "https://autogestion.caja-abogados.org.ar/agconsultavademecum.aspx",
+      "url_text": "🔍 Consultar Vademécum Online"
+    },
+    
+    // 💊 FARMACIAS PRESTADORAS (Opción B)
+    "medicamentos_farmacias": {
+      "type": "text_with_url",
+      "message": "💊 FARMACIAS PRESTADORAS\n\n🏪 Consulte las farmacias adheridas donde puede retirar sus medicamentos:\n\n📞 Para consultas: 351 4235900 int. 103",
+      "url": "https://autogestion.caja-abogados.org.ar/agconsultafarmacias.aspx",
+      "url_text": "🏪 Ver Farmacias Prestadoras"
+    },
+    
+    // 📜 INFORMACIÓN SOBRE RECETAS (Opción C)
+    "medicamentos_recetas": {
+      "type": "text",
+      "message": "📜 INFORMACIÓN SOBRE RECETAS\n\n📋 Recetas válidas:\n• Manuscritas o digitales\n• Máximo 2 medicamentos por receta\n• Máximo 2 cajas por medicamento\n\n⚠️ Datos completos obligatorios:\n• Nombre del medicamento\n• Concentración y dosis\n• Cantidad solicitada\n• Firma del médico\n• Sello del consultorio\n\n📞 Para consultas: 351 4235900 int. 103"
+    },
+    
+    // 🧾 COBERTURA FUERA DEL VADEMÉCUM (Opción D)
+    "medicamentos_cobertura": {
+      "type": "text",
+      "message": "🧾 COBERTURA FUERA DEL VADEMÉCUM\n\n📋 Para medicamentos no incluidos en el vademécum:\n\n📄 Requisitos:\n• Justificación médica detallada\n• Informe clínico completo\n• Estudios complementarios\n• Presupuesto del medicamento\n\n📌 Presentación:\n• Presencial: Servicio Médico\n• Email: serviciomedico@caja-abogados.com.ar\n\n⏰ Plazo de evaluación: 15 días hábiles\n\n📞 Para consultas: 351 4235900 int. 103"
+    },
+    
+    // ↩️ VOLVER AL MENÚ (Opción E)
+    "medicamentos_volver": {
+      "type": "text",
+      "message": "🔙 Regresando al menú principal...",
+      "followUp": "demo_list"
     },
     "programas": {
       "type": "text",

@@ -206,53 +206,68 @@ async function handleTextMessage(message, from) {
   // Buscar respuesta configurada
   const botResponse = await getBotResponse(textBody);
   
-  // Manejo especial para opciones de reintegros (A, B, C, D, E)
+  // Manejo especial para opciones de texto (A, B, C, D, E)
   if (!botResponse && ['a', 'b', 'c', 'd', 'e'].includes(textBody)) {
-    console.log(`💸 Opción de reintegros seleccionada: "${textBody}"`);
+    console.log(`💬 Opción de texto seleccionada: "${textBody}"`);
     
-    let reintegrosResponse;
-    switch (textBody) {
-      case 'a':
-        reintegrosResponse = await getBotResponse('reintegros_solicitar');
-        break;
-      case 'b':
-        reintegrosResponse = await getBotResponse('reintegros_consultar');
-        break;
-      case 'c':
-        reintegrosResponse = await getBotResponse('reintegros_casos');
-        break;
-      case 'd':
-        reintegrosResponse = await getBotResponse('reintegros_proveedores');
-        break;
-      case 'e':
-        reintegrosResponse = await getBotResponse('reintegros_volver');
-        break;
+    // Intentar primero con reintegros
+    let responseKey = null;
+    let responseType = null;
+    
+    // Buscar en reintegros
+    const reintegrosKeys = {
+      'a': 'reintegros_solicitar',
+      'b': 'reintegros_consultar', 
+      'c': 'reintegros_casos',
+      'd': 'reintegros_proveedores',
+      'e': 'reintegros_volver'
+    };
+    
+    // Buscar en medicamentos
+    const medicamentosKeys = {
+      'a': 'medicamentos_vademecum',
+      'b': 'medicamentos_farmacias',
+      'c': 'medicamentos_recetas', 
+      'd': 'medicamentos_cobertura',
+      'e': 'medicamentos_volver'
+    };
+    
+    // Probar primero reintegros, luego medicamentos
+    responseKey = reintegrosKeys[textBody];
+    let response = await getBotResponse(responseKey);
+    
+    if (!response) {
+      responseKey = medicamentosKeys[textBody];
+      response = await getBotResponse(responseKey);
+      responseType = 'medicamentos';
+    } else {
+      responseType = 'reintegros';
     }
     
-    if (reintegrosResponse) {
-      console.log(`✅ Respuesta de reintegros encontrada para "${textBody}":`, reintegrosResponse);
+    if (response) {
+      console.log(`✅ Respuesta de ${responseType} encontrada para "${textBody}":`, response);
       
       // Enviar mensaje principal
-      await currentClient.sendText(formattedNumber, reintegrosResponse.message);
+      await currentClient.sendText(formattedNumber, response.message);
       
       // Si tiene follow-up (como volver al menú), enviarlo después de un delay
-      if (reintegrosResponse.followUp) {
+      if (response.followUp) {
         setTimeout(async () => {
-          console.log(`🔍 Procesando followUp de reintegros: ${reintegrosResponse.followUp}`);
-          const listData = await getBotList(reintegrosResponse.followUp);
+          console.log(`🔍 Procesando followUp de ${responseType}: ${response.followUp}`);
+          const listData = await getBotList(response.followUp);
           if (listData) {
             await currentClient.sendListFromConfig(formattedNumber, listData);
-            console.log(`✅ Lista de reintegros enviada correctamente`);
+            console.log(`✅ Lista de ${responseType} enviada correctamente`);
           } else {
-            console.log(`❌ Lista no encontrada: ${reintegrosResponse.followUp}`);
+            console.log(`❌ Lista no encontrada: ${response.followUp}`);
           }
         }, 1500);
       }
       
       // Si es respuesta con URL, enviarla también
-      if (reintegrosResponse.url && reintegrosResponse.url_text) {
+      if (response.url && response.url_text) {
         setTimeout(async () => {
-          await currentClient.sendTextWithUrl(formattedNumber, reintegrosResponse.url, reintegrosResponse.url_text);
+          await currentClient.sendTextWithUrl(formattedNumber, response.url, response.url_text);
         }, 2000);
       }
       
