@@ -14,6 +14,34 @@ const {
   updateUniqueUsers 
 } = require('./admin/adminRoutes');
 
+// 🔄 SISTEMA DE CONTEXTO PARA MENÚS A-E - versión 1.6
+// Almacenar contexto del menú actual para cada usuario
+const userContext = {};
+
+// Función para establecer el contexto del usuario
+function setUserContext(userId, context) {
+  userContext[userId] = {
+    context: context,
+    timestamp: Date.now()
+  };
+  console.log(`🔄 Contexto establecido para ${userId}: ${context}`);
+}
+
+// Función para obtener el contexto del usuario
+function getUserContext(userId) {
+  const context = userContext[userId];
+  if (context) {
+    // Limpiar contexto si es muy antiguo (más de 10 minutos)
+    if (Date.now() - context.timestamp > 600000) {
+      delete userContext[userId];
+      console.log(`🔄 Contexto expirado para ${userId}`);
+      return null;
+    }
+    return context.context;
+  }
+  return null;
+}
+
 const app = express();
 const PORT = process.env.PORT || 3000;
 
@@ -232,21 +260,35 @@ async function handleTextMessage(message, from) {
       'e': 'medicamentos_volver'
     };
     
-    // Intentar detectar contexto por el mensaje anterior
-    // Si el mensaje anterior contenía "REINTEGROS", usar reintegros
-    // Si el mensaje anterior contenía "MEDICAMENTOS", usar medicamentos
-    // Por defecto, usar medicamentos (ya que es más reciente)
+    // Obtener contexto del usuario
+    const context = getUserContext(formattedNumber);
+    console.log(`🔍 Contexto del usuario ${formattedNumber}: ${context}`);
     
-    // Por ahora, usar medicamentos por defecto para evitar confusión
-    responseKey = medicamentosKeys[textBody];
-    let response = await getBotResponse(responseKey);
-    responseType = 'medicamentos';
+    let responseKey = null;
+    let responseType = null;
     
-    // Si no se encuentra en medicamentos, probar reintegros
-    if (!response) {
+    // Usar contexto para determinar qué respuestas buscar
+    if (context === 'reintegros') {
       responseKey = reintegrosKeys[textBody];
       response = await getBotResponse(responseKey);
       responseType = 'reintegros';
+    } else if (context === 'medicamentos') {
+      responseKey = medicamentosKeys[textBody];
+      response = await getBotResponse(responseKey);
+      responseType = 'medicamentos';
+    } else {
+      // Si no hay contexto, usar medicamentos por defecto
+      console.log(`⚠️ No hay contexto para ${formattedNumber}, usando medicamentos por defecto`);
+      responseKey = medicamentosKeys[textBody];
+      response = await getBotResponse(responseKey);
+      responseType = 'medicamentos';
+      
+      // Si no se encuentra en medicamentos, probar reintegros
+      if (!response) {
+        responseKey = reintegrosKeys[textBody];
+        response = await getBotResponse(responseKey);
+        responseType = 'reintegros';
+      }
     }
     
     if (response) {
@@ -427,6 +469,13 @@ async function handleInteractiveMessage(message, from) {
  */
 async function handleComplexResponse(client, to, response) {
   try {
+    // Establecer contexto basado en el tipo de respuesta
+    if (response.message && response.message.includes('REINTEGROS')) {
+      setUserContext(to, 'reintegros');
+    } else if (response.message && response.message.includes('MEDICAMENTOS')) {
+      setUserContext(to, 'medicamentos');
+    }
+    
     // Si es string simple (compatibilidad hacia atrás)
     if (typeof response === 'string') {
       await client.sendText(to, response);
