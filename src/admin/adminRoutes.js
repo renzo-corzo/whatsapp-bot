@@ -141,8 +141,10 @@ async function loadConfig() {
     
     // 👤 AFILIACIÓN - Otras Gestiones
     'afiliacion': {
-      type: 'text',
-      message: '👤 AFILIACIÓN\n\n📄 Instructivo de afiliación:\n\n✉️ enviar formularios a serviciomedico.afil@caja-abogados.com.ar\n\n📞 351 4235900 int. 103'
+      type: 'text_with_url',
+      message: '👤 AFILIACIÓN\n\n📄 Instructivo de afiliación:\n\n✉️ enviar formularios a serviciomedico.afil@caja-abogados.com.ar\n\n📞 351 4235900 int. 103',
+      url: 'https://www.caja-abogados.org.ar/servicio-medico/instructivo-de-afiliacion/',
+      url_text: '📄 Ver Instructivo de Afiliación'
     },
     
     'info_general': {
