@@ -559,6 +559,7 @@ function createAdminRoutes() {
 
   // Servir archivos estáticos del portal
   router.use('/admin', express.static(path.join(__dirname, '../../admin')));
+  console.log('🔧 Panel de administración disponible en: /admin');
 
   // API: Estado del bot
 router.get('/api/status', (req, res) => {
