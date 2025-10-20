@@ -241,8 +241,8 @@ function loadLists() {
         });
     }
 
-    // Crear tarjeta especial para "Autorizaciones" como texto A-E
-    const autorizacionesCard = createAutorizacionesButtonsCard();
+    // Crear tarjeta especial para "Autorizaciones" basada en configuración real
+    const autorizacionesCard = createAutorizacionesCardFromConfig();
     container.appendChild(autorizacionesCard);
     
     console.log('✅ Cargadas 2 tarjetas: Servicio Médico (Lista) y Autorizaciones (Texto A-E)');
@@ -393,9 +393,34 @@ function createSubmenuCard(submenuId, submenuConfig) {
     return div;
 }
 
-// Crear tarjeta especial para "Autorizaciones" como texto A-E
-function createAutorizacionesButtonsCard() {
-    console.log('🔧 CREANDO TARJETA AUTORIZACIONES (TEXTO A-E) - v19.0 - CACHE REFRESH FORZADO');
+// Crear tarjeta especial para "Autorizaciones" basada en configuración real del backend
+function createAutorizacionesCardFromConfig() {
+    console.log('🔧 CREANDO TARJETA AUTORIZACIONES DESDE CONFIGURACIÓN REAL - v20.0');
+    
+    // Leer configuración real del backend
+    const autorizacionesConfig = botConfig.listResponses && botConfig.listResponses['autorizaciones'];
+    console.log('📋 Configuración de autorizaciones:', autorizacionesConfig);
+    
+    const div = document.createElement('div');
+    div.className = 'list-card';
+    
+    // Determinar el tipo y color basado en la configuración real
+    if (autorizacionesConfig && autorizacionesConfig.type === 'text') {
+        div.style.borderLeft = '4px solid #17a2b8'; // Azul para texto
+        return createAutorizacionesTextCard(autorizacionesConfig);
+    } else if (autorizacionesConfig && autorizacionesConfig.type === 'text_with_buttons') {
+        div.style.borderLeft = '4px solid #28a745'; // Verde para botones
+        return createAutorizacionesButtonsCard();
+    } else {
+        // Fallback si no hay configuración
+        div.style.borderLeft = '4px solid #ffc107'; // Amarillo para desconocido
+        return createAutorizacionesFallbackCard();
+    }
+}
+
+// Crear tarjeta para autorizaciones como texto A-E
+function createAutorizacionesTextCard(config) {
+    console.log('📝 Creando tarjeta de texto A-E para autorizaciones');
     const div = document.createElement('div');
     div.className = 'list-card';
     div.style.borderLeft = '4px solid #17a2b8'; // Azul para texto
@@ -453,6 +478,33 @@ function createAutorizacionesButtonsCard() {
             <small style="color: #6c757d;">
                 <i class="fas fa-info-circle"></i>
                 Usuario puede responder con: A/B/C/D/E, 1/2/3/4/5, o palabras clave (solicitar, seguimiento, etc.)
+            </small>
+        </div>
+    `;
+    return div;
+}
+
+// Crear tarjeta de fallback para autorizaciones
+function createAutorizacionesFallbackCard() {
+    console.log('⚠️ Creando tarjeta de fallback para autorizaciones');
+    const div = document.createElement('div');
+    div.className = 'list-card';
+    div.style.borderLeft = '4px solid #ffc107'; // Amarillo para desconocido
+    
+    div.innerHTML = `
+        <div class="list-header">
+            <div class="list-title">📄 Autorizaciones <small>(Configuración no encontrada)</small></div>
+            <div class="response-actions">
+                <button class="btn btn-sm btn-warning" onclick="refreshCache()" style="background-color: #ffc107;">
+                    <i class="fas fa-sync"></i> Refrescar
+                </button>
+            </div>
+        </div>
+        <p><strong>Descripción:</strong> Configuración no encontrada. Verificando backend...</p>
+        <div style="margin-top: 10px; padding: 8px; background-color: #fff3cd; border-radius: 4px;">
+            <small style="color: #856404;">
+                <i class="fas fa-exclamation-triangle"></i>
+                No se pudo cargar la configuración de autorizaciones desde el backend
             </small>
         </div>
     `;
