@@ -1,6 +1,70 @@
 require('dotenv').config();
   // 🔄 DEPLOY RAPIDO - versión 1.8 - Sin timeout
 console.log('[DEPLOY] cache refresh after deploy');
+console.log('[CACHE] refresh OK (post-deploy)');
+
+// Función para enviar texto A-E de autorizaciones
+async function sendAutorizacionesText(to) {
+  const body = [
+    "📄 AUTORIZACIONES",
+    "",
+    "Seleccioná una opción:",
+    "A. 📝 Solicitar Autoriz.",
+    "B. 📦 Seguimiento",
+    "C. ⚠️ Reclamo",
+    "D. 🔎 Revisión",
+    "E. ↩️ Volver al Menú",
+  ].join("\n");
+  
+  console.log("[TRACE] sendAutorizacionesText enviando texto A-E");
+  return await whatsappClient.sendText(to, body);
+}
+
+// Función para normalizar elección del usuario
+function normalizeChoice(txt = "") {
+  const t = txt.trim().toLowerCase();
+  if (["a","1","solicitar","solicitud"].includes(t)) return "A";
+  if (["b","2","seguimiento","estado"].includes(t)) return "B";
+  if (["c","3","reclamo","reclamar"].includes(t)) return "C";
+  if (["d","4","revision","revisión"].includes(t)) return "D";
+  if (["e","5","volver","menu","menú"].includes(t)) return "E";
+  return null;
+}
+
+// Funciones específicas para cada opción A-E
+async function sendAmbSolicitarText(to) {
+  const message = 'El prestador carga el pedido en el portal y se genera un Nº de trámite (Ej: 19----).\nPara Allende e interior: enviar foto del pedido por WhatsApp.';
+  console.log("[TRACE] sendAmbSolicitarText enviado");
+  return await whatsappClient.sendText(to, message);
+}
+
+async function sendAmbSeguimientoText(to) {
+  const message = 'Consultar estado en el portal web:\nhttps://autogestion.caja-abogados.org.ar';
+  console.log("[TRACE] sendAmbSeguimientoText enviado");
+  return await whatsappClient.sendText(to, message);
+}
+
+async function sendAmbReclamoText(to) {
+  const message = 'Si pasaron más de 48 hs hábiles, por favor envíe:\n• Nº de trámite\n• Nombre del afiliado\n• Observación';
+  console.log("[TRACE] sendAmbReclamoText enviado");
+  return await whatsappClient.sendText(to, message);
+}
+
+async function sendAmbRevisionText(to) {
+  const message = 'Adjuntar lo solicitado por auditoría o documentación para prácticas fuera de convenio.';
+  console.log("[TRACE] sendAmbRevisionText enviado");
+  return await whatsappClient.sendText(to, message);
+}
+
+async function sendMainMenuList(to) {
+  console.log("[TRACE] sendMainMenuList enviando menú principal");
+  const demoList = await getBotList('demo_list');
+  if (demoList) {
+    return await whatsappClient.sendListFromConfig(to, demoList);
+  } else {
+    return await whatsappClient.sendText(to, '🔙 Regresando al menú principal...');
+  }
+}
 const express = require('express');
 const morgan = require('morgan');
 const WhatsAppClient = require('./whatsappClient');
@@ -184,6 +248,15 @@ async function processIncomingMessage(message, contact) {
       return;
     }
 
+    // --- OVERRIDE AUTORIZACIONES (hasta que el panel quede 100% sincronizado) ---
+    if (message?.type === "interactive" && message?.interactive?.type === "list_reply") {
+      const id = message.interactive.list_reply.id;
+      if (id === "autorizaciones") {
+        console.log("[TRACE] OVERRIDE autorizaciones → sendAutorizacionesText");
+        return await sendAutorizacionesText(from); // bloque de TEXTO A–E
+      }
+    }
+
     // Procesar diferentes tipos de mensajes
     switch (message.type) {
       case 'text':
@@ -220,6 +293,18 @@ async function handleTextMessage(message, from) {
   const textBody = message.text.body.toLowerCase().trim();
   
   console.log(`💬 Mensaje de texto: "${textBody}"`);
+  
+  // Parser de autorizaciones A-E
+  const ch = normalizeChoice(textBody);
+  if (ch) {
+    console.log("[TRACE] autorizaciones choice =", ch);
+    const formattedNumber = formatArgentineNumber(from);
+    if (ch === "A") return await sendAmbSolicitarText(formattedNumber);
+    if (ch === "B") return await sendAmbSeguimientoText(formattedNumber);
+    if (ch === "C") return await sendAmbReclamoText(formattedNumber);
+    if (ch === "D") return await sendAmbRevisionText(formattedNumber);
+    if (ch === "E") return await sendMainMenuList(formattedNumber);
+  }
   
   // Incrementar contador de mensajes
   await incrementMessageCount();

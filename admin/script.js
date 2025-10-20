@@ -15,6 +15,7 @@ document.addEventListener('DOMContentLoaded', function() {
     setupEventListeners();
     loadBotStatus();
     loadConfiguration();
+    loadVersionInfo();
 });
 
 // Inicializar la aplicación
@@ -118,6 +119,10 @@ async function loadConfiguration() {
         if (response.ok) {
             botConfig = await response.json();
             console.log('✅ Configuración cargada:', botConfig);
+            
+            // Trazas específicas para autorizaciones
+            console.log("[CFG] autorizaciones:", botConfig?.listResponses?.autorizaciones || botConfig?.lists?.autorizaciones);
+            console.log("[CFG] autorizaciones.type =", botConfig?.listResponses?.autorizaciones?.type || 'not found');
             
             // Cargar también las respuestas de lista
             await loadListResponses();
@@ -226,6 +231,22 @@ function createResponseItem(command, config) {
         </div>
     `;
     return div;
+}
+
+// Cargar información de versión y commit
+async function loadVersionInfo() {
+    try {
+        const response = await fetch('/admin/config/snapshot');
+        if (response.ok) {
+            const snapshot = await response.json();
+            document.getElementById('version').textContent = snapshot.version;
+            document.getElementById('commit').textContent = snapshot.commit.substring(0, 8);
+            console.log('[CFG] Versión cargada:', snapshot.version, 'Commit:', snapshot.commit.substring(0, 8));
+        }
+    } catch (error) {
+        console.error('Error cargando información de versión:', error);
+        document.getElementById('commit').textContent = 'error';
+    }
 }
 
 // Cargar listas interactivas

@@ -592,6 +592,35 @@ router.get('/api/status', (req, res) => {
     }
   });
 
+  // API: Snapshot de configuración para diagnóstico
+  router.get('/admin/config/snapshot', async (req, res) => {
+    try {
+      const config = await loadConfig();
+      const autorizaciones = config.listResponses?.autorizaciones || config.lists?.autorizaciones || null;
+      
+      const snapshot = {
+        autorizaciones: {
+          type: autorizaciones?.type || 'not found',
+          source: autorizaciones ? 'listResponses' : 'not found',
+          updatedAt: new Date().toISOString(),
+          id: 'autorizaciones'
+        },
+        version: '1.0.0',
+        commit: process.env.RENDER_GIT_COMMIT || 'local-dev'
+      };
+      
+      console.log('[CFG] Snapshot generado:', snapshot);
+      res.json(snapshot);
+    } catch (error) {
+      console.error('❌ Error generando snapshot:', error);
+      res.status(500).json({ 
+        success: false, 
+        message: 'Error generando snapshot',
+        error: error.message
+      });
+    }
+  });
+
   // API: Obtener configuración completa
   router.get('/api/config', async (req, res) => {
     try {
