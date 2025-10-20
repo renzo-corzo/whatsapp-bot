@@ -117,40 +117,45 @@ function getCompleteConfig() {
       message: '🆘 URGENCIAS\n\n📞 0800-888-3226 (ECCO)\n📞 351 4466666\n\n📌 Al momento del llamado, tenga a mano el número de DNI del paciente.\n\n🏠 Médico a domicilio:\nPrestación destinada a consultas médicas generales realizadas en el domicilio del afiliado.\n\n⚠️ Sujeta a disponibilidad. Puede requerir copago y tiene tope mensual y anual.\n\n🔁 Para volver al menú principal, toque "↩️ Volver al Menú" o escriba "Menú".'
     },
     
-    // 📄 AUTORIZACIONES - Opciones de texto A-D
+    // 📄 AUTORIZACIONES - Botones reply (igual que Otras gestiones)
     'autorizaciones': {
-      type: 'text',
-      message: '📄 AUTORIZACIONES\n\n👉 Responda con "A", "B", "C" o "D".\n\n🔸 A. Solicitud:\n📌 El prestador carga el pedido en el portal y se genera un Nº de trámite (Ej: 19----).\n📸 Para Allende e interior: enviar foto del pedido por WhatsApp.\n\n🔸 B. Seguimiento:\n🔗 Consultar estado en el portal web: https://autogestion.caja-abogados.org.ar\n\n🔸 C. Reclamo:\n⏱️ Si pasaron más de 48 hs hábiles, por favor envíe:\n• Nº de trámite\n• Nombre del afiliado\n• Observación\n\n🔸 D. Revisión:\n📎 Adjuntar lo solicitado por auditoría o documentación para prácticas fuera de convenio.\n\n🔁 [Volver al menú principal]'
+      type: 'text_with_buttons',
+      message: '📄 Autorizaciones\nSeleccioná una opción:',
+      buttons: [
+        { id: 'amb_solicitar', title: '📝 Solicitar Autoriz.' },
+        { id: 'amb_seguimiento', title: '📦 Seguimiento' },
+        { id: 'amb_reclamo', title: '⚠️ Reclamo' },
+        { id: 'amb_revision', title: '🔎 Revisión' },
+        { id: 'back_menu', title: '↩️ Volver al Menú' }
+      ]
     },
     
-    // A. SOLICITUD
+    // 📝 SOLICITAR AUTORIZACIONES
     'amb_solicitar': {
       type: 'text',
-      message: '📝 SOLICITUD DE AUTORIZACIONES\n\n📌 El prestador carga el pedido en el portal y se genera un Nº de trámite (Ej: 19----).\n\n📸 Para Sanatorio Allende e interior: enviar foto del pedido por WhatsApp.\n\n🔁 Para volver al menú principal, escriba "Menú".'
+      message: 'El prestador carga el pedido en el portal y se genera un Nº de trámite (Ej: 19----).\nPara Allende e interior: enviar foto del pedido por WhatsApp.'
     },
     
-    // B. SEGUIMIENTO
+    // 📦 SEGUIMIENTO
     'amb_seguimiento': {
-      type: 'text_with_url',
-      message: '📦 SEGUIMIENTO DE AUTORIZACIONES\n\n🔗 Consulte el estado de su autorización en el portal web:\n\n📞 Para consultas: 351 4235900 int. 103',
-      url: 'https://autogestion.caja-abogados.org.ar',
-      url_text: '🔗 Consultar Estado en Portal'
+      type: 'text',
+      message: 'Consultar estado en el portal web:\nhttps://autogestion.caja-abogados.org.ar'
     },
     
-    // C. RECLAMO
+    // ⚠️ RECLAMO
     'amb_reclamo': {
       type: 'text',
-      message: '⚠️ RECLAMO DE AUTORIZACIONES\n\n⏱️ Si pasaron más de 48 hs hábiles, por favor envíe:\n• Nº de trámite\n• Nombre del afiliado\n• Observación\n\n📞 Para consultas: 351 4235900 int. 103\n✉️ serviciomedico@caja-abogados.com.ar'
+      message: 'Si pasaron más de 48 hs hábiles, por favor envíe:\n• Nº de trámite\n• Nombre del afiliado\n• Observación'
     },
     
-    // D. REVISIÓN
+    // 🔎 REVISIÓN
     'amb_revision': {
       type: 'text',
-      message: '🔎 REVISIÓN DE AUTORIZACIONES\n\n📎 Adjuntar lo solicitado por auditoría o documentación para prácticas fuera de convenio.\n\n📞 Para consultas: contrato@caja-abogados.com.ar\n📞 351 4235900 int. 103'
+      message: 'Adjuntar lo solicitado por auditoría o documentación para prácticas fuera de convenio.'
     },
     
-    // VOLVER AL MENÚ
-    'amb_volver': {
+    // ↩️ VOLVER AL MENÚ
+    'back_menu': {
       type: 'text',
       message: '🔙 Regresando al menú principal...',
       followUp: 'demo_list'
