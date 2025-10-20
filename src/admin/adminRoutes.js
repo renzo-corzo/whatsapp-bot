@@ -117,45 +117,38 @@ function getCompleteConfig() {
       message: '🆘 URGENCIAS\n\n📞 0800-888-3226 (ECCO)\n📞 351 4466666\n\n📌 Al momento del llamado, tenga a mano el número de DNI del paciente.\n\n🏠 Médico a domicilio:\nPrestación destinada a consultas médicas generales realizadas en el domicilio del afiliado.\n\n⚠️ Sujeta a disponibilidad. Puede requerir copago y tiene tope mensual y anual.\n\n🔁 Para volver al menú principal, toque "↩️ Volver al Menú" o escriba "Menú".'
     },
     
-    // 📄 AUTORIZACIONES - Botones reply (igual que Otras gestiones)
+    // 📄 AUTORIZACIONES - Texto con opciones A-E (igual que Reintegros/Medicamentos)
     'autorizaciones': {
-      type: 'text_with_buttons',
-      message: '📄 Autorizaciones\nSeleccioná una opción:',
-      buttons: [
-        { id: 'amb_solicitar', title: '📝 Solicitar Autoriz.' },
-        { id: 'amb_seguimiento', title: '📦 Seguimiento' },
-        { id: 'amb_reclamo', title: '⚠️ Reclamo' },
-        { id: 'amb_revision', title: '🔎 Revisión' },
-        { id: 'back_menu', title: '↩️ Volver al Menú' }
-      ]
+      type: 'text',
+      message: '📄 AUTORIZACIONES\n\nSeleccioná una opción:\nA. 📝 Solicitar Autoriz.\nB. 📦 Seguimiento\nC. ⚠️ Reclamo\nD. 🔎 Revisión\nE. ↩️ Volver al Menú'
     },
     
-    // 📝 SOLICITAR AUTORIZACIONES
+    // 📝 SOLICITAR AUTORIZACIONES (A)
     'amb_solicitar': {
       type: 'text',
       message: 'El prestador carga el pedido en el portal y se genera un Nº de trámite (Ej: 19----).\nPara Allende e interior: enviar foto del pedido por WhatsApp.'
     },
     
-    // 📦 SEGUIMIENTO
+    // 📦 SEGUIMIENTO (B)
     'amb_seguimiento': {
       type: 'text',
       message: 'Consultar estado en el portal web:\nhttps://autogestion.caja-abogados.org.ar'
     },
     
-    // ⚠️ RECLAMO
+    // ⚠️ RECLAMO (C)
     'amb_reclamo': {
       type: 'text',
       message: 'Si pasaron más de 48 hs hábiles, por favor envíe:\n• Nº de trámite\n• Nombre del afiliado\n• Observación'
     },
     
-    // 🔎 REVISIÓN
+    // 🔎 REVISIÓN (D)
     'amb_revision': {
       type: 'text',
       message: 'Adjuntar lo solicitado por auditoría o documentación para prácticas fuera de convenio.'
     },
     
-    // ↩️ VOLVER AL MENÚ
-    'back_menu': {
+    // ↩️ VOLVER AL MENÚ (E)
+    'amb_volver': {
       type: 'text',
       message: '🔙 Regresando al menú principal...',
       followUp: 'demo_list'

@@ -257,13 +257,29 @@ async function handleTextMessage(message, from) {
       'e': 'medicamentos_volver'
     };
     
-    // Buscar en autorizaciones
+    // Buscar en autorizaciones - Parser expandido con palabras clave
     const autorizacionesKeys = {
       'a': 'amb_solicitar',
+      '1': 'amb_solicitar',
+      'solicitar': 'amb_solicitar',
+      'solicitud': 'amb_solicitar',
       'b': 'amb_seguimiento',
+      '2': 'amb_seguimiento',
+      'seguimiento': 'amb_seguimiento',
+      'estado': 'amb_seguimiento',
       'c': 'amb_reclamo',
+      '3': 'amb_reclamo',
+      'reclamo': 'amb_reclamo',
+      'reclamar': 'amb_reclamo',
       'd': 'amb_revision',
-      'e': 'amb_volver'
+      '4': 'amb_revision',
+      'revision': 'amb_revision',
+      'revisión': 'amb_revision',
+      'e': 'amb_volver',
+      '5': 'amb_volver',
+      'volver': 'amb_volver',
+      'menu': 'amb_volver',
+      'menú': 'amb_volver'
     };
     
     // Obtener contexto del usuario
@@ -284,12 +300,14 @@ async function handleTextMessage(message, from) {
       responseType = 'medicamentos';
     } else if (context === 'autorizaciones') {
       responseKey = autorizacionesKeys[textBody];
+      console.log(`[TRACE] autorizaciones choice: ${textBody} → ${responseKey}`);
       response = await getBotResponse(responseKey);
       responseType = 'autorizaciones';
     } else {
       // Si no hay contexto, probar autorizaciones primero, luego medicamentos, luego reintegros
       console.log(`⚠️ No hay contexto para ${formattedNumber}, probando autorizaciones primero`);
       responseKey = autorizacionesKeys[textBody];
+      console.log(`[TRACE] autorizaciones choice (sin contexto): ${textBody} → ${responseKey}`);
       response = await getBotResponse(responseKey);
       responseType = 'autorizaciones';
       
@@ -403,9 +421,9 @@ async function handleInteractiveMessage(message, from) {
     // Usar cliente global actualizado
     const currentClient = global.whatsappClient || whatsappClient;
     
-    // Manejo específico para autorizaciones - FORZAR BOTONES REPLY
+    // Manejo específico para autorizaciones - TEXTO CON OPCIONES A-E
     if (selectedId === 'autorizaciones') {
-      console.log('[TRACE] autorizaciones → sendAutorizacionesButtons');
+      console.log('[TRACE] autorizaciones → texto A–E');
       const response = await getListResponse(selectedId);
       if (response) {
         await handleComplexResponse(currentClient, formattedNumber, response);
@@ -444,9 +462,9 @@ async function handleInteractiveMessage(message, from) {
     
     console.log(`🔘 Botón presionado: ${selectedId} - ${selectedTitle}`);
     
-    // Log de traza para botones de autorizaciones
+    // Log de traza para botones de autorizaciones (DEPRECADO - ahora usa texto A-E)
     if (['amb_solicitar', 'amb_seguimiento', 'amb_reclamo', 'amb_revision', 'back_menu'].includes(selectedId)) {
-      console.log(`[TRACE] button: ${selectedId}`);
+      console.log(`[TRACE] button: ${selectedId} (DEPRECADO - usar texto A-E)`);
     }
     
     // Incrementar contador de mensajes
@@ -507,6 +525,7 @@ async function handleComplexResponse(client, to, response) {
       setUserContext(to, 'medicamentos');
     } else if (response.message && response.message.includes('AUTORIZACIONES')) {
       setUserContext(to, 'autorizaciones');
+      console.log(`[TRACE] Contexto establecido: autorizaciones para ${to}`);
     }
     
     // Si es string simple (compatibilidad hacia atrás)
@@ -526,13 +545,13 @@ async function handleComplexResponse(client, to, response) {
         break;
 
       case 'text_with_buttons':
-        console.log('[TRACE] Enviando text_with_buttons - autorizaciones');
+        console.log('[TRACE] Enviando text_with_buttons - DEPRECADO para autorizaciones (ahora usa texto A-E)');
         await client.sendText(to, response.message);
         setTimeout(async () => {
           try {
             await client.sendButtonMessage(to, "Selecciona una opción:", response.buttons);
             console.log(`✅ Botones enviados correctamente`);
-            console.log(`[TRACE] Botones reply enviados para autorizaciones`);
+            console.log(`[TRACE] Botones reply enviados (DEPRECADO para autorizaciones)`);
           } catch (error) {
             console.error('Error enviando botones:', error);
             // Fallback a texto simple
