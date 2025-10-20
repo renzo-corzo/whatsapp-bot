@@ -117,13 +117,22 @@ function getCompleteConfig() {
       message: '🆘 URGENCIAS\n\n📞 0800-888-3226 (ECCO)\n📞 351 4466666\n\n📌 Al momento del llamado, tenga a mano el número de DNI del paciente.\n\n🏠 Médico a domicilio:\nPrestación destinada a consultas médicas generales realizadas en el domicilio del afiliado.\n\n⚠️ Sujeta a disponibilidad. Puede requerir copago y tiene tope mensual y anual.\n\n🔁 Para volver al menú principal, toque "↩️ Volver al Menú" o escriba "Menú".'
     },
     
-    // 📄 AUTORIZACIONES - Botones
+    // 📄 AUTORIZACIONES - Botones (máximo 3 para WhatsApp)
     'autorizaciones': {
       type: 'text_with_buttons',
       message: '📄 AUTORIZACIONES\nSelecciona una opción:',
       buttons: [
         { id: 'amb_solicitar', title: '📝 Solicitar Autoriz.' },
         { id: 'amb_seguimiento', title: '📦 Seguimiento' },
+        { id: 'amb_mas_opciones', title: '📋 Más Opciones' }
+      ]
+    },
+    
+    // 📋 MÁS OPCIONES DE AUTORIZACIONES
+    'amb_mas_opciones': {
+      type: 'text_with_buttons',
+      message: '📋 MÁS OPCIONES DE AUTORIZACIONES\nSelecciona una opción:',
+      buttons: [
         { id: 'amb_reclamo', title: '⚠️ Reclamo' },
         { id: 'amb_revision', title: '🔎 Revisión' },
         { id: 'amb_volver', title: '↩️ Volver al Menú' }
