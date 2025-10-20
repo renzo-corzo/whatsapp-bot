@@ -241,11 +241,11 @@ function loadLists() {
         });
     }
 
-    // Crear tarjeta especial para "Autorizaciones" como botones
+    // Crear tarjeta especial para "Autorizaciones" como texto A-E
     const autorizacionesCard = createAutorizacionesButtonsCard();
     container.appendChild(autorizacionesCard);
     
-    console.log('✅ Cargadas 2 tarjetas: Servicio Médico (Lista) y Autorizaciones (Botones)');
+    console.log('✅ Cargadas 2 tarjetas: Servicio Médico (Lista) y Autorizaciones (Texto A-E)');
 
     // Cargar submenús
     if (botConfig.submenus) {
@@ -393,35 +393,36 @@ function createSubmenuCard(submenuId, submenuConfig) {
     return div;
 }
 
-// Crear tarjeta especial para "Autorizaciones" como botones
+// Crear tarjeta especial para "Autorizaciones" como texto A-E
 function createAutorizacionesButtonsCard() {
     const div = document.createElement('div');
     div.className = 'list-card';
-    div.style.borderLeft = '4px solid #28a745'; // Verde para botones
+    div.style.borderLeft = '4px solid #17a2b8'; // Azul para texto
     
-    // Botones de autorizaciones
-    const buttons = [
-        { id: 'amb_solicitar', title: '📝 Solicitar Autoriz.' },
-        { id: 'amb_seguimiento', title: '📦 Seguimiento' },
-        { id: 'amb_reclamo', title: '⚠️ Reclamo' },
-        { id: 'amb_revision', title: '🔎 Revisión' },
-        { id: 'amb_volver', title: '↩️ Volver al Menú' }
+    // Opciones de autorizaciones (A-E)
+    const opciones = [
+        { letra: 'A', id: 'amb_solicitar', title: '📝 Solicitar Autoriz.' },
+        { letra: 'B', id: 'amb_seguimiento', title: '📦 Seguimiento' },
+        { letra: 'C', id: 'amb_reclamo', title: '⚠️ Reclamo' },
+        { letra: 'D', id: 'amb_revision', title: '🔎 Revisión' },
+        { letra: 'E', id: 'amb_volver', title: '↩️ Volver al Menú' }
     ];
 
-    const buttonsHtml = buttons.map(button => `
+    const opcionesHtml = opciones.map(opcion => `
         <div class="list-item" style="display: flex; justify-content: space-between; align-items: center; padding: 8px; border-bottom: 1px solid #eee;">
             <div style="display: flex; align-items: center; gap: 10px;">
-                <span>${button.title}</span>
-                ${getLinkedIndicator(button.id)}
+                <span style="font-weight: bold; color: #007bff; min-width: 20px;">${opcion.letra}.</span>
+                <span>${opcion.title}</span>
+                ${getLinkedIndicator(opcion.id)}
             </div>
             <div style="display: flex; gap: 5px;">
-                <button class="btn btn-sm btn-info" onclick="editListResponse('${button.id}')" style="padding: 4px 8px; font-size: 0.8rem;">
+                <button class="btn btn-sm btn-info" onclick="editListResponse('${opcion.id}')" style="padding: 4px 8px; font-size: 0.8rem;">
                     <i class="fas fa-comment"></i> Respuesta
                 </button>
-                ${button.id !== 'amb_volver' ? `
-                    <button class="btn btn-sm btn-primary" onclick="openLinkMenuModal('${button.id}', '${button.title}', '')" style="padding: 4px 8px; font-size: 0.8rem;">
-                        <i class="fas fa-link"></i> Vincular
-                    </button>
+                ${opcion.id !== 'amb_volver' ? `
+                    <span class="badge badge-info" style="background-color: #17a2b8; color: white; padding: 2px 6px; border-radius: 12px; font-size: 0.7rem;">
+                        <i class="fas fa-text-width"></i> Texto A-E
+                    </span>
                 ` : `
                     <span class="badge badge-success" style="background-color: #28a745; color: white; padding: 2px 6px; border-radius: 12px; font-size: 0.7rem;">
                         <i class="fas fa-arrow-right"></i> → demo_list
@@ -433,16 +434,25 @@ function createAutorizacionesButtonsCard() {
 
     div.innerHTML = `
         <div class="list-header">
-            <div class="list-title">📄 Autorizaciones <small>(Botones)</small></div>
+            <div class="list-title">📄 Autorizaciones <small>(Texto A-E)</small></div>
             <div class="response-actions">
+                <button class="btn btn-sm btn-info" onclick="editListResponse('autorizaciones')" style="background-color: #17a2b8;">
+                    <i class="fas fa-edit"></i> Editar Menú
+                </button>
                 <button class="btn btn-sm btn-success" onclick="refreshCache()" style="background-color: #28a745;">
                     <i class="fas fa-sync"></i> Refrescar
                 </button>
             </div>
         </div>
-        <p><strong>Descripción:</strong> Selecciona una opción:</p>
+        <p><strong>Descripción:</strong> Formato texto con opciones A-E (igual que Reintegros/Medicamentos):</p>
         <div class="list-items">
-            ${buttonsHtml}
+            ${opcionesHtml}
+        </div>
+        <div style="margin-top: 10px; padding: 8px; background-color: #f8f9fa; border-radius: 4px;">
+            <small style="color: #6c757d;">
+                <i class="fas fa-info-circle"></i>
+                Usuario puede responder con: A/B/C/D/E, 1/2/3/4/5, o palabras clave (solicitar, seguimiento, etc.)
+            </small>
         </div>
     `;
     return div;
