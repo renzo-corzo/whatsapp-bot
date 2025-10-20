@@ -2,6 +2,7 @@ require('dotenv').config();
   // 🔄 DEPLOY RAPIDO - versión 1.8 - Sin timeout
 console.log('[DEPLOY] cache refresh after deploy');
 console.log('[CACHE] refresh OK (post-deploy)');
+console.log('[DEPLOY] Autorizaciones lista interactiva - commit 77a458e');
 
 
 // Funciones específicas para cada opción A-E
