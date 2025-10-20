@@ -1,5 +1,5 @@
 require('dotenv').config();
-  // 🔄 FORZAR REINICIO COMPLETO - Autorizaciones URGENTE - versión 1.7
+  // 🔄 DEPLOY RAPIDO - versión 1.8 - Sin timeout
 const express = require('express');
 const morgan = require('morgan');
 const WhatsAppClient = require('./whatsappClient');
