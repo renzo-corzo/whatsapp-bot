@@ -1,5 +1,5 @@
 require('dotenv').config();
-  // 🔄 FORZAR REINICIO COMPLETO - Medicamentos URGENTE - versión 1.5
+  // 🔄 FORZAR REINICIO COMPLETO - Autorizaciones URGENTE - versión 1.7
 const express = require('express');
 const morgan = require('morgan');
 const WhatsAppClient = require('./whatsappClient');
