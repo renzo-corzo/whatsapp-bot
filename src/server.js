@@ -3,33 +3,6 @@ require('dotenv').config();
 console.log('[DEPLOY] cache refresh after deploy');
 console.log('[CACHE] refresh OK (post-deploy)');
 
-// Función para enviar texto A-E de autorizaciones
-async function sendAutorizacionesText(to) {
-  const body = [
-    "📄 AUTORIZACIONES",
-    "",
-    "Seleccioná una opción:",
-    "A. 📝 Solicitar Autoriz.",
-    "B. 📦 Seguimiento",
-    "C. ⚠️ Reclamo",
-    "D. 🔎 Revisión",
-    "E. ↩️ Volver al Menú",
-  ].join("\n");
-  
-  console.log("[TRACE] sendAutorizacionesText enviando texto A-E");
-  return await whatsappClient.sendText(to, body);
-}
-
-// Función para normalizar elección del usuario
-function normalizeChoice(txt = "") {
-  const t = txt.trim().toLowerCase();
-  if (["a","1","solicitar","solicitud"].includes(t)) return "A";
-  if (["b","2","seguimiento","estado"].includes(t)) return "B";
-  if (["c","3","reclamo","reclamar"].includes(t)) return "C";
-  if (["d","4","revision","revisión"].includes(t)) return "D";
-  if (["e","5","volver","menu","menú"].includes(t)) return "E";
-  return null;
-}
 
 // Funciones específicas para cada opción A-E
 async function sendAmbSolicitarText(to) {
@@ -63,6 +36,18 @@ async function sendMainMenuList(to) {
     return await whatsappClient.sendListFromConfig(to, demoList);
   } else {
     return await whatsappClient.sendText(to, '🔙 Regresando al menú principal...');
+  }
+}
+
+// Función para enviar lista interactiva de autorizaciones
+async function sendAutorizacionesList(to) {
+  console.log("[TRACE] sendAutorizacionesList enviando lista interactiva");
+  const autorizacionesList = await getBotList('autorizaciones_list');
+  if (autorizacionesList) {
+    return await whatsappClient.sendListFromConfig(to, autorizacionesList);
+  } else {
+    console.log("[ERROR] No se encontró autorizaciones_list, enviando texto de fallback");
+    return await sendAutorizacionesText(to);
   }
 }
 const express = require('express');
@@ -248,14 +233,6 @@ async function processIncomingMessage(message, contact) {
       return;
     }
 
-    // --- OVERRIDE AUTORIZACIONES (hasta que el panel quede 100% sincronizado) ---
-    if (message?.type === "interactive" && message?.interactive?.type === "list_reply") {
-      const id = message.interactive.list_reply.id;
-      if (id === "autorizaciones") {
-        console.log("[TRACE] OVERRIDE autorizaciones → sendAutorizacionesText");
-        return await sendAutorizacionesText(from); // bloque de TEXTO A–E
-      }
-    }
 
     // Procesar diferentes tipos de mensajes
     switch (message.type) {
@@ -294,18 +271,6 @@ async function handleTextMessage(message, from) {
   
   console.log(`💬 Mensaje de texto: "${textBody}"`);
   
-  // Parser de autorizaciones A-E
-  const ch = normalizeChoice(textBody);
-  if (ch) {
-    console.log("[TRACE] autorizaciones choice =", ch);
-    const formattedNumber = formatArgentineNumber(from);
-    if (ch === "A") return await sendAmbSolicitarText(formattedNumber);
-    if (ch === "B") return await sendAmbSeguimientoText(formattedNumber);
-    if (ch === "C") return await sendAmbReclamoText(formattedNumber);
-    if (ch === "D") return await sendAmbRevisionText(formattedNumber);
-    if (ch === "E") return await sendMainMenuList(formattedNumber);
-  }
-  
   // Incrementar contador de mensajes
   await incrementMessageCount();
   await updateUniqueUsers(from);
@@ -343,29 +308,6 @@ async function handleTextMessage(message, from) {
     };
     
     // Buscar en autorizaciones - Parser expandido con palabras clave
-    const autorizacionesKeys = {
-      'a': 'amb_solicitar',
-      '1': 'amb_solicitar',
-      'solicitar': 'amb_solicitar',
-      'solicitud': 'amb_solicitar',
-      'b': 'amb_seguimiento',
-      '2': 'amb_seguimiento',
-      'seguimiento': 'amb_seguimiento',
-      'estado': 'amb_seguimiento',
-      'c': 'amb_reclamo',
-      '3': 'amb_reclamo',
-      'reclamo': 'amb_reclamo',
-      'reclamar': 'amb_reclamo',
-      'd': 'amb_revision',
-      '4': 'amb_revision',
-      'revision': 'amb_revision',
-      'revisión': 'amb_revision',
-      'e': 'amb_volver',
-      '5': 'amb_volver',
-      'volver': 'amb_volver',
-      'menu': 'amb_volver',
-      'menú': 'amb_volver'
-    };
     
     // Obtener contexto del usuario
     const context = getUserContext(formattedNumber);
@@ -383,24 +325,12 @@ async function handleTextMessage(message, from) {
       responseKey = medicamentosKeys[textBody];
       response = await getBotResponse(responseKey);
       responseType = 'medicamentos';
-    } else if (context === 'autorizaciones') {
-      responseKey = autorizacionesKeys[textBody];
-      console.log(`[TRACE] autorizaciones choice: ${textBody} → ${responseKey}`);
-      response = await getBotResponse(responseKey);
-      responseType = 'autorizaciones';
     } else {
-      // Si no hay contexto, probar autorizaciones primero, luego medicamentos, luego reintegros
-      console.log(`⚠️ No hay contexto para ${formattedNumber}, probando autorizaciones primero`);
-      responseKey = autorizacionesKeys[textBody];
-      console.log(`[TRACE] autorizaciones choice (sin contexto): ${textBody} → ${responseKey}`);
+      // Si no hay contexto, probar medicamentos primero, luego reintegros
+      console.log(`⚠️ No hay contexto para ${formattedNumber}, probando medicamentos primero`);
+      responseKey = medicamentosKeys[textBody];
       response = await getBotResponse(responseKey);
-      responseType = 'autorizaciones';
-      
-      if (!response) {
-        responseKey = medicamentosKeys[textBody];
-        response = await getBotResponse(responseKey);
-        responseType = 'medicamentos';
-      }
+      responseType = 'medicamentos';
       
       if (!response) {
         responseKey = reintegrosKeys[textBody];
@@ -506,14 +436,32 @@ async function handleInteractiveMessage(message, from) {
     // Usar cliente global actualizado
     const currentClient = global.whatsappClient || whatsappClient;
     
-    // Manejo específico para autorizaciones - TEXTO CON OPCIONES A-E
+    // Manejo específico para autorizaciones - LISTA INTERACTIVA
     if (selectedId === 'autorizaciones') {
-      console.log('[TRACE] autorizaciones → texto A–E');
-      const response = await getListResponse(selectedId);
-      if (response) {
-        await handleComplexResponse(currentClient, formattedNumber, response);
-      }
-      return;
+      console.log('[TRACE] autorizaciones → lista interactiva');
+      return await sendAutorizacionesList(formattedNumber);
+    }
+    
+    // Manejo específico para opciones de autorizaciones
+    if (selectedId === 'amb_solicitar') {
+      console.log('[TRACE] amb_solicitar seleccionado');
+      return await sendAmbSolicitarText(formattedNumber);
+    }
+    if (selectedId === 'amb_seguimiento') {
+      console.log('[TRACE] amb_seguimiento seleccionado');
+      return await sendAmbSeguimientoText(formattedNumber);
+    }
+    if (selectedId === 'amb_reclamo') {
+      console.log('[TRACE] amb_reclamo seleccionado');
+      return await sendAmbReclamoText(formattedNumber);
+    }
+    if (selectedId === 'amb_revision') {
+      console.log('[TRACE] amb_revision seleccionado');
+      return await sendAmbRevisionText(formattedNumber);
+    }
+    if (selectedId === 'back_menu') {
+      console.log('[TRACE] back_menu seleccionado');
+      return await sendMainMenuList(formattedNumber);
     }
     
     // Buscar respuesta configurada para la opción seleccionada
