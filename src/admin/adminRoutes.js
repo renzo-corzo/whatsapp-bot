@@ -394,15 +394,7 @@ function getCompleteConfig() {
       // Respuestas para botones y opciones de submenús - Limpiadas
   submenuResponses: {},
   
-  // Agregar las respuestas de listResponses
-  listResponses: {
-    // 🚨 URGENCIAS
-    'urgencias': {
-      type: 'text',
-      message: '🆘 URGENCIAS\n\n📞 0800-888-3226 (ECCO)\n📞 351 4466666\n\n📌 Al momento del llamado, tenga a mano el número de DNI del paciente.\n\n🏠 Médico a domicilio:\nPrestación destinada a consultas médicas generales realizadas en el domicilio del afiliado.\n\n⚠️ Sujeta a disponibilidad. Puede requerir copago y tiene tope mensual y anual.\n\n🔁 Para volver al menú principal, toque "↩️ Volver al Menú" o escriba "Menú".'
-    },
-    
-    // 📋 OTRAS GESTIONES - Submenú implementado como lista interactiva
+  // 📋 OTRAS GESTIONES - Submenú implementado como lista interactiva
     'otras_gestiones': {
       type: 'text',
       message: '📋 OTRAS GESTIONES\n\nSeleccioná el trámite que necesitas:',
