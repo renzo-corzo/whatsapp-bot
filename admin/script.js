@@ -395,7 +395,7 @@ function createSubmenuCard(submenuId, submenuConfig) {
 
 // Crear tarjeta especial para "Autorizaciones" como texto A-E
 function createAutorizacionesButtonsCard() {
-    console.log('🔧 Creando tarjeta Autorizaciones (Texto A-E) - v18.0');
+    console.log('🔧 CREANDO TARJETA AUTORIZACIONES (TEXTO A-E) - v19.0 - CACHE REFRESH FORZADO');
     const div = document.createElement('div');
     div.className = 'list-card';
     div.style.borderLeft = '4px solid #17a2b8'; // Azul para texto
