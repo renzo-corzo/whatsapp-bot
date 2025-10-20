@@ -1,5 +1,6 @@
 require('dotenv').config();
   // 🔄 DEPLOY RAPIDO - versión 1.8 - Sin timeout
+console.log('[DEPLOY] cache refresh after deploy');
 const express = require('express');
 const morgan = require('morgan');
 const WhatsAppClient = require('./whatsappClient');
@@ -364,6 +365,7 @@ async function handleTextMessage(message, from) {
     
   } else {
     // Respuesta por defecto: ofrecer menú
+    console.log('[TRACE] start → TXT_INICIAL + service_medico_main');
     await currentClient.sendText(
       formattedNumber,
       '🤔 No entiendo ese comando. Te muestro las opciones disponibles:'
@@ -401,6 +403,16 @@ async function handleInteractiveMessage(message, from) {
     // Usar cliente global actualizado
     const currentClient = global.whatsappClient || whatsappClient;
     
+    // Manejo específico para autorizaciones - FORZAR BOTONES REPLY
+    if (selectedId === 'autorizaciones') {
+      console.log('[TRACE] autorizaciones → sendAutorizacionesButtons');
+      const response = await getListResponse(selectedId);
+      if (response) {
+        await handleComplexResponse(currentClient, formattedNumber, response);
+      }
+      return;
+    }
+    
     // Buscar respuesta configurada para la opción seleccionada
     let response = await getListResponse(selectedId);
     
@@ -431,6 +443,11 @@ async function handleInteractiveMessage(message, from) {
     const selectedTitle = buttonReply.title;
     
     console.log(`🔘 Botón presionado: ${selectedId} - ${selectedTitle}`);
+    
+    // Log de traza para botones de autorizaciones
+    if (['amb_solicitar', 'amb_seguimiento', 'amb_reclamo', 'amb_revision', 'back_menu'].includes(selectedId)) {
+      console.log(`[TRACE] button: ${selectedId}`);
+    }
     
     // Incrementar contador de mensajes
     await incrementMessageCount();
@@ -509,10 +526,13 @@ async function handleComplexResponse(client, to, response) {
         break;
 
       case 'text_with_buttons':
+        console.log('[TRACE] Enviando text_with_buttons - autorizaciones');
         await client.sendText(to, response.message);
         setTimeout(async () => {
           try {
             await client.sendButtonMessage(to, "Selecciona una opción:", response.buttons);
+            console.log(`✅ Botones enviados correctamente`);
+            console.log(`[TRACE] Botones reply enviados para autorizaciones`);
           } catch (error) {
             console.error('Error enviando botones:', error);
             // Fallback a texto simple

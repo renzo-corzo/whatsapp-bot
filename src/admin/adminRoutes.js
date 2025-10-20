@@ -580,6 +580,7 @@ router.get('/api/status', (req, res) => {
   router.post('/admin/cache/refresh', async (req, res) => {
     try {
       console.log('🔄 Refrescando cache del servidor...');
+      console.log('[CACHE] configuración refrescada');
       // Forzar recarga de configuración
       await loadConfig();
       res.json({ 
@@ -592,7 +593,7 @@ router.get('/api/status', (req, res) => {
       res.status(500).json({ 
         success: false, 
         message: 'Error refrescando cache',
-        error: error.message 
+        error: error.message
       });
     }
   });
