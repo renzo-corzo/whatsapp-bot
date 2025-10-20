@@ -488,7 +488,6 @@ function getCompleteConfig() {
       url: 'https://www.caja-abogados.org.ar/servicio-medico/instructivo-de-afiliacion/',
       url_text: '📄 Ver Instructivo de Afiliación'
     }
-  }
   };
 }
 
