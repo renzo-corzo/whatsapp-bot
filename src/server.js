@@ -256,6 +256,15 @@ async function handleTextMessage(message, from) {
       'e': 'medicamentos_volver'
     };
     
+    // Buscar en autorizaciones
+    const autorizacionesKeys = {
+      'a': 'amb_solicitar',
+      'b': 'amb_seguimiento',
+      'c': 'amb_reclamo',
+      'd': 'amb_revision',
+      'e': 'amb_volver'
+    };
+    
     // Obtener contexto del usuario
     const context = getUserContext(formattedNumber);
     console.log(`🔍 Contexto del usuario ${formattedNumber}: ${context}`);
@@ -272,14 +281,23 @@ async function handleTextMessage(message, from) {
       responseKey = medicamentosKeys[textBody];
       response = await getBotResponse(responseKey);
       responseType = 'medicamentos';
-    } else {
-      // Si no hay contexto, usar medicamentos por defecto
-      console.log(`⚠️ No hay contexto para ${formattedNumber}, usando medicamentos por defecto`);
-      responseKey = medicamentosKeys[textBody];
+    } else if (context === 'autorizaciones') {
+      responseKey = autorizacionesKeys[textBody];
       response = await getBotResponse(responseKey);
-      responseType = 'medicamentos';
+      responseType = 'autorizaciones';
+    } else {
+      // Si no hay contexto, probar autorizaciones primero, luego medicamentos, luego reintegros
+      console.log(`⚠️ No hay contexto para ${formattedNumber}, probando autorizaciones primero`);
+      responseKey = autorizacionesKeys[textBody];
+      response = await getBotResponse(responseKey);
+      responseType = 'autorizaciones';
       
-      // Si no se encuentra en medicamentos, probar reintegros
+      if (!response) {
+        responseKey = medicamentosKeys[textBody];
+        response = await getBotResponse(responseKey);
+        responseType = 'medicamentos';
+      }
+      
       if (!response) {
         responseKey = reintegrosKeys[textBody];
         response = await getBotResponse(responseKey);
@@ -470,6 +488,8 @@ async function handleComplexResponse(client, to, response) {
       setUserContext(to, 'reintegros');
     } else if (response.message && response.message.includes('MEDICAMENTOS')) {
       setUserContext(to, 'medicamentos');
+    } else if (response.message && response.message.includes('AUTORIZACIONES')) {
+      setUserContext(to, 'autorizaciones');
     }
     
     // Si es string simple (compatibilidad hacia atrás)
