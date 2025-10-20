@@ -504,6 +504,14 @@ function getCompleteConfig() {
       type: 'text',
       message: '🔙 Regresando al menú principal...',
       followUp: 'demo_list'
+    },
+    
+    // 👤 AFILIACIÓN - Con hipervínculo
+    'afiliacion': {
+      type: 'text_with_url',
+      message: '👤 AFILIACIÓN\n\n📄 Instructivo de afiliación:\n\n✉️ Enviar formularios a serviciomedico.afil@caja-abogados.com.ar\n📞 351 4235900 int. 103',
+      url: 'https://www.caja-abogados.org.ar/servicio-medico/instructivo-de-afiliacion/',
+      url_text: '📄 Ver Instructivo de Afiliación'
     }
   }
   };
