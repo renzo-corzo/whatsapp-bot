@@ -302,11 +302,7 @@ function getCompleteConfig() {
           followUp: 'soporte_submenu'
         },
         
-        // 💊 SERVICIOS MÉDICOS
-        'autorizaciones': {
-          type: 'text',
-          message: '📋 *AUTORIZACIONES MÉDICAS*\n\n📝 *Para solicitar autorizaciones necesitas:*\n• Orden médica del profesional tratante\n• Credencial de afiliado vigente\n• DNI del paciente\n\n📞 *Canales de solicitud:*\n• WhatsApp: 351 5284546\n• Teléfono: 351 4235900 - int 200\n• Presencial: 27 de Abril 842\n\n⏰ *Tiempo de respuesta:*\n• Urgentes: 24-48hs\n• Programadas: 3-5 días hábiles\n\n💡 *Tip:* Envía la documentación por WhatsApp para agilizar el trámite.'
-        },
+        // 💊 SERVICIOS MÉDICOS - Autorizaciones manejado en listResponses
         
         
         
