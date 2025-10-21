@@ -1,13 +1,12 @@
-const axios = require('axios');
+const { sendWhatsApp } = require('./whatsapp/client');
 
 class WhatsAppClient {
-  constructor() {
-    this.accessToken = process.env.META_WABA_TOKEN;
-    this.phoneNumberId = process.env.PHONE_NUMBER_ID;
-    this.baseURL = `https://graph.facebook.com/v18.0/${this.phoneNumberId}/messages`;
+  constructor(token = null, phoneId = null) {
+    this.accessToken = token || process.env.META_TOKEN || process.env.META_WABA_TOKEN;
+    this.phoneNumberId = phoneId || process.env.PHONE_NUMBER_ID;
     
     if (!this.accessToken || !this.phoneNumberId) {
-      throw new Error('Faltan variables de entorno: META_WABA_TOKEN y PHONE_NUMBER_ID son requeridas');
+      throw new Error('Faltan variables de entorno: META_TOKEN y PHONE_NUMBER_ID son requeridas');
     }
   }
 
@@ -28,17 +27,18 @@ class WhatsAppClient {
     };
 
     try {
-      const response = await axios.post(this.baseURL, payload, {
-        headers: {
-          'Authorization': `Bearer ${this.accessToken}`,
-          'Content-Type': 'application/json'
-        }
-      });
+      // Usar cliente centralizado con logs limpios
+      const result = await sendWhatsApp(payload);
       
-      console.log(`✅ Mensaje de texto enviado a ${to}:`, text);
-      return response.data;
+      if (result.ok) {
+        console.log(`✅ Mensaje de texto enviado a ${to}`);
+        return result.data;
+      } else {
+        console.error(`❌ Error enviando mensaje de texto: ${result.error.message}`);
+        throw new Error(result.error.message);
+      }
     } catch (error) {
-      console.error('❌ Error enviando mensaje de texto:', error.response?.data || error.message);
+      console.error('❌ Error en sendText:', error.message);
       throw error;
     }
   }
@@ -114,15 +114,16 @@ class WhatsAppClient {
     }
 
     try {
-      const response = await axios.post(this.baseURL, payload, {
-        headers: {
-          'Authorization': `Bearer ${this.accessToken}`,
-          'Content-Type': 'application/json'
-        }
-      });
+      // Usar cliente centralizado con logs limpios
+      const result = await sendWhatsApp(payload);
       
-      console.log(`✅ Mensaje de lista enviado a ${to}:`, body);
-      return response.data;
+      if (result.ok) {
+        console.log(`✅ Mensaje de lista enviado a ${to}`);
+        return result.data;
+      } else {
+        console.error(`❌ Error enviando lista: ${result.error.message}`);
+        throw new Error(result.error.message);
+      }
     } catch (error) {
       console.error('❌ Error enviando mensaje de lista:', error.response?.data || error.message);
       throw error;
@@ -268,15 +269,16 @@ class WhatsAppClient {
     }
 
     try {
-      const response = await axios.post(this.baseURL, payload, {
-        headers: {
-          'Authorization': `Bearer ${this.accessToken}`,
-          'Content-Type': 'application/json'
-        }
-      });
+      // Usar cliente centralizado con logs limpios
+      const result = await sendWhatsApp(payload);
       
-      console.log(`✅ Mensaje con botones enviado a ${to}:`, body);
-      return response.data;
+      if (result.ok) {
+        console.log(`✅ Mensaje de botones enviado a ${to}`);
+        return result.data;
+      } else {
+        console.error(`❌ Error enviando botones: ${result.error.message}`);
+        throw new Error(result.error.message);
+      }
     } catch (error) {
       console.error('❌ Error enviando mensaje con botones:', error.response?.data || error.message);
       throw error;

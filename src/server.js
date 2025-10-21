@@ -731,8 +731,8 @@ app.get('/send-demo', async (req, res) => {
     
     // Cargar configuración actualizada del bot
     const config = await loadConfig();
-    const metaToken = config.metaToken || process.env.META_TOKEN;
-    const phoneNumberId = config.phoneNumberId || process.env.PHONE_NUMBER_ID;
+    const metaToken = config.metaToken || process.env.META_TOKEN || process.env.WHATSAPP_ACCESS_TOKEN;
+    const phoneNumberId = config.phoneNumberId || process.env.PHONE_NUMBER_ID || process.env.WHATSAPP_PHONE_NUMBER_ID;
     
     if (!metaToken || !phoneNumberId) {
       return res.status(500).json({
