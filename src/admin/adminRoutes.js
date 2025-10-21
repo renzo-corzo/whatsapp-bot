@@ -110,23 +110,6 @@ function getCompleteConfig() {
       ]
     },
 
-    // Lista de autorizaciones - Formato A-E nativo
-    'autorizaciones_list_native': {
-      title: '📄 Autorizaciones',
-      description: 'Seleccioná una opción:',
-      sections: [
-        {
-          title: 'Opciones',
-          rows: [
-            { id: 'amb_solicitar', title: 'A. 📝 Solicitar Autoriz.', description: 'Solicitar nueva autorización' },
-            { id: 'amb_seguimiento', title: 'B. 📦 Seguimiento', description: 'Consultar estado del trámite' },
-            { id: 'amb_reclamo', title: 'C. ⚠️ Reclamo', description: 'Reclamar demora en trámite' },
-            { id: 'amb_revision', title: 'D. 🔎 Revisión', description: 'Solicitar revisión del trámite' },
-            { id: 'back_menu', title: 'E. ↩️ Volver al Menú', description: 'Regresar al menú principal' }
-          ]
-        }
-      ]
-    }
   },
   listResponses: {
     // 🚨 URGENCIAS
@@ -135,10 +118,10 @@ function getCompleteConfig() {
       message: '🆘 URGENCIAS\n\n📞 0800-888-3226 (ECCO)\n📞 351 4466666\n\n📌 Al momento del llamado, tenga a mano el número de DNI del paciente.\n\n🏠 Médico a domicilio:\nPrestación destinada a consultas médicas generales realizadas en el domicilio del afiliado.\n\n⚠️ Sujeta a disponibilidad. Puede requerir copago y tiene tope mensual y anual.\n\n🔁 Para volver al menú principal, toque "↩️ Volver al Menú" o escriba "Menú".'
     },
     
-    // 📄 AUTORIZACIONES - Lista interactiva nativa de WhatsApp (formato A-E)
+    // 📄 AUTORIZACIONES - Texto con opciones A-E
     'autorizaciones': {
-      type: 'list',
-      listId: 'autorizaciones_list_native'
+      type: 'text',
+      message: '📄 AUTORIZACIONES\n\nSeleccioná una opción:\nA. 📝 Solicitar Autoriz.\nB. 📦 Seguimiento\nC. ⚠️ Reclamo\nD. 🔎 Revisión\nE. ↩️ Volver al Menú'
     },
     
     // 📝 SOLICITAR AUTORIZACIONES (A)

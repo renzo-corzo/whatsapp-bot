@@ -305,6 +305,42 @@ async function handleTextMessage(message, from) {
   
   console.log(`💬 Mensaje de texto: "${textBody}"`);
   
+  // Parser de autorizaciones A-E
+  const autorizacionesKeys = {
+    'a': 'amb_solicitar',
+    '1': 'amb_solicitar',
+    'solicitar': 'amb_solicitar',
+    'solicitud': 'amb_solicitar',
+    'b': 'amb_seguimiento',
+    '2': 'amb_seguimiento',
+    'seguimiento': 'amb_seguimiento',
+    'estado': 'amb_seguimiento',
+    'c': 'amb_reclamo',
+    '3': 'amb_reclamo',
+    'reclamo': 'amb_reclamo',
+    'reclamar': 'amb_reclamo',
+    'd': 'amb_revision',
+    '4': 'amb_revision',
+    'revision': 'amb_revision',
+    'revisión': 'amb_revision',
+    'e': 'back_menu',
+    '5': 'back_menu',
+    'volver': 'back_menu',
+    'menu': 'back_menu',
+    'menú': 'back_menu'
+  };
+  
+  const ch = autorizacionesKeys[textBody];
+  if (ch) {
+    console.log("[TRACE] autorizaciones choice =", ch);
+    const formattedNumber = formatArgentineNumber(from);
+    if (ch === 'amb_solicitar') return await sendAmbSolicitarText(formattedNumber);
+    if (ch === 'amb_seguimiento') return await sendAmbSeguimientoText(formattedNumber);
+    if (ch === 'amb_reclamo') return await sendAmbReclamoText(formattedNumber);
+    if (ch === 'amb_revision') return await sendAmbRevisionText(formattedNumber);
+    if (ch === 'back_menu') return await sendMainMenuList(formattedNumber);
+  }
+  
   // Incrementar contador de mensajes
   await incrementMessageCount();
   await updateUniqueUsers(from);
@@ -470,10 +506,14 @@ async function handleInteractiveMessage(message, from) {
     // Usar cliente global actualizado
     const currentClient = global.whatsappClient || whatsappClient;
     
-    // Manejo específico para autorizaciones - LISTA INTERACTIVA
+    // Manejo específico para autorizaciones - TEXTO A-E
     if (selectedId === 'autorizaciones') {
-      console.log('[TRACE] autorizaciones → sendAutorizacionesList');
-      return await sendAutorizacionesList(formattedNumber);
+      console.log('[TRACE] autorizaciones → texto A-E');
+      const response = await getListResponse(selectedId);
+      if (response) {
+        await handleComplexResponse(currentClient, formattedNumber, response);
+      }
+      return;
     }
     
     // Manejo específico para opciones de autorizaciones

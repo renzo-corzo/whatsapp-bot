@@ -438,10 +438,7 @@ function createAutorizacionesCardFromConfig() {
     div.className = 'list-card';
     
     // Determinar el tipo y color basado en la configuración real
-    if (autorizacionesConfig && autorizacionesConfig.type === 'list') {
-        div.style.borderLeft = '4px solid #6f42c1'; // Morado para lista interactiva
-        return createAutorizacionesListCard(autorizacionesConfig);
-    } else if (autorizacionesConfig && autorizacionesConfig.type === 'text') {
+    if (autorizacionesConfig && autorizacionesConfig.type === 'text') {
         div.style.borderLeft = '4px solid #17a2b8'; // Azul para texto
         return createAutorizacionesTextCard(autorizacionesConfig);
     } else if (autorizacionesConfig && autorizacionesConfig.type === 'text_with_buttons') {
