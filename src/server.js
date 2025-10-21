@@ -40,50 +40,6 @@ async function sendMainMenuList(to) {
   }
 }
 
-// Función para enviar lista interactiva nativa de WhatsApp - Autorizaciones
-async function sendAutorizacionesList(to) {
-  const payload = {
-    messaging_product: "whatsapp",
-    to,
-    type: "interactive",
-    interactive: {
-      type: "list",
-      header: { type: "text", text: "📄 Autorizaciones" },        // < 60
-      body:   { text: "Seleccioná una opción:" },                 // < 60, una sola línea
-      action: {
-        button: "Ver opciones",
-        sections: [{
-          title: "Opciones",
-          rows: [
-            { id: "amb_solicitar",   title: "A. 📝 Solicitar Autoriz." },  // <= 24
-            { id: "amb_seguimiento", title: "B. 📦 Seguimiento" },         // <= 24
-            { id: "amb_reclamo",     title: "C. ⚠️ Reclamo" },             // <= 24
-            { id: "amb_revision",    title: "D. 🔎 Revisión" },             // <= 24
-            { id: "back_menu",       title: "E. ↩️ Volver al Menú" }        // <= 24
-          ]
-        }]
-      }
-    }
-  };
-  
-  // Validación de longitud WhatsApp
-  if (payload.interactive.header.text.length > 60) {
-    throw new Error(`Header text too long: ${payload.interactive.header.text.length} > 60`);
-  }
-  if (payload.interactive.body.text.length > 60) {
-    throw new Error(`Body text too long: ${payload.interactive.body.text.length} > 60`);
-  }
-  payload.interactive.action.sections[0].rows.forEach((row, index) => {
-    if (row.title.length > 24) {
-      throw new Error(`Row ${index} title too long: "${row.title}" (${row.title.length} > 24)`);
-    }
-  });
-  
-  console.log(`[VALIDATION] WhatsApp limits OK - Header: ${payload.interactive.header.text.length}/60, Body: ${payload.interactive.body.text.length}/60, Rows: ${payload.interactive.action.sections[0].rows.map(r => r.title.length).join('/')}/24`);
-  
-  console.log("[TRACE] autorizaciones:list →", JSON.stringify(payload, null, 2));
-  return await whatsappClient.sendListMessage(to, payload.interactive);
-}
 const express = require('express');
 const morgan = require('morgan');
 const WhatsAppClient = require('./whatsappClient');

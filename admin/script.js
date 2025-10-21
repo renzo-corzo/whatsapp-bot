@@ -441,9 +441,6 @@ function createAutorizacionesCardFromConfig() {
     if (autorizacionesConfig && autorizacionesConfig.type === 'text') {
         div.style.borderLeft = '4px solid #17a2b8'; // Azul para texto
         return createAutorizacionesTextCard(autorizacionesConfig);
-    } else if (autorizacionesConfig && autorizacionesConfig.type === 'text_with_buttons') {
-        div.style.borderLeft = '4px solid #28a745'; // Verde para botones
-        return createAutorizacionesButtonsCard();
     } else {
         // Fallback si no hay configuración
         div.style.borderLeft = '4px solid #ffc107'; // Amarillo para desconocido
@@ -451,70 +448,6 @@ function createAutorizacionesCardFromConfig() {
     }
 }
 
-// Crear tarjeta para autorizaciones como lista interactiva
-function createAutorizacionesListCard(config) {
-    console.log('📋 Creando tarjeta de lista interactiva para autorizaciones');
-    const div = document.createElement('div');
-    div.className = 'list-card';
-    div.style.borderLeft = '4px solid #6f42c1'; // Morado para lista interactiva
-    
-    const opciones = [
-        { id: 'amb_solicitar', title: '📝 Solicitar Autoriz.', description: 'Solicitar nueva autorización' },
-        { id: 'amb_seguimiento', title: '📦 Seguimiento', description: 'Consultar estado del trámite' },
-        { id: 'amb_reclamo', title: '⚠️ Reclamo', description: 'Reclamar demora en trámite' },
-        { id: 'amb_revision', title: '🔎 Revisión', description: 'Solicitar revisión del trámite' },
-        { id: 'back_menu', title: '↩️ Volver al Menú', description: 'Regresar al menú principal' }
-    ];
-
-    const opcionesHtml = opciones.map(opcion => `
-        <div class="list-item" style="display: flex; justify-content: space-between; align-items: center; padding: 8px; border-bottom: 1px solid #eee;">
-            <div style="display: flex; align-items: center; gap: 10px;">
-                <span>${opcion.title}</span>
-                <small style="color: #6c757d;">${opcion.description}</small>
-                ${getLinkedIndicator(opcion.id)}
-            </div>
-            <div style="display: flex; gap: 5px;">
-                <button class="btn btn-sm btn-info" onclick="editListResponse('${opcion.id}')" style="padding: 4px 8px; font-size: 0.8rem;">
-                    <i class="fas fa-comment"></i> Respuesta
-                </button>
-                ${opcion.id !== 'back_menu' ? `
-                    <span class="badge badge-info" style="background-color: #6f42c1; color: white; padding: 2px 6px; border-radius: 12px; font-size: 0.7rem;">
-                        <i class="fas fa-list"></i> Lista
-                    </span>
-                ` : `
-                    <span class="badge badge-success" style="background-color: #28a745; color: white; padding: 2px 6px; border-radius: 12px; font-size: 0.7rem;">
-                        <i class="fas fa-arrow-right"></i> → demo_list
-                    </span>
-                `}
-            </div>
-        </div>
-    `).join('');
-
-    div.innerHTML = `
-        <div class="list-header">
-            <div class="list-title">📄 Autorizaciones <small>(Lista Interactiva)</small></div>
-            <div class="response-actions">
-                <button class="btn btn-sm btn-info" onclick="editListResponse('autorizaciones')" style="background-color: #6f42c1;">
-                    <i class="fas fa-edit"></i> Editar Menú
-                </button>
-                <button class="btn btn-sm btn-success" onclick="refreshCache()" style="background-color: #28a745;">
-                    <i class="fas fa-sync"></i> Refrescar
-                </button>
-            </div>
-        </div>
-        <p><strong>Descripción:</strong> Lista interactiva nativa de WhatsApp (igual que Otras gestiones):</p>
-        <div class="list-items">
-            ${opcionesHtml}
-        </div>
-        <div style="margin-top: 10px; padding: 8px; background-color: #f8f9fa; border-radius: 4px;">
-            <small style="color: #6c757d;">
-                <i class="fas fa-info-circle"></i>
-                Lista interactiva con botón "Ver opciones" y 5 opciones disponibles
-            </small>
-        </div>
-    `;
-    return div;
-}
 
 // Crear tarjeta para autorizaciones como texto A-E
 function createAutorizacionesTextCard(config) {
