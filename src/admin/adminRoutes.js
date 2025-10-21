@@ -127,25 +127,25 @@ function getCompleteConfig() {
     // 📝 SOLICITAR AUTORIZACIONES (A)
     'amb_solicitar': {
       type: 'text',
-      message: 'El prestador carga el pedido en el portal y se genera un Nº de trámite (Ej: 19----).\nPara Allende e interior: enviar foto del pedido por WhatsApp.'
+      message: 'Los prestadores ya gestionan las autorizaciones desde el sistema web de la Caja. Al cargar el pedido, se genera un Nº de trámite (ej: 19----). Con ese número podrá consultar el estado en el portal. Si el pedido es de Sanatorio Allende u otro prestador que no opere por sistema, envíenos una foto clara del pedido por este medio.'
     },
     
     // 📦 SEGUIMIENTO (B)
     'amb_seguimiento': {
       type: 'text',
-      message: 'Consultar estado en el portal web:\nhttps://autogestion.caja-abogados.org.ar'
+      message: 'Consulte el estado de su autorización en el portal de la Caja ingresando el Nº de trámite: https://autogestion.caja-abogados.org.ar'
     },
     
     // ⚠️ RECLAMO (C)
     'amb_reclamo': {
       type: 'text',
-      message: 'Si pasaron más de 48 hs hábiles, por favor envíe:\n• Nº de trámite\n• Nombre del afiliado\n• Observación'
+      message: 'El tiempo estimado de resolución de una autorización ambulatoria es de hasta 48 horas hábiles. Si el trámite excede ese plazo, por favor envíenos: • Nº de trámite (ej: 19----) • Nombre del afiliado/paciente • Observaciones (si las hubiera) Importante: Las prácticas de urgencia y/o internación poseen plazos diferenciados.'
     },
     
     // 🔎 REVISIÓN (D)
     'amb_revision': {
       type: 'text',
-      message: 'Adjuntar lo solicitado por auditoría o documentación para prácticas fuera de convenio.'
+      message: 'Puede solicitar revisión del trámite en los siguientes casos: • Pedido médico devuelto en el portal (requiere documentación adicional) • Prácticas fuera de convenio (adjuntar informe, estudios previos y presupuesto) • Procedimientos especiales o de alto costo (justificar con documentación) • Errores en la solicitud (adjuntar corrección solicitada por auditoría)'
     },
     
     // ↩️ VOLVER AL MENÚ (E)
@@ -162,100 +162,24 @@ function getCompleteConfig() {
       followUp: 'otras_gestiones_list'
     },
     
-    // 💸 REINTEGROS - Opciones de texto
-    'reintegros': {
-      type: 'text',
-      message: '💸 REINTEGROS\n\nPor favor, indique qué desea hacer:\n\n🔸 A. Solicitar un reintegro\n🔸 B. Consultar el estado de un reintegro ya presentado\n🔸 C. Conocer los casos posibles de un reintegro\n🔸 D. Consultar proveedores por especialidad\n🔸 E. Volver al Menú\n\n👉 Responda con "A", "B", "C", "D" o "E".'
-    },
-    
-    // 💊 MEDICAMENTOS - Opciones de texto (FORZADO)
-    'medicamentos': {
-      type: 'text',
-      message: '💊 MEDICAMENTOS\n\nSelecciona la opción que necesitas:\n\n🔸 A. Buscar en Vademécum\n🔸 B. Consultar farmacias prestadoras\n🔸 C. Información sobre recetas\n🔸 D. Cobertura fuera del vademécum\n🔸 E. Volver al Menú\n\n👉 Responda con "A", "B", "C", "D" o "E".'
-    },
-    
-    // 📝 SOLICITAR REINTEGRO (Opción A)
-    'reintegros_solicitar': {
-      type: 'text',
-      message: '📝 SOLICITAR REINTEGRO\n\n📋 Documentación requerida:\n• Comprobante original de pago\n• Pedido médico/receta correspondiente\n• CBU de cuenta bancaria a nombre del titular\n• CUIT del titular\n• Datos de contacto actualizados (teléfono y correo electrónico)\n• Documentación específica para cada tipo de reintegro\n\n📌 Entrega de documentación:\n🏠 Servicio médico de Caja de Abogados de Cba\n📍 Domicilio: 27 de abril 842 - Córdoba\n\n📞 Asesoramiento: 351 4235900 int. 116\n✉️ serviciomedico@caja-abogados.com.ar\n📩 Con copia a: psaad@caja-abogados.com.ar'
-    },
-    
-    // 🔍 CONSULTAR ESTADO (Opción B)
-    'reintegros_consultar': {
-      type: 'text',
-      message: '🔍 CONSULTAR ESTADO DE REINTEGRO\n\n📋 Puede consultar el estado de su reintegro:\n\n🏠 En forma presencial en el Servicio de Salud\n✉️ Por correo electrónico:\n   • serviciomedico@caja-abogados.com.ar\n   • Con copia a: psaad@caja-abogados.com.ar\n\n📞 Teléfono: 351 4235900 int. 116'
-    },
-    
-    // ❓ CASOS POSIBLES (Opción C)
-    'reintegros_casos': {
-      type: 'text_with_url',
-      message: '❓ CASOS POSIBLES DE REINTEGRO\n\n📄 Para conocer los casos posibles de reintegro, consulte el artículo 32 del reglamento:\n\n📞 Teléfono: 351 4235900 int. 116',
-      url: 'https://www.caja-abogados.org.ar/servicio-medico/reglamento-2013/',
-      url_text: '📄 Ver Artículo 32 - Reglamento 2013'
-    },
-    
-    // 🏥 CONSULTAR PROVEEDORES (Opción D)
-    'reintegros_proveedores': {
-      type: 'text',
-      message: '🏥 CONSULTAR PROVEEDORES POR ESPECIALIDAD\n\n📋 Para solicitar listado de proveedores:\n\n✉️ serviciomedico@caja-abogados.com.ar\n📩 Con copia a: psaad@caja-abogados.com.ar\n\n📞 Teléfono: 351 4235900 int. 116'
-    },
-    
-    // ↩️ VOLVER AL MENÚ (Opción E)
-    'reintegros_volver': {
-      type: 'text',
-      message: '🔙 Regresando al menú principal...',
-      followUp: 'demo_list'
-    },
-    
-    // 📝 SOLICITAR AUTORIZACIONES
-    'amb_solicitar': {
-      type: 'text',
-      message: '📝 SOLICITAR AUTORIZACIONES\n\n🏥 Los prestadores ya gestionan las autorizaciones desde el sistema web de la Caja.\n\n🔢 Al cargar el pedido, se genera un Nº de trámite (ej: 19----). Con ese número podrá consultar el estado en el portal.\n\n📸 Si el pedido es de Sanatorio Allende u otro prestador que no opere por sistema, envíenos una foto clara del pedido por este medio.'
-    },
-    
-    // 📦 SEGUIMIENTO
-    'amb_seguimiento': {
-      type: 'text',
-      message: '📦 SEGUIMIENTO\n\n🔍 Consulte el estado de su autorización en el portal de la Caja ingresando el Nº de trámite:\n\n🌐 https://autogestion.caja-abogados.org.ar'
-    },
-    
-    // ⚠️ RECLAMO
-    'amb_reclamo': {
-      type: 'text',
-      message: '⚠️ RECLAMO\n\n⏰ El tiempo estimado de resolución de una autorización ambulatoria es de hasta 48 horas hábiles.\n\n📋 Si el trámite excede ese plazo, por favor envíenos:\n• Nº de trámite (ej: 19----)\n• Nombre del afiliado/paciente\n• Observaciones (si las hubiera)\n\n⚠️ Importante: Las prácticas de urgencia y/o internación poseen plazos diferenciados.'
-    },
-    
-    // 🔎 REVISIÓN
-    'amb_revision': {
-      type: 'text',
-      message: '🔎 REVISIÓN\n\n📋 Puede solicitar revisión del trámite en los siguientes casos:\n\n• 📄 Pedido médico devuelto en el portal (requiere documentación adicional)\n• 🏥 Prácticas fuera de convenio (adjuntar informe, estudios previos y presupuesto)\n• 💰 Procedimientos especiales o de alto costo (justificar con documentación)\n• ✅ Errores en la solicitud (adjuntar corrección solicitada por auditoría)'
-    },
-    
-    // ↩️ VOLVER AL MENÚ
-    'amb_volver': {
-      type: 'text',
-      message: '🔙 Regresando al menú principal...',
-      followUp: 'demo_list'
-    },
-    
     // 👤 AFILIACIÓN - Otras Gestiones
     'afiliacion': {
       type: 'text_with_url',
       message: '👤 AFILIACIÓN\n\n📄 Instructivo de afiliación:\n\n✉️ enviar formularios a serviciomedico.afil@caja-abogados.com.ar\n\n📞 351 4235900 int. 103',
-      url: 'https://www.caja-abogados.org.ar/servicio-medico/instructivo-de-afiliacion/',
+      url: 'https://descargar.caja-abogados.org.ar/servicio-medico/instructivo-de-afiliacion/',
       url_text: '📄 Ver Instructivo de Afiliación'
     },
     
-    // 💸 REINTEGROS - Otras Gestiones (temporal)
+    // 💸 REINTEGROS - Otras Gestiones
     'reintegros': {
       type: 'text',
-      message: '💸 REINTEGROS\n\n📋 Información detallada próximamente disponible.\n\n📞 Para consultas: 351 4235900 int. 103\n\n✉️ serviciomedico@caja-abogados.com.ar'
+      message: '💸 REINTEGROS\n\nPor favor, indique qué desea hacer:\n🔸 A. Solicitar un reintegro\n🔸 B. Consultar el estado de un reintegro ya presentado\n🔸 C. Conocer los casos posibles de un reintegro\n🔸 D. Consultar proveedores por especialidad\n🔸 E. Volver al Menú'
     },
     
-    // 💊 MEDICAMENTOS - Otras Gestiones (temporal)
+    // 💊 MEDICAMENTOS - Otras Gestiones
     'medicamentos': {
       type: 'text',
-      message: '💊 MEDICAMENTOS\n\n📋 Información detallada próximamente disponible.\n\n📞 Para consultas: 351 4235900 int. 103\n\n✉️ serviciomedico@caja-abogados.com.ar'
+      message: '💊 MEDICAMENTOS\n\nPor favor, indique qué desea hacer:\n🔸 A. Buscar en Vademécum\n🔸 B. Consultar farmacias prestadoras\n🔸 C. Información sobre recetas\n🔸 D. Cobertura fuera del vademécum\n🔸 E. Volver al Menú'
     },
     
     // ❤️ PROGRAMAS - Otras Gestiones (temporal)
@@ -286,156 +210,6 @@ function getCompleteConfig() {
     'otras_consultas': {
       type: 'text',
       message: '❓ OTRAS CONSULTAS\n\n📋 Información detallada próximamente disponible.\n\n📞 Para consultas: 351 4235900 int. 103\n\n✉️ serviciomedico@caja-abogados.com.ar'
-    },
-    
-    'info_general': {
-      type: 'text',
-          message: '✅ Información General.\n\n🏢 Somos la Caja de Previsión y Seguridad Social de Abogados y Procuradores de Córdoba. Estamos aquí para ayudarte con todas tus consultas.'
-        },
-        'soporte_tecnico': {
-          type: 'text',
-          message: '🔧 Soporte Técnico.\n\nNuestro equipo está disponible para ayudarte. Puedes contactarnos por los medios habituales.'
-        },
-        'consulta_cuenta': {
-          type: 'text',
-          message: '👤 Consulta de Cuenta.\n\nPara consultas sobre tu cuenta, puedes contactarnos por teléfono o email. Nuestro equipo te ayudará con cualquier información que necesites.'
-        },
-        'horarios_atencion': {
-          type: 'text',
-          message: '✅ Horarios de Atención.\n\n🕐 Nuestros horarios de atención son:\n• Lunes a Viernes: 8:00 AM - 6:00 PM\n• Sábados: 9:00 AM - 2:00 PM\n• Domingos: Cerrado\n\n⏰ Zona horaria: UTC-5'
-        },
-        'info_contacto': {
-          type: 'text',
-          message: '📍 *Caja de Previsión y Seguridad Social de Abogados y Procuradores de Córdoba*\n\n🏢 *Dirección:*\n27 de Abril 842, Córdoba, Argentina\n\n📞 *Teléfonos:*\n• Información General: 351 4235900 - int 185\n• Mesa de entrada: 351 4235900 – int 109\n• Contralor de Aportes: 351 5734543\n• Servicio médico (WhatsApp): 351 5284546\n\n📧 *Email:*\ninformacion@caja-abogados.com.ar\n\n🌐 *Web:*\nwww.caja-abogados.org.ar'
-        },
-        'afiliacion_caja': {
-          type: 'text',
-          message: '📝 Afiliación a la Caja Previsional.\n\nPara más información sobre el proceso de afiliación, contacta con nuestras oficinas.'
-        },
-        
-        // 🚨 URGENCIAS Y EMERGENCIAS
-        'urgencias_emergencias': {
-          type: 'text',
-          message: '🆘 *URGENCIAS Y EMERGENCIAS - 24HS*\n\n📞 *Línea de Emergencias:*\n• 351 5284546 (WhatsApp)\n• 0800-555-URGENCIA\n\n🏥 *Centros de Atención Inmediata:*\n• Hospital Privado Córdoba\n• Sanatorio Allende\n• Clínica Universitaria Reina Fabiola\n\n⚠️ *En caso de emergencia vital:*\nLlama al 107 (SAME) o dirígete al centro médico más cercano.\n\n💡 *Recuerda tener a mano:*\n• Credencial de afiliado\n• DNI\n• Orden médica (si la tienes)',
-          followUp: 'soporte_submenu'
-        },
-        
-        // 🚨 EMERGENCIAS (opción del menú principal)
-        'emergencias': {
-          type: 'text',
-          message: '🆘 *EMERGENCIAS - ATENCIÓN 24HS*\n\nPara emergencias médicas urgentes:',
-          followUp: 'soporte_submenu'
-        },
-        
-        // 💊 SERVICIOS MÉDICOS - Autorizaciones manejado en listResponses
-        
-        
-        
-        // 🏥 PROGRAMAS Y CONVENIOS
-        'programas': {
-          type: 'text',
-          message: '🩺 *PROGRAMAS DE SALUD*\n\n🔬 *Programas Preventivos:*\n• Chequeos anuales gratuitos\n• Mamografías y PAP\n• Control cardiológico\n• Vacunación antigripal\n\n👶 *Programas Especiales:*\n• Maternidad y pediatría\n• Tercera edad\n• Enfermedades crónicas\n• Salud mental\n\n📅 *Para inscribirte:*\n• WhatsApp: 351 5284546\n• Teléfono: 351 4235900 - int 250\n• Web: www.caja-abogados.org.ar/programas\n\n🎁 *Beneficios adicionales para participantes activos.'
-        },
-        
-        'convenios_reciprocidad': {
-          type: 'text',
-          message: '🤝 *CONVENIOS DE RECIPROCIDAD*\n\n🗺️ *Cobertura en:*\n• Buenos Aires - CABA\n• Santa Fe - Rosario\n• Mendoza - Capital\n• Tucumán - San Miguel\n\n📋 *Para usar el convenio:*\n• Credencial vigente\n• Autorización previa (no urgencias)\n• DNI del afiliado\n\n📞 *Gestión de autorizaciones:*\n• WhatsApp: 351 5284546\n• Email: reciprocidad@caja-abogados.com.ar\n\n⚠️ *Importante:* Consulta prestadores adheridos en cada provincia antes de viajar.'
-        },
-        
-        // ℹ️ INFORMACIÓN Y SOPORTE
-        'preguntas_frecuentes': {
-          type: 'text',
-          message: '❓ *PREGUNTAS FRECUENTES*\n\n🔸 *¿Cómo obtengo mi credencial?*\nSe envía por correo al domicilio registrado.\n\n🔸 *¿Puedo atenderme sin credencial?*\nSí, con DNI y número de afiliado.\n\n🔸 *¿Cómo cambio de médico de cabecera?*\nSolicítalo por WhatsApp o presencialmente.\n\n🔸 *¿Qué hago si pierdo la credencial?*\nSolicita duplicado por WhatsApp.\n\n🔸 *¿Hay copagos?*\nConsultas y estudios básicos sin costo.\n\n📱 *Más consultas:* WhatsApp 351 5284546'
-        },
-        
-        'asistencia_prestadores': {
-          type: 'text',
-          message: '👨‍⚕️ *ASISTENCIA A PRESTADORES*\n\n🏥 *Servicios para profesionales:*\n• Liquidación de prácticas\n• Consultas de nomenclador\n• Gestión de autorizaciones\n• Capacitaciones\n\n📞 *Mesa de ayuda:*\n• Teléfono: 351 4235900 - int 300\n• Email: prestadores@caja-abogados.com.ar\n• WhatsApp: 351 5284546\n\n💻 *Portal web:*\nwww.caja-abogados.org.ar/prestadores\n\n📋 *Documentación y formularios disponibles online las 24hs.'
-        },
-        
-        'afiliacion': {
-          type: 'text',
-          message: '📝 *AFILIACIÓN AL SERVICIO MÉDICO*\n\n👥 *Quiénes pueden afiliarse:*\n• Abogados matriculados\n• Procuradores habilitados\n• Grupo familiar directo\n\n📄 *Documentación requerida:*\n• Solicitud de afiliación\n• Fotocopia de matrícula\n• DNI y CUIL\n• Constancia domicilio\n\n💰 *Aportes mensuales:*\n• Activos: según categoría\n• Jubilados: bonificado\n• Grupo familiar: adicional\n\n📍 *Inscripción:*\n27 de Abril 842 - Lunes a Viernes 8 a 16hs\n\n📞 *Consultas:* 351 4235900 - int 185'
-        },
-        'calendario_pagos': {
-      type: 'text',
-          message: '📅 Calendario de Pagos.\n\nConsulta las fechas de vencimiento en nuestra página web o contacta con nosotros.'
-    },
-        'emision_boletas': {
-      type: 'text',
-          message: '🧾 Emisión de Boletas.\n\nPuedes generar tus boletas a través de nuestro sistema de autogestión online.'
-    },
-        'afiliacion_medica': {
-      type: 'text',
-          message: '🩺 Afiliación al Servicio Médico.\n\nPara información sobre afiliación médica, consulta en nuestras oficinas.'
-    },
-        'ordenes_medicas': {
-      type: 'text',
-          message: '📋 Órdenes Médicas.\n\nPuedes gestionar tus órdenes médicas desde nuestro sistema de autogestión.'
-    },
-        'consulta_prestadores': {
-      type: 'text',
-          message: '🏥 Consulta de Prestadores.\n\nInformación sobre médicos y prestadores disponible en nuestra web.'
-        },
-        'contactar_humano': {
-          type: 'text_with_buttons',
-          message: '✅ Contacto con Agente Humano.\n\n👨‍💼 ¿Cómo prefieres contactarnos?',
-          buttons: [
-            { id: 'llamada_urgente', title: '📞 Llamada Urgente' },
-            { id: 'chat_whatsapp', title: '💬 Chat WhatsApp' },
-            { id: 'email_soporte', title: '📧 Email Soporte' }
-          ]
-        },
-        
-        // NUEVOS EJEMPLOS PRÁCTICOS
-        'ver_catalogo': {
-          type: 'text_with_url',
-          message: '🛒 Catálogo de Productos\n\n📋 Tenemos una amplia variedad de productos:\n\n• 📱 Smartphones última generación\n• 💻 Laptops y computadoras\n• 🎧 Accesorios tecnológicos\n• 📺 Smart TVs y entretenimiento\n\n💡 Ofertas especiales disponibles',
-          url: 'https://mi-tienda.com/catalogo',
-          url_text: '🛒 Ver Catálogo Completo'
-        },
-        
-        'precios_planes': {
-          type: 'text_with_buttons',
-          message: '💰 Precios y Planes 2024\n\n📊 Selecciona qué información necesitas:',
-          buttons: [
-            { id: 'planes_basicos', title: '🥉 Planes Básicos' },
-            { id: 'planes_premium', title: '🥇 Planes Premium' },
-            { id: 'ofertas_especiales', title: '🎁 Ofertas' }
-          ]
-        },
-        
-        'hacer_pedido': {
-          type: 'text_with_url',
-          message: '📱 Hacer tu Pedido\n\n🚀 ¡Es muy fácil!\n\n1️⃣ Elige tus productos\n2️⃣ Envíanos tu lista\n3️⃣ Confirmamos disponibilidad\n4️⃣ Coordinamos entrega\n\n💬 Contáctanos directamente:',
-          url: 'https://wa.me/543515747073?text=Hola,%20quiero%20hacer%20un%20pedido',
-          url_text: '💬 WhatsApp Directo'
-        }
-      },
-      
-      // Submenús eliminados - Solo mantener los necesarios
-  submenus: {},
-      
-      // Respuestas para botones y opciones de submenús - Limpiadas
-  submenuResponses: {},
-  
-  // 📋 OTRAS GESTIONES - Submenú implementado como lista interactiva
-    'otras_gestiones': {
-      type: 'text',
-      message: '📋 OTRAS GESTIONES\n\nSeleccioná el trámite que necesitas:',
-      followUp: 'otras_gestiones_list'
-    },
-    
-    // 💸 REINTEGROS - Opciones de texto
-    'reintegros': {
-      type: 'text',
-      message: '💸 REINTEGROS\n\nPor favor, indique qué desea hacer:\n\n🔸 A. Solicitar un reintegro\n🔸 B. Consultar el estado de un reintegro ya presentado\n🔸 C. Conocer los casos posibles de un reintegro\n🔸 D. Consultar proveedores por especialidad\n🔸 E. Volver al Menú\n\n👉 Responda con "A", "B", "C", "D" o "E".'
-    },
-    
-    // 💊 MEDICAMENTOS - Opciones de texto (FORZADO)
-    'medicamentos': {
-      type: 'text',
-      message: '💊 MEDICAMENTOS\n\nSelecciona la opción que necesitas:\n\n🔸 A. Buscar en Vademécum\n🔸 B. Consultar farmacias prestadoras\n🔸 C. Información sobre recetas\n🔸 D. Cobertura fuera del vademécum\n🔸 E. Volver al Menú\n\n👉 Responda con "A", "B", "C", "D" o "E".'
     },
     
     // 📝 SOLICITAR REINTEGRO (Opción A)
@@ -482,7 +256,7 @@ function getCompleteConfig() {
     // 💊 FARMACIAS PRESTADORAS (Opción B)
     'medicamentos_farmacias': {
       type: 'text_with_url',
-      message: '💊 FARMACIAS PRESTADORAS\n\n🏪 Consulte las farmacias adheridas donde puede retirar sus medicamentos:\n\n📞 Para consultas: 351 4235900 int. 103',
+      message: '💊 FARMACIAS PRESTADORAS\n\n🏪 Consulte las farmacias adheridas donde puede retirar sus medicamentos MEDICAMENTOS:\n\n📞 Para consultas: 351 4235900 int. 103',
       url: 'https://autogestion.caja-abogados.org.ar/agconsultafarmacias.aspx',
       url_text: '🏪 Ver Farmacias Prestadoras'
     },
@@ -504,15 +278,9 @@ function getCompleteConfig() {
       type: 'text',
       message: '🔙 Regresando al menú principal...',
       followUp: 'demo_list'
-    },
-    
-    // 👤 AFILIACIÓN - Con hipervínculo
-    'afiliacion': {
-      type: 'text_with_url',
-      message: '👤 AFILIACIÓN\n\n📄 Instructivo de afiliación:\n\n✉️ Enviar formularios a serviciomedico.afil@caja-abogados.com.ar\n📞 351 4235900 int. 103',
-      url: 'https://www.caja-abogados.org.ar/servicio-medico/instructivo-de-afiliacion/',
-      url_text: '📄 Ver Instructivo de Afiliación'
     }
+  },
+  submenuResponses: {}
   };
 }
 
@@ -528,18 +296,52 @@ async function saveConfig(config) {
   }
 }
 
+// Obtener respuesta del bot
+function getBotResponse(key, config) {
+  // Buscar en responses
+  if (config.responses && config.responses[key]) {
+    return config.responses[key];
+  }
+  
+  // Buscar en listResponses
+  if (config.listResponses && config.listResponses[key]) {
+    return config.listResponses[key];
+  }
+  
+  // Buscar en submenuResponses
+  if (config.submenuResponses && config.submenuResponses[key]) {
+    return config.submenuResponses[key];
+  }
+  
+  return null;
+}
+
+// Obtener lista de configuración
+function getList(key, config) {
+  if (config.lists && config.lists[key]) {
+    return config.lists[key];
+  }
+  return null;
+}
+
+// Obtener submenú
+function getSubmenu(key, config) {
+  if (config.submenuResponses && config.submenuResponses[key]) {
+    return config.submenuResponses[key];
+  }
+  return null;
+}
+
 // Cargar estadísticas
 async function loadStats() {
   try {
     const data = await fs.readFile(STATS_FILE, 'utf8');
     return JSON.parse(data);
   } catch (error) {
-    // Estadísticas por defecto
     return {
       totalMessages: 0,
       uniqueUsers: 0,
-      responseTime: '~150ms',
-      lastUpdated: new Date().toISOString()
+      startDate: new Date().toISOString()
     };
   }
 }
@@ -547,458 +349,76 @@ async function loadStats() {
 // Guardar estadísticas
 async function saveStats(stats) {
   try {
-    stats.lastUpdated = new Date().toISOString();
+    await ensureConfigDir();
     await fs.writeFile(STATS_FILE, JSON.stringify(stats, null, 2), 'utf8');
   } catch (error) {
     console.error('❌ Error guardando estadísticas:', error);
   }
 }
 
-// Función para crear las rutas de administración
+// Crear rutas de administración
 function createAdminRoutes() {
   const router = express.Router();
-
-  // Servir archivos estáticos del portal
-  router.use('/admin', express.static(path.join(__dirname, '../../admin')));
-  console.log('🔧 Panel de administración disponible en: /admin');
-
-  // API: Estado del bot
-router.get('/api/status', (req, res) => {
-  res.json({
-    status: 'online',
-    timestamp: new Date().toISOString(),
-    version: '1.0.0'
-  });
-});
-
-  // API: Refrescar cache
-  router.post('/admin/cache/refresh', async (req, res) => {
-    try {
-      console.log('🔄 Refrescando cache del servidor...');
-      console.log('[CACHE] configuración refrescada');
-      // Forzar recarga de configuración
-      await loadConfig();
-      res.json({ 
-        success: true, 
-        message: 'Cache refrescado exitosamente',
-        timestamp: new Date().toISOString()
-      });
-    } catch (error) {
-      console.error('❌ Error refrescando cache:', error);
-      res.status(500).json({ 
-        success: false, 
-        message: 'Error refrescando cache',
-        error: error.message
-      });
-    }
-  });
-
-  // API: Snapshot de configuración para diagnóstico
-  router.get('/admin/config/snapshot', async (req, res) => {
-    try {
-      const config = await loadConfig();
-      const autorizaciones = config.listResponses?.autorizaciones || config.lists?.autorizaciones || null;
-      
-      const snapshot = {
-        autorizaciones: {
-          type: autorizaciones?.type || 'not found',
-          source: autorizaciones ? 'listResponses' : 'not found',
-          updatedAt: new Date().toISOString(),
-          id: 'autorizaciones'
-        },
-        version: '1.0.0',
-        commit: process.env.RENDER_GIT_COMMIT || 'local-dev'
-      };
-      
-      console.log('[CFG] Snapshot generado:', snapshot);
-      res.json(snapshot);
-    } catch (error) {
-      console.error('❌ Error generando snapshot:', error);
-      res.status(500).json({ 
-        success: false, 
-        message: 'Error generando snapshot',
-        error: error.message
-      });
-    }
-  });
-
-  // API: Obtener configuración completa
+  
+  // Servir archivos estáticos
+  router.use(express.static(path.join(__dirname, '../../admin')));
+  
+  // API para obtener configuración
   router.get('/api/config', async (req, res) => {
     try {
       const config = await loadConfig();
       res.json(config);
     } catch (error) {
-      console.error('Error cargando configuración:', error);
+      console.error('❌ Error cargando configuración:', error);
       res.status(500).json({ error: 'Error cargando configuración' });
     }
   });
-
-  // API: Guardar configuración completa
+  
+  // API para guardar configuración
   router.post('/api/config', async (req, res) => {
     try {
-      const config = req.body;
-      
-      // Si viene configuración de API (token, phoneNumberId), actualizar variables de entorno
-      if (config.metaToken || config.phoneNumberId) {
-        console.log('🔄 Actualizando configuración de API...');
-        
-        // Actualizar variables de entorno en tiempo real
-        if (config.metaToken) {
-          process.env.META_WABA_TOKEN = config.metaToken;
-          console.log('✅ META_WABA_TOKEN actualizada');
-        }
-        
-        if (config.phoneNumberId) {
-          process.env.PHONE_NUMBER_ID = config.phoneNumberId;
-          console.log('✅ PHONE_NUMBER_ID actualizada');
-        }
-        
-        // Reinicializar cliente de WhatsApp con nuevas credenciales
-        try {
-          const WhatsAppClient = require('../whatsappClient');
-          global.whatsappClient = new WhatsAppClient();
-          console.log('✅ Cliente de WhatsApp reinicializado con nuevas credenciales');
-        } catch (clientError) {
-          console.error('⚠️ Error reinicializando cliente:', clientError.message);
-        }
-        
-        res.json({ 
-          success: true, 
-          message: 'Configuración API actualizada en tiempo real',
-          reloaded: true
-        });
-      } else {
-        // Configuración normal (respuestas, listas, etc.)
-        await saveConfig(config);
-        res.json({ success: true, message: 'Configuración guardada correctamente' });
-      }
+      await saveConfig(req.body);
+      res.json({ success: true });
     } catch (error) {
-      console.error('Error guardando configuración:', error);
+      console.error('❌ Error guardando configuración:', error);
       res.status(500).json({ error: 'Error guardando configuración' });
     }
   });
-
-  // API: Obtener respuestas
-  router.get('/api/responses', async (req, res) => {
-    try {
-      const config = await loadConfig();
-      res.json(config.listResponses || {});
-    } catch (error) {
-      console.error('Error cargando respuestas de lista:', error);
-      res.status(500).json({ error: 'Error cargando respuestas de lista' });
-    }
-  });
-
-  // API: Guardar respuestas
-  router.post('/api/responses', async (req, res) => {
-    try {
-      const config = await loadConfig();
-      config.listResponses = req.body;
-      await saveConfig(config);
-      console.log('✅ ListResponses guardadas:', JSON.stringify(req.body, null, 2));
-      res.json({ success: true, message: 'Respuestas de lista guardadas correctamente' });
-    } catch (error) {
-      console.error('Error guardando respuestas de lista:', error);
-      res.status(500).json({ error: 'Error guardando respuestas de lista' });
-    }
-  });
-
-  // API: Obtener listas interactivas
-  router.get('/api/lists', async (req, res) => {
-    try {
-      const config = await loadConfig();
-      res.json(config.lists || {});
-    } catch (error) {
-      console.error('Error cargando listas:', error);
-      res.status(500).json({ error: 'Error cargando listas' });
-    }
-  });
-
-  // API: Guardar listas interactivas
-  router.post('/api/lists', async (req, res) => {
-    try {
-      const config = await loadConfig();
-      config.lists = req.body;
-      await saveConfig(config);
-      res.json({ success: true, message: 'Listas guardadas correctamente' });
-    } catch (error) {
-      console.error('Error guardando listas:', error);
-      res.status(500).json({ error: 'Error guardando listas' });
-    }
-  });
-
-  // API: Obtener estadísticas
-  router.get('/api/analytics', async (req, res) => {
+  
+  // API para obtener estadísticas
+  router.get('/api/stats', async (req, res) => {
     try {
       const stats = await loadStats();
       res.json(stats);
     } catch (error) {
-      console.error('Error cargando estadísticas:', error);
+      console.error('❌ Error cargando estadísticas:', error);
       res.status(500).json({ error: 'Error cargando estadísticas' });
     }
   });
-
-  // API: Actualizar estadísticas
-  router.post('/api/analytics', async (req, res) => {
+  
+  // API para refrescar caché
+  router.post('/api/refresh', async (req, res) => {
     try {
-      const stats = req.body;
-      await saveStats(stats);
-      res.json({ success: true, message: 'Estadísticas actualizadas' });
+      // Forzar regeneración del archivo de configuración
+      const config = getCompleteConfig();
+      await saveConfig(config);
+      res.json({ success: true, message: 'Caché refrescado' });
     } catch (error) {
-      console.error('Error guardando estadísticas:', error);
-      res.status(500).json({ error: 'Error guardando estadísticas' });
+      console.error('❌ Error refrescando caché:', error);
+      res.status(500).json({ error: 'Error refrescando caché' });
     }
   });
-
-  // API: Reiniciar configuración a valores por defecto
-  router.post('/api/reset', async (req, res) => {
-    try {
-      // Eliminar archivos de configuración para forzar recreación
-      try {
-        await fs.unlink(CONFIG_FILE);
-        await fs.unlink(STATS_FILE);
-      } catch (error) {
-        // Los archivos pueden no existir, no es un error
-      }
-      
-      const defaultConfig = await loadConfig();
-      res.json({ 
-        success: true, 
-        message: 'Configuración reiniciada a valores por defecto',
-        config: defaultConfig 
-      });
-    } catch (error) {
-      console.error('Error reiniciando configuración:', error);
-      res.status(500).json({ error: 'Error reiniciando configuración' });
-    }
-  });
-
-  // API para obtener opciones vinculadas
-  router.get('/api/linked-options', async (req, res) => {
-    try {
-      const config = await loadConfig();
-      const linkedOptions = [];
-      
-      // Buscar solo en las listas interactivas (menús principales)
-      Object.keys(config.lists || {}).forEach(listId => {
-        const list = config.lists[listId];
-        if (list.sections) {
-          list.sections.forEach(section => {
-            if (section.rows) {
-              section.rows.forEach(row => {
-                // Verificar si la respuesta de esta opción tiene followUp
-                const response = config.listResponses && config.listResponses[row.id];
-                if (response && response.followUp) {
-                  linkedOptions.push({
-                    id: row.id,
-                    title: row.title,
-                    description: row.description,
-                    listId: listId,
-                    listTitle: list.title,
-                    sectionTitle: section.title,
-                    submenuId: response.followUp
-                  });
-                }
-              });
-            }
-          });
-        }
-      });
-
-      res.json({ 
-        success: true, 
-        linkedOptions: linkedOptions 
-      });
-    } catch (error) {
-      console.error('Error obteniendo opciones vinculadas:', error);
-      res.status(500).json({ 
-        success: false, 
-        message: 'Error obteniendo opciones vinculadas' 
-      });
-    }
-  });
-
-  // API para verificar si una opción tiene vinculación
-  router.get('/api/check-link/:optionId', async (req, res) => {
-    try {
-      const { optionId } = req.params;
-      const config = await loadConfig();
-      
-      // Buscar en las respuestas de lista
-      const response = config.listResponses && config.listResponses[optionId];
-      const hasLink = response && response.followUp;
-      
-      res.json({ 
-        success: true, 
-        hasLink: hasLink,
-        submenuId: hasLink ? response.followUp : null
-      });
-    } catch (error) {
-      console.error('Error verificando vinculación:', error);
-      res.status(500).json({ 
-        success: false, 
-        message: 'Error verificando vinculación' 
-      });
-    }
-  });
-
-  // API simple para desvincular submenú
-  router.post('/api/unlink-submenu', async (req, res) => {
-    try {
-      const { optionId } = req.body;
-      
-      if (!optionId) {
-        return res.status(400).json({ 
-          success: false, 
-          message: 'ID de opcion requerido' 
-        });
-      }
-
-      const config = await loadConfig();
-      let unlinked = false;
-      
-      // Buscar en las respuestas principales
-      if (config.responses && config.responses[optionId] && config.responses[optionId].followUp) {
-        delete config.responses[optionId].followUp;
-        unlinked = true;
-        console.log(`Desvinculado submenu de respuesta principal: ${optionId}`);
-      }
-      
-      // Buscar en las respuestas de lista
-      if (config.listResponses && config.listResponses[optionId] && config.listResponses[optionId].followUp) {
-        delete config.listResponses[optionId].followUp;
-        unlinked = true;
-        console.log(`Desvinculado submenu de lista: ${optionId}`);
-      }
-
-      if (unlinked) {
-        await saveConfig(config);
-        res.json({ 
-          success: true, 
-          message: 'Submenu desvinculado correctamente' 
-        });
-      } else {
-        res.json({ 
-          success: false, 
-          message: 'No se encontro vinculacion para esta opcion' 
-        });
-      }
-    } catch (error) {
-      console.error('Error desvinculando submenu:', error);
-      res.status(500).json({ 
-        success: false, 
-        message: 'Error desvinculando submenu' 
-      });
-    }
-  });
-
+  
   return router;
 }
 
-// Funciones de utilidad para usar en el bot principal
-async function getBotResponse(command) {
-  try {
-    const config = await loadConfig();
-    const lowerCommand = command.toLowerCase();
-    
-    // Buscar primero en responses
-    if (config.responses && config.responses[lowerCommand]) {
-      return config.responses[lowerCommand];
-    }
-    
-    // Si no se encuentra, buscar en listResponses
-    if (config.listResponses && config.listResponses[lowerCommand]) {
-      return config.listResponses[lowerCommand];
-    }
-    
-    // Si no se encuentra, buscar en submenuResponses
-    if (config.submenuResponses && config.submenuResponses[lowerCommand]) {
-      return config.submenuResponses[lowerCommand];
-    }
-    
-    return null;
-  } catch (error) {
-    console.error('Error obteniendo respuesta:', error);
-    return null;
-  }
-}
-
-async function getBotList(listId) {
-  try {
-    const config = await loadConfig();
-    return config.lists[listId] || null;
-  } catch (error) {
-    console.error('Error obteniendo lista:', error);
-    return null;
-  }
-}
-
-async function getListResponse(optionId) {
-  try {
-    const config = await loadConfig();
-    return config.listResponses[optionId] || null;
-  } catch (error) {
-    console.error('Error obteniendo respuesta de lista:', error);
-    return null;
-  }
-}
-
-async function getSubmenu(submenuId) {
-  try {
-    const config = await loadConfig();
-    return config.submenus[submenuId] || null;
-  } catch (error) {
-    console.error('Error obteniendo submenú:', error);
-    return null;
-  }
-}
-
-async function getSubmenuResponse(optionId) {
-  try {
-    const config = await loadConfig();
-    return config.submenuResponses[optionId] || null;
-  } catch (error) {
-    console.error('Error obteniendo respuesta de submenú:', error);
-    return null;
-  }
-}
-
-async function incrementMessageCount() {
-  try {
-    const stats = await loadStats();
-    stats.totalMessages = (stats.totalMessages || 0) + 1;
-    await saveStats(stats);
-  } catch (error) {
-    console.error('Error incrementando contador de mensajes:', error);
-  }
-}
-
-async function updateUniqueUsers(userId) {
-  try {
-    const stats = await loadStats();
-    const users = stats.users || [];
-    
-    if (!users.includes(userId)) {
-      users.push(userId);
-      stats.users = users;
-      stats.uniqueUsers = users.length;
-      await saveStats(stats);
-    }
-  } catch (error) {
-    console.error('Error actualizando usuarios únicos:', error);
-  }
-}
-
-
 module.exports = {
   createAdminRoutes,
-  getBotResponse,
-  getBotList,
-  getListResponse,
-  getSubmenu,
-  getSubmenuResponse,
-  incrementMessageCount,
-  updateUniqueUsers,
   loadConfig,
-  saveConfig
+  saveConfig,
+  getBotResponse,
+  getList,
+  getSubmenu,
+  loadStats,
+  saveStats
 };
