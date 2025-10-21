@@ -372,12 +372,86 @@ function createAdminRoutes() {
   router.get('/api/config', async (req, res) => {
     try {
       const config = await loadConfig();
-  res.json(config);
+      res.json(config);
     } catch (error) {
       console.error('❌ Error cargando configuración:', error);
       res.status(500).json({ error: 'Error cargando configuración' });
     }
-});
+  });
+  
+  // API para verificar estado del bot
+  router.get('/api/status', async (req, res) => {
+    try {
+      res.json({ 
+        ok: true, 
+        status: "online",
+        timestamp: new Date().toISOString(),
+        version: "1.0.0"
+      });
+    } catch (error) {
+      console.error('❌ Error obteniendo estado:', error);
+      res.status(500).json({ error: 'Error obteniendo estado' });
+    }
+  });
+  
+  // API para obtener respuestas
+  router.get('/api/responses', async (req, res) => {
+    try {
+      const config = await loadConfig();
+      res.json(config.listResponses || {});
+    } catch (error) {
+      console.error('❌ Error cargando respuestas:', error);
+      res.status(500).json({ error: 'Error cargando respuestas' });
+    }
+  });
+  
+  // API para guardar respuestas
+  router.post('/api/responses', async (req, res) => {
+    try {
+      const config = await loadConfig();
+      config.listResponses = req.body;
+      await saveConfig(config);
+      res.json({ success: true });
+    } catch (error) {
+      console.error('❌ Error guardando respuestas:', error);
+      res.status(500).json({ error: 'Error guardando respuestas' });
+    }
+  });
+  
+  // API para obtener listas
+  router.get('/api/lists', async (req, res) => {
+    try {
+      const config = await loadConfig();
+      res.json(config.lists || {});
+    } catch (error) {
+      console.error('❌ Error cargando listas:', error);
+      res.status(500).json({ error: 'Error cargando listas' });
+    }
+  });
+  
+  // API para guardar listas
+  router.post('/api/lists', async (req, res) => {
+    try {
+      const config = await loadConfig();
+      config.lists = req.body;
+      await saveConfig(config);
+      res.json({ success: true });
+    } catch (error) {
+      console.error('❌ Error guardando listas:', error);
+      res.status(500).json({ error: 'Error guardando listas' });
+    }
+  });
+  
+  // API para obtener analíticas
+  router.get('/api/analytics', async (req, res) => {
+    try {
+      const stats = await loadStats();
+      res.json(stats);
+    } catch (error) {
+      console.error('❌ Error cargando analíticas:', error);
+      res.status(500).json({ error: 'Error cargando analíticas' });
+    }
+  });
 
   // API para guardar configuración
   router.post('/api/config', async (req, res) => {
