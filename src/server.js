@@ -5,7 +5,7 @@ console.log('[CACHE] refresh OK (post-deploy)');
 console.log('[DEPLOY] Autorizaciones lista interactiva - commit 77a458e');
 
 
-// Funciones específicas para cada opción A-E
+// Funciones específicas para cada opción de autorizaciones
 async function sendAmbSolicitarText(to) {
   const message = 'El prestador carga el pedido en el portal y se genera un Nº de trámite (Ej: 19----).\nPara Allende e interior: enviar foto del pedido por WhatsApp.';
   console.log("[TRACE] sendAmbSolicitarText enviado");
@@ -40,16 +40,49 @@ async function sendMainMenuList(to) {
   }
 }
 
-// Función para enviar lista interactiva de autorizaciones
+// Función para enviar lista interactiva nativa de WhatsApp - Autorizaciones
 async function sendAutorizacionesList(to) {
-  console.log("[TRACE] sendAutorizacionesList enviando lista interactiva");
-  const autorizacionesList = await getBotList('autorizaciones_list');
-  if (autorizacionesList) {
-    return await whatsappClient.sendListFromConfig(to, autorizacionesList);
-  } else {
-    console.log("[ERROR] No se encontró autorizaciones_list, enviando texto de fallback");
-    return await sendAutorizacionesText(to);
+  const payload = {
+    messaging_product: "whatsapp",
+    to,
+    type: "interactive",
+    interactive: {
+      type: "list",
+      header: { type: "text", text: "📄 Autorizaciones" },        // < 60
+      body:   { text: "Seleccioná una opción:" },                 // < 60, una sola línea
+      action: {
+        button: "Ver opciones",
+        sections: [{
+          title: "Opciones",
+          rows: [
+            { id: "amb_solicitar",   title: "A. 📝 Solicitar Autoriz." },  // <= 24
+            { id: "amb_seguimiento", title: "B. 📦 Seguimiento" },         // <= 24
+            { id: "amb_reclamo",     title: "C. ⚠️ Reclamo" },             // <= 24
+            { id: "amb_revision",    title: "D. 🔎 Revisión" },             // <= 24
+            { id: "back_menu",       title: "E. ↩️ Volver al Menú" }        // <= 24
+          ]
+        }]
+      }
+    }
+  };
+  
+  // Validación de longitud WhatsApp
+  if (payload.interactive.header.text.length > 60) {
+    throw new Error(`Header text too long: ${payload.interactive.header.text.length} > 60`);
   }
+  if (payload.interactive.body.text.length > 60) {
+    throw new Error(`Body text too long: ${payload.interactive.body.text.length} > 60`);
+  }
+  payload.interactive.action.sections[0].rows.forEach((row, index) => {
+    if (row.title.length > 24) {
+      throw new Error(`Row ${index} title too long: "${row.title}" (${row.title.length} > 24)`);
+    }
+  });
+  
+  console.log(`[VALIDATION] WhatsApp limits OK - Header: ${payload.interactive.header.text.length}/60, Body: ${payload.interactive.body.text.length}/60, Rows: ${payload.interactive.action.sections[0].rows.map(r => r.title.length).join('/')}/24`);
+  
+  console.log("[TRACE] autorizaciones:list →", JSON.stringify(payload, null, 2));
+  return await whatsappClient.sendListMessage(to, payload.interactive);
 }
 const express = require('express');
 const morgan = require('morgan');
@@ -439,29 +472,29 @@ async function handleInteractiveMessage(message, from) {
     
     // Manejo específico para autorizaciones - LISTA INTERACTIVA
     if (selectedId === 'autorizaciones') {
-      console.log('[TRACE] autorizaciones → lista interactiva');
+      console.log('[TRACE] autorizaciones → sendAutorizacionesList');
       return await sendAutorizacionesList(formattedNumber);
     }
     
     // Manejo específico para opciones de autorizaciones
     if (selectedId === 'amb_solicitar') {
-      console.log('[TRACE] amb_solicitar seleccionado');
+      console.log('[TRACE] list_reply.id = amb_solicitar');
       return await sendAmbSolicitarText(formattedNumber);
     }
     if (selectedId === 'amb_seguimiento') {
-      console.log('[TRACE] amb_seguimiento seleccionado');
+      console.log('[TRACE] list_reply.id = amb_seguimiento');
       return await sendAmbSeguimientoText(formattedNumber);
     }
     if (selectedId === 'amb_reclamo') {
-      console.log('[TRACE] amb_reclamo seleccionado');
+      console.log('[TRACE] list_reply.id = amb_reclamo');
       return await sendAmbReclamoText(formattedNumber);
     }
     if (selectedId === 'amb_revision') {
-      console.log('[TRACE] amb_revision seleccionado');
+      console.log('[TRACE] list_reply.id = amb_revision');
       return await sendAmbRevisionText(formattedNumber);
     }
     if (selectedId === 'back_menu') {
-      console.log('[TRACE] back_menu seleccionado');
+      console.log('[TRACE] list_reply.id = back_menu');
       return await sendMainMenuList(formattedNumber);
     }
     
