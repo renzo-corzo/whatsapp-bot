@@ -281,7 +281,7 @@ function getCompleteConfig() {
     }
   },
   submenuResponses: {}
-  };
+};
 }
 
 // Guardar configuración en archivo
@@ -360,26 +360,31 @@ async function saveStats(stats) {
 function createAdminRoutes() {
   const router = express.Router();
   
-  // Servir archivos estáticos
-  router.use(express.static(path.join(__dirname, '../../admin')));
+  // Ruta principal del admin
+  router.get('/admin', (req, res) => {
+  res.sendFile(path.join(__dirname, '../../admin/index.html'));
+});
+
+  // Servir archivos estáticos del admin
+  router.use('/admin', express.static(path.join(__dirname, '../../admin')));
   
   // API para obtener configuración
   router.get('/api/config', async (req, res) => {
     try {
       const config = await loadConfig();
-      res.json(config);
+  res.json(config);
     } catch (error) {
       console.error('❌ Error cargando configuración:', error);
       res.status(500).json({ error: 'Error cargando configuración' });
     }
-  });
-  
+});
+
   // API para guardar configuración
   router.post('/api/config', async (req, res) => {
-    try {
+  try {
       await saveConfig(req.body);
       res.json({ success: true });
-    } catch (error) {
+  } catch (error) {
       console.error('❌ Error guardando configuración:', error);
       res.status(500).json({ error: 'Error guardando configuración' });
     }
@@ -403,7 +408,7 @@ function createAdminRoutes() {
       const config = getCompleteConfig();
       await saveConfig(config);
       res.json({ success: true, message: 'Caché refrescado' });
-    } catch (error) {
+  } catch (error) {
       console.error('❌ Error refrescando caché:', error);
       res.status(500).json({ error: 'Error refrescando caché' });
     }
