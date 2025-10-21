@@ -727,22 +727,28 @@ app.get('/send-demo', async (req, res) => {
       });
     }
     
-    // Usar cliente global si está disponible (actualizado dinámicamente)
-    const currentClient = global.whatsappClient || whatsappClient;
+    console.log(`🚀 Enviando demo a: ${to}`);
     
-    if (!currentClient) {
+    // Cargar configuración actualizada del bot
+    const config = await loadConfig();
+    const metaToken = config.metaToken || process.env.META_TOKEN;
+    const phoneNumberId = config.phoneNumberId || process.env.PHONE_NUMBER_ID;
+    
+    if (!metaToken || !phoneNumberId) {
       return res.status(500).json({
-        error: 'Cliente de WhatsApp no inicializado. Revisa las variables de entorno.'
+        error: 'Token de Meta o Phone Number ID no configurados'
       });
     }
     
-    console.log(`🚀 Enviando demo a: ${to}`);
+    // Crear cliente temporal con configuración actualizada
+    const tempClient = new WhatsAppClient(metaToken, phoneNumberId);
     
-    const result = await currentClient.sendDemoList(to);
+    // Enviar mensaje de texto simple para probar
+    const result = await tempClient.sendText(to, '🤖 Mensaje de prueba del bot - Token actualizado correctamente');
     
     res.json({
       success: true,
-      message: `Lista de demostración enviada a ${to}`,
+      message: `Mensaje de prueba enviado a ${to}`,
       whatsapp_response: result
     });
     
