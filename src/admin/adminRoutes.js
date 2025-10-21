@@ -35,6 +35,11 @@ async function loadConfig() {
 // Función para obtener la configuración completa
 function getCompleteConfig() {
   return {
+  // Configuración del bot
+  metaToken: process.env.META_TOKEN || '',
+  phoneNumberId: process.env.PHONE_NUMBER_ID || '',
+  webhookUrl: process.env.WEBHOOK_URL || '',
+  
   responses: {
     'hola': {
       type: 'text',
@@ -530,6 +535,36 @@ function createAdminRoutes() {
     } catch (error) {
       console.error('❌ Error cargando analíticas:', error);
       res.status(500).json({ error: 'Error cargando analíticas' });
+    }
+  });
+  
+  // API para obtener configuración del bot (token, phoneNumberId)
+  router.get('/api/bot-config', async (req, res) => {
+    try {
+      const config = await loadConfig();
+      res.json({
+        metaToken: config.metaToken || '',
+        phoneNumberId: config.phoneNumberId || '',
+        webhookUrl: config.webhookUrl || ''
+      });
+    } catch (error) {
+      console.error('❌ Error cargando configuración del bot:', error);
+      res.status(500).json({ error: 'Error cargando configuración del bot' });
+    }
+  });
+  
+  // API para guardar configuración del bot
+  router.post('/api/bot-config', async (req, res) => {
+    try {
+      const config = await loadConfig();
+      config.metaToken = req.body.metaToken;
+      config.phoneNumberId = req.body.phoneNumberId;
+      config.webhookUrl = req.body.webhookUrl;
+      await saveConfig(config);
+      res.json({ success: true, message: 'Configuración del bot guardada' });
+    } catch (error) {
+      console.error('❌ Error guardando configuración del bot:', error);
+      res.status(500).json({ error: 'Error guardando configuración del bot' });
     }
   });
 

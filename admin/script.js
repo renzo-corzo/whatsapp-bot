@@ -15,6 +15,7 @@ document.addEventListener('DOMContentLoaded', function() {
     setupEventListeners();
     loadBotStatus();
     loadConfiguration();
+    loadBotConfiguration();
     loadVersionInfo();
 });
 
@@ -109,6 +110,30 @@ async function loadBotStatus() {
         console.error('Error verificando estado del bot:', error);
         document.getElementById('statusText').textContent = 'Error de conexión';
         document.getElementById('botStatus').classList.add('offline');
+    }
+}
+
+// Cargar configuración del bot (token, phoneNumberId)
+async function loadBotConfiguration() {
+    try {
+        const response = await fetch('/api/bot-config');
+        if (response.ok) {
+            const botConfig = await response.json();
+            console.log('✅ Configuración del bot cargada:', botConfig);
+            
+            // Actualizar los campos en el formulario
+            const metaTokenInput = document.getElementById('metaToken');
+            const phoneNumberIdInput = document.getElementById('phoneNumberId');
+            
+            if (metaTokenInput && botConfig.metaToken) {
+                metaTokenInput.value = botConfig.metaToken;
+            }
+            if (phoneNumberIdInput && botConfig.phoneNumberId) {
+                phoneNumberIdInput.value = botConfig.phoneNumberId;
+            }
+        }
+    } catch (error) {
+        console.error('❌ Error cargando configuración del bot:', error);
     }
 }
 
@@ -822,7 +847,7 @@ async function saveConfiguration() {
     try {
         showToast('Actualizando configuración en tiempo real...', 'info');
         
-        const response = await fetch('/api/config', {
+        const response = await fetch('/api/bot-config', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
