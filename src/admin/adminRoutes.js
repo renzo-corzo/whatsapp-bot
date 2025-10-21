@@ -297,39 +297,86 @@ async function saveConfig(config) {
 }
 
 // Obtener respuesta del bot
-function getBotResponse(key, config) {
-  // Buscar en responses
-  if (config.responses && config.responses[key]) {
-    return config.responses[key];
+async function getBotResponse(key) {
+  try {
+    const config = await loadConfig();
+    
+    // Buscar en responses
+    if (config.responses && config.responses[key]) {
+      return config.responses[key];
+    }
+    
+    // Buscar en listResponses
+    if (config.listResponses && config.listResponses[key]) {
+      return config.listResponses[key];
+    }
+    
+    // Buscar en submenuResponses
+    if (config.submenuResponses && config.submenuResponses[key]) {
+      return config.submenuResponses[key];
+    }
+    
+    return null;
+  } catch (error) {
+    console.error('❌ Error obteniendo respuesta del bot:', error);
+    return null;
   }
-  
-  // Buscar en listResponses
-  if (config.listResponses && config.listResponses[key]) {
-    return config.listResponses[key];
-  }
-  
-  // Buscar en submenuResponses
-  if (config.submenuResponses && config.submenuResponses[key]) {
-    return config.submenuResponses[key];
-  }
-  
-  return null;
 }
 
 // Obtener lista de configuración
-function getList(key, config) {
-  if (config.lists && config.lists[key]) {
-    return config.lists[key];
+async function getList(key) {
+  try {
+    const config = await loadConfig();
+    if (config.lists && config.lists[key]) {
+      return config.lists[key];
+    }
+    return null;
+  } catch (error) {
+    console.error('❌ Error obteniendo lista:', error);
+    return null;
   }
-  return null;
 }
 
 // Obtener submenú
-function getSubmenu(key, config) {
-  if (config.submenuResponses && config.submenuResponses[key]) {
-    return config.submenuResponses[key];
+async function getSubmenu(key) {
+  try {
+    const config = await loadConfig();
+    if (config.submenuResponses && config.submenuResponses[key]) {
+      return config.submenuResponses[key];
+    }
+    return null;
+  } catch (error) {
+    console.error('❌ Error obteniendo submenú:', error);
+    return null;
   }
-  return null;
+}
+
+// Obtener respuesta de lista
+async function getListResponse(key) {
+  try {
+    const config = await loadConfig();
+    if (config.listResponses && config.listResponses[key]) {
+      return config.listResponses[key];
+    }
+    return null;
+  } catch (error) {
+    console.error('❌ Error obteniendo respuesta de lista:', error);
+    return null;
+  }
+}
+
+// Obtener respuesta de submenú
+async function getSubmenuResponse(key) {
+  try {
+    const config = await loadConfig();
+    if (config.submenuResponses && config.submenuResponses[key]) {
+      return config.submenuResponses[key];
+    }
+    return null;
+  } catch (error) {
+    console.error('❌ Error obteniendo respuesta de submenú:', error);
+    return null;
+  }
 }
 
 // Cargar estadísticas
@@ -531,6 +578,8 @@ module.exports = {
   getBotResponse,
   getList,
   getSubmenu,
+  getListResponse,
+  getSubmenuResponse,
   loadStats,
   saveStats,
   incrementMessageCount,
