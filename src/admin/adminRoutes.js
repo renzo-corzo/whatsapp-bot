@@ -356,6 +356,39 @@ async function saveStats(stats) {
   }
 }
 
+// Incrementar contador de mensajes
+async function incrementMessageCount() {
+  try {
+    const stats = await loadStats();
+    stats.totalMessages = (stats.totalMessages || 0) + 1;
+    await saveStats(stats);
+  } catch (error) {
+    console.error('❌ Error incrementando contador de mensajes:', error);
+  }
+}
+
+// Actualizar usuarios únicos
+async function updateUniqueUsers(phoneNumber) {
+  try {
+    const stats = await loadStats();
+    if (!stats.uniqueUsers) {
+      stats.uniqueUsers = new Set();
+    }
+    if (typeof stats.uniqueUsers === 'object' && !Array.isArray(stats.uniqueUsers)) {
+      stats.uniqueUsers = new Set(Object.keys(stats.uniqueUsers));
+    }
+    if (!Array.isArray(stats.uniqueUsers)) {
+      stats.uniqueUsers = Array.from(stats.uniqueUsers);
+    }
+    if (!stats.uniqueUsers.includes(phoneNumber)) {
+      stats.uniqueUsers.push(phoneNumber);
+      await saveStats(stats);
+    }
+  } catch (error) {
+    console.error('❌ Error actualizando usuarios únicos:', error);
+  }
+}
+
 // Crear rutas de administración
 function createAdminRoutes() {
   const router = express.Router();
@@ -372,7 +405,7 @@ function createAdminRoutes() {
   router.get('/api/config', async (req, res) => {
     try {
       const config = await loadConfig();
-      res.json(config);
+  res.json(config);
     } catch (error) {
       console.error('❌ Error cargando configuración:', error);
       res.status(500).json({ error: 'Error cargando configuración' });
@@ -388,7 +421,7 @@ function createAdminRoutes() {
         timestamp: new Date().toISOString(),
         version: "1.0.0"
       });
-    } catch (error) {
+  } catch (error) {
       console.error('❌ Error obteniendo estado:', error);
       res.status(500).json({ error: 'Error obteniendo estado' });
     }
@@ -398,18 +431,18 @@ function createAdminRoutes() {
   router.get('/api/responses', async (req, res) => {
     try {
       const config = await loadConfig();
-      res.json(config.listResponses || {});
+  res.json(config.listResponses || {});
     } catch (error) {
       console.error('❌ Error cargando respuestas:', error);
       res.status(500).json({ error: 'Error cargando respuestas' });
     }
-  });
-  
+});
+
   // API para guardar respuestas
   router.post('/api/responses', async (req, res) => {
-    try {
+  try {
       const config = await loadConfig();
-      config.listResponses = req.body;
+    config.listResponses = req.body;
       await saveConfig(config);
       res.json({ success: true });
     } catch (error) {
@@ -499,5 +532,7 @@ module.exports = {
   getList,
   getSubmenu,
   loadStats,
-  saveStats
+  saveStats,
+  incrementMessageCount,
+  updateUniqueUsers
 };
