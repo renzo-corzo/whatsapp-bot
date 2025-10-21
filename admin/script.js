@@ -280,27 +280,39 @@ function loadLists() {
 // Crear tarjeta de lista
 // Función para obtener indicador de vinculación
 function getLinkedIndicator(optionId) {
-    if (!botConfig.listResponses || !botConfig.listResponses[optionId]) {
-        return '';
+    // Verificar si está vinculado en el menú principal (demo_list)
+    if (botConfig.lists && botConfig.lists.demo_list && botConfig.lists.demo_list.sections) {
+        const mainMenuSection = botConfig.lists.demo_list.sections[0];
+        if (mainMenuSection && mainMenuSection.rows) {
+            const linkedRow = mainMenuSection.rows.find(row => row.id === optionId);
+            if (linkedRow) {
+                return `<span class="badge badge-success" style="background-color: #28a745; color: white; padding: 2px 6px; border-radius: 12px; font-size: 0.7rem;">
+                    <i class="fas fa-link"></i> → Menú Principal
+                </span>`;
+            }
+        }
     }
     
-    const response = botConfig.listResponses[optionId];
-    if (response.type === 'text_with_submenu' && response.submenu) {
-        const submenuName = botConfig.submenus && botConfig.submenus[response.submenu] 
-            ? botConfig.submenus[response.submenu].title 
-            : response.submenu;
-        return `<span class="badge badge-success" style="background-color: #28a745; color: white; padding: 2px 6px; border-radius: 12px; font-size: 0.7rem;">
-            <i class="fas fa-link"></i> → ${submenuName}
-        </span>`;
-    }
-    
-    if (response.followUp) {
-        const followUpName = botConfig.lists && botConfig.lists[response.followUp] 
-            ? botConfig.lists[response.followUp].title 
-            : response.followUp;
-        return `<span class="badge badge-info" style="background-color: #17a2b8; color: white; padding: 2px 6px; border-radius: 12px; font-size: 0.7rem;">
-            <i class="fas fa-arrow-right"></i> → ${followUpName}
-        </span>`;
+    // Verificar en listResponses para otros tipos de vinculación
+    if (botConfig.listResponses && botConfig.listResponses[optionId]) {
+        const response = botConfig.listResponses[optionId];
+        if (response.type === 'text_with_submenu' && response.submenu) {
+            const submenuName = botConfig.submenus && botConfig.submenus[response.submenu] 
+                ? botConfig.submenus[response.submenu].title 
+                : response.submenu;
+            return `<span class="badge badge-success" style="background-color: #28a745; color: white; padding: 2px 6px; border-radius: 12px; font-size: 0.7rem;">
+                <i class="fas fa-link"></i> → ${submenuName}
+            </span>`;
+        }
+        
+        if (response.followUp) {
+            const followUpName = botConfig.lists && botConfig.lists[response.followUp] 
+                ? botConfig.lists[response.followUp].title 
+                : response.followUp;
+            return `<span class="badge badge-info" style="background-color: #17a2b8; color: white; padding: 2px 6px; border-radius: 12px; font-size: 0.7rem;">
+                <i class="fas fa-arrow-right"></i> → ${followUpName}
+            </span>`;
+        }
     }
     
     return '';
